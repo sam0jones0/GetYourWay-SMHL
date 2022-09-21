@@ -1,4 +1,4 @@
-package com.getyourway.controller;
+package com.getyourway.map;
 
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,4 +1,4 @@
-package com.getyourway.entity;
+package com.getyourway.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

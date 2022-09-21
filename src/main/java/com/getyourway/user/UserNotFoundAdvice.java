@@ -1,4 +1,4 @@
-package com.getyourway.exception;
+package com.getyourway.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

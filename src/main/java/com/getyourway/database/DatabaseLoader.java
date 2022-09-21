@@ -1,6 +1,6 @@
-package com.getyourway;
+package com.getyourway.database;
 
-import com.getyourway.entity.User;
+import com.getyourway.user.User;
 import com.getyourway.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

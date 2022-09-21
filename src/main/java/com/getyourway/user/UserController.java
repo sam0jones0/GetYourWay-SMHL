@@ -1,11 +1,6 @@
-package com.getyourway.controller;
+package com.getyourway.user;
 
-import com.getyourway.entity.User;
-import com.getyourway.exception.UserNotFoundException;
 import com.getyourway.repository.UserRepository;
-import org.hibernate.annotations.Comment;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
