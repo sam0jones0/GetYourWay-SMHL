@@ -1,16 +1,14 @@
 package com.getyourway.weather;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import org.apache.tomcat.util.json.JSONParser;
+import com.getyourway.Constants;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class WeatherService {
@@ -63,14 +61,20 @@ public class WeatherService {
                 .block();
     }
 
-    public String getHistoricalWeather(LocalDate date, float lat, float lon) {
-        long epoch = date.toEpochDay();
+    public Flux<String> getHistoricalWeather(Long[] days, float lat, float lon) {
+        var x=  Flux.fromIterable(Arrays.asList(days))
+                .map(date -> getHistoricalWeather(date, lat, lon));
+
+        return x;
+    }
+
+    private String getHistoricalWeather(Long epochSecond, float lat, float lon) {
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("lat", lat)
                         .queryParam("lon", lon)
-                        .queryParam("dt", epoch)
+                        .queryParam("dt", epochSecond)
                         .queryParam("units", "metric")
                         .queryParam("appid", APIKEY)
                         .build())
