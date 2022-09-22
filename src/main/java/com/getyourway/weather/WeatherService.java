@@ -47,6 +47,8 @@ public class WeatherService {
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("lat", lat)
                         .queryParam("lon", lon)
+                        .queryParam("exclude", "current,minutely,hourly")
+                        .queryParam("units", "metric")
                         .queryParam("cnt", 7)
                         .queryParam("appid", APIKEY)
                         .build())
@@ -56,4 +58,20 @@ public class WeatherService {
                 .block();
     }
 
+    public String getHistoricalWeather(LocalDate date, float lat, float lon) {
+        long epoch = date.toEpochDay();
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam("lat", lat)
+                        .queryParam("lon", lon)
+                        .queryParam("dt", epoch)
+                        .queryParam("units", "metric")
+                        .queryParam("appid", APIKEY)
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+    }
 }
