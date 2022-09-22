@@ -15,7 +15,7 @@ import java.util.Date;
 @Service
 public class WeatherService {
 
-    private final String APIKEY = "YOUR API KEY HERE";
+    private final String APIKEY = System.getenv("WEATHER_API_KEY");
     private final WebClient webClient;
 
     public WeatherService() {
