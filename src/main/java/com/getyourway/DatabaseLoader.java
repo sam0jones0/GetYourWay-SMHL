@@ -1,4 +1,4 @@
-package com.getyourway.database;
+package com.getyourway;
 
 import com.getyourway.user.User;
 import com.getyourway.repository.UserRepository;
