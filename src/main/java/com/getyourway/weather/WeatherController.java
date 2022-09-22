@@ -16,9 +16,8 @@ public class WeatherController {
     private WeatherService weatherService;
 
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getWeatherLatLong(@RequestParam float lat, @RequestParam float lon) {
-        String response = weatherService.getWeatherByLatLong(lat, lon);
-        System.out.println("i reachef here");
+    public ResponseEntity<WeatherResponse> getWeatherLatLong(@RequestParam float lat, @RequestParam float lon) {
+        WeatherResponse response = weatherService.getWeatherByLatLong(lat, lon);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
