@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 public class WeatherService {
 
-    private final String APIKEY = "YOUR API KEY HERE";
+    private final String APIKEY = System.getenv("WEATHER_API_KEY");
     private final WebClient webClient;
 
     public WeatherService() {
