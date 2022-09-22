@@ -23,4 +23,12 @@ public class WeatherController {
                 .body(response);
     }
 
+    @GetMapping("forecast")
+    public ResponseEntity<FullForecastResponse> getForecastLatLon(@RequestParam float lat, @RequestParam float lon) {
+        var response = weatherService.getForecastByLatLon(lat, lon);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
 }

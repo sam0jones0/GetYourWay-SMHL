@@ -41,4 +41,19 @@ public class WeatherService {
 
     }
 
+    public FullForecastResponse getForecastByLatLon(float lat, float lon) {
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam("lat", lat)
+                        .queryParam("lon", lon)
+                        .queryParam("cnt", 7)
+                        .queryParam("appid", APIKEY)
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(FullForecastResponse.class)
+                .block();
+    }
+
 }
