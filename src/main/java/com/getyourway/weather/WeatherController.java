@@ -1,12 +1,16 @@
 package com.getyourway.weather;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.getyourway.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 
 @RestController
 @RequestMapping("/api/weather")
@@ -24,11 +28,12 @@ public class WeatherController {
     }
 
     @GetMapping("forecast")
-    public ResponseEntity<FullForecastResponse> getForecastLatLon(@RequestParam float lat, @RequestParam float lon) {
+    public ResponseEntity<FullForecastResponse> getForecastLatLon(
+            @RequestParam @DecimalMin(Constants.LAT_MIN) @DecimalMax(Constants.LAT_MAX) float lat,
+            @RequestParam @DecimalMin(Constants.LON_MIN) @DecimalMax(Constants.LON_MAX) float lon) {
         var response = weatherService.getForecastByLatLon(lat, lon);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
     }
-
 }
