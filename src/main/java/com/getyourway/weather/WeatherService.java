@@ -18,7 +18,7 @@ public class WeatherService {
 
     public WeatherService() {
         webClient = WebClient.builder()
-                .baseUrl("https://api.openweathermap.org/data/2.5/weather")
+                .baseUrl("https://api.openweathermap.org/data/3.0/onecall")
                 .build();
     }
     public WeatherResponse getWeatherByLatLong(float lat, float lon) {
