@@ -1,5 +1,6 @@
 package com.getyourway.flights;
 
+import com.getyourway.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 
 @RestController
 @RequestMapping("api/flights")
@@ -42,4 +46,15 @@ public class FlightsController {
                 .status(HttpStatus.OK)
                 .body(response);
     }
+
+    @GetMapping(value = "nearbyairports", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AirportNearbyResponse> getNearbyAirports(
+            @RequestParam @DecimalMin(value = Constants.LAT_MIN, message = "Latitude cannot be less than -90") @DecimalMax(value = Constants.LAT_MAX, message = "Latitude cannot exceed 90") float lat,
+            @RequestParam @DecimalMin(value = Constants.LON_MIN, message = "Longitude cannot be less than -180") @DecimalMax(value = Constants.LON_MAX, message = "Longitude cannot exceed than 180") float lon) {
+        AirportNearbyResponse response = flightsService.getAirportsNearby(lat, lon);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
 }
