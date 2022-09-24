@@ -17,6 +17,6 @@ class Airport {
 }
 
 class Location {
-    float lat;
-    float lon;
+    public float lat;
+    public float lon;
 }
