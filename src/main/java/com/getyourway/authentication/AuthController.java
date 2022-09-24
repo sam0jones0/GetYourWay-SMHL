@@ -1,8 +1,10 @@
-package com.getyourway.user;
+package com.getyourway.authentication;
 
 import com.getyourway.repository.UserRepository;
 import com.getyourway.user.User;
 import com.getyourway.user.UserModelAssembler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -30,6 +32,8 @@ public class AuthController {
 
     private final UserRepository userRepository;
 
+    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
+
     public AuthController(UserModelAssembler userAssembler, UserRepository userRepository) {
         this.userAssembler = userAssembler;
         this.userRepository = userRepository;
@@ -56,13 +60,15 @@ public class AuthController {
 
             //Return Entity Model (user object + uri location link)
             EntityModel<User> entityModel = userAssembler.toModel(userRepository.findByUsername(auth.getName()));
+            LOG.info("User logged in with id: " + entityModel.getContent().getId());
+
             return ResponseEntity
                     .ok()
                     .header("Location", String.valueOf(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()))
                     .body(entityModel);
 
         } catch (BadCredentialsException error) {
-            System.out.println("Temporary Log" + error); //TODO change this to a LOG
+            LOG.error("Incorrect login attempt for account id: " + userRepository.findByUsername(username).getId());
 
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)

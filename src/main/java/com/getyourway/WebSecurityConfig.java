@@ -1,5 +1,8 @@
 package com.getyourway;
 
+import com.getyourway.authentication.CustomLogoutSuccessHandler;
+import com.getyourway.repository.UserRepository;
+import com.getyourway.user.UserDetailsImpl;
 import com.getyourway.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -35,7 +40,12 @@ public class WebSecurityConfig {
                         .antMatchers("/api/users/**").authenticated()
                         .anyRequest().permitAll()
                 )
-                .logout().permitAll();
+                .logout()
+                .logoutUrl("/api/auth/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler(logoutSuccessHandler())
+                .permitAll();
 
         return http.build();
 
@@ -53,5 +63,10 @@ public class WebSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler () {
+        return new CustomLogoutSuccessHandler(new UserDetailsServiceImpl());
     }
 }

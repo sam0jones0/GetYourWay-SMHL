@@ -3,6 +3,8 @@ package com.getyourway.user;
 import com.getyourway.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    //@Bean
     public boolean isCurrentUserOrAdmin(String username, long requestedUserId) {
         User currentUser = userRepository.findByUsername(username);
         boolean response = false;
@@ -25,6 +26,16 @@ public class UserService {
         }
 
         return response;
+    }
+
+    public User getCurrentUser() {
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.isAuthenticated()) {
+            return userRepository.findByUsername(authentication.getName());
+        } else {
+            return null;
+        }
     }
 
 }

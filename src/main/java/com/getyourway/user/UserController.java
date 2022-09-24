@@ -1,13 +1,17 @@
 package com.getyourway.user;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.getyourway.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LoggingSystemFactory;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -21,6 +25,8 @@ public class UserController {
     private final UserRepository userRepository;
 
     private final UserModelAssembler userAssembler;
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -36,6 +42,7 @@ public class UserController {
 
         List<EntityModel<User>> users = new ArrayList<EntityModel<User>>();
         userRepository.findAll().forEach((user) -> users.add(userAssembler.toModel(user)));
+        LOG.info("All users requested by: " + userService.getCurrentUser().getRoles());
 
         return ResponseEntity
                 .ok()
@@ -59,6 +66,7 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody User user) {
 
         EntityModel<User> entityModel = userAssembler.toModel(userRepository.save(user));
+        LOG.info("New user created with id: " + entityModel.getContent().getId());
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //location response header
@@ -88,9 +96,12 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@userService.isCurrentUserOrAdmin(principal.getUsername(), #id)")//principal is of type UserDetailsImpl
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 
         userRepository.deleteById(id);
+        LOG.info("User deleted with id: " + id);
+
         //204 No Content Success status. Client does not need to naviagte away from current page
         return ResponseEntity.noContent().build();
     }
