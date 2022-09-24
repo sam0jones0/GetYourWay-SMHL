@@ -2,7 +2,7 @@ package com.getyourway.weather;
 
 import java.util.ArrayList;
 
-public class FullForecastResponse {
+public class ForecastResponse {
 
     public int lat;
     public int lon;
@@ -42,4 +42,11 @@ class Daily {
     public double night;
     public double eve;
     public double morn;
+}
+
+class Weather {
+    public int id;
+    public String main;
+    public String description;
+    public String icon;
 }
