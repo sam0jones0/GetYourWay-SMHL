@@ -19,7 +19,7 @@ public class User {
     @GeneratedValue Long id;
     private String username;
     private @JsonIgnore String password;
-    private String[] roles;
+    private String roles;
 
     public User() {}
 
@@ -30,6 +30,7 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.setPassword(password);
+        this.roles = "ROLE_USER";
 
     }
 
@@ -54,10 +55,10 @@ public class User {
         return this.password;
     }
 
-    public String[] getRoles() {
+    public String getRoles() {
         return roles;
     }
-    public void setRoles(String[] roles) {
+    public void setRoles(String roles) {
         this.roles = roles;
     }
 

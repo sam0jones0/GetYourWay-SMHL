@@ -18,8 +18,13 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+
+        //Create Users
+        User admin = new User("admin1", "adminpassword1");
+        admin.setRoles("ROLE_ADMIN");
         this.repository.save(new User("user1", "password1"));
         this.repository.save(new User("user2", "password2"));
+        this.repository.save(admin);
     }
 
 }
