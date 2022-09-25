@@ -10,6 +10,7 @@ public class AirportNearbyResponse {
 class Airport {
 
     public String iata;
+    public String icao;
     public String shortName;
     public String municipalityName;
     public Location location;
