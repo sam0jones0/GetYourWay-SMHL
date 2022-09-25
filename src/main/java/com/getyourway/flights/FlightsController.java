@@ -1,7 +1,9 @@
 package com.getyourway.flights;
 
 import com.getyourway.Constants;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("api/flights")
@@ -23,29 +26,28 @@ public class FlightsController {
 
     /**
      * Requests flights schedule for all flights from one airport to another on specified day.
-     * <p>
-     * E.g. Heathrow Airport (IATA: LHR). Madrid Airport (IATA: MAD) on outbound on 1st December 6AM
-     * https://airlabs.co/api/v9/schedules?api_key=FLIGHTS_API_KEY&dep_iata=LHR&arr_iata=MAD
-     * <p>
-     * More information here: https://airlabs.co/docs/schedules
-     * <p>
-     * FIXME: depTime is ignored by the API as I think it's a premium feature.
-     *  Might have to consider only showing
      *
-     * @param depIata Departure airport IATA code.
-     * @param arrIata Arrival airport IATA code.
-     * @param depTime Estimated Departure day as UNIX epoch seconds timestamp.
+     * @param depIcao Departure airport ICAO code.
+     * @param date Estimated Departure day as ISO-8601 date.
      * @return TODO returns doc.
      */
-    @GetMapping(value = "schedule", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "airportSchedule", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AirportScheduleResponse> getAirportSchedule(
+            @RequestParam String depIcao,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        AirportScheduleResponse response = flightsService.getAirportSchedule(depIcao, date);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
+    @GetMapping(value = "flightSchedule", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FlightResponse> getFlightSchedule(
             @RequestParam String depIata,
             @RequestParam String arrIata,
             @RequestParam int depTime) {
-        FlightResponse response = flightsService.getFlightsSchedule(depIata, arrIata, depTime);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(response);
+        // TODO: Using getAirportSchedule - return only flights to one specific destination.
+        throw new NotYetImplementedException();
     }
 
     @GetMapping(value = "nearbyairports", consumes = MediaType.APPLICATION_JSON_VALUE)

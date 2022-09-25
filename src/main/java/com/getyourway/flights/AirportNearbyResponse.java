@@ -12,6 +12,7 @@ class Airport {
     public String iata;
     public String icao;
     public String shortName;
+    public String name;  // Using reserved word, yet it still works.
     public String municipalityName;
     public Location location;
     public String countryCode;
