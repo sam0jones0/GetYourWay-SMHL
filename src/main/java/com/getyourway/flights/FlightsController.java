@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Size;
 
 @RestController
 @RequestMapping("api/flights")
@@ -55,6 +56,12 @@ public class FlightsController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
+    }
+
+    @GetMapping(value = "airportsearch", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AirportNearbyResponse> getAirportByText(@RequestParam @Size(min = 3, max = 30, message = "Search term must be between 3 and 30 characters.") String searchTerm) {
+        AirportNearbyResponse response = flightsService.getAirportByText(searchTerm);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

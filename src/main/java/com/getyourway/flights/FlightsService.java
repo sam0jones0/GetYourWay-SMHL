@@ -1,5 +1,6 @@
 package com.getyourway.flights;
 
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,7 +24,7 @@ public class FlightsService {
 
     public FlightResponse getFlightsSchedule(String depIata, String arrIata, int depTime) {
         // NOT IMPLEMENTED
-        return null;
+        throw new NotYetImplementedException();
     }
 
     public AirportNearbyResponse getAirportsNearby(float lat, float lon) {
@@ -43,4 +44,18 @@ public class FlightsService {
     }
 
 
+    public AirportNearbyResponse getAirportByText(String searchTerm) {
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/airports/search/term")
+                        .queryParam("q", searchTerm)
+                        .queryParam("limit", 10)
+                        .queryParam("withFlightInfoOnly", "true")
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(AirportNearbyResponse.class)
+                .block();
+    }
 }
