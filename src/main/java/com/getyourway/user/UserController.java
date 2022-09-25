@@ -1,5 +1,6 @@
 package com.getyourway.user;
 
+import com.getyourway.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.getyourway.repository.UserRepository;
@@ -13,10 +14,15 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/users")
@@ -36,7 +42,7 @@ public class UserController {
         this.userAssembler = userAssembler;
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured(Constants.ADMIN)
     @GetMapping
     public ResponseEntity<CollectionModel<EntityModel<User>>> getUsers() {
 
@@ -63,7 +69,10 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userDto) {
+
+        User user = new User(userDto.getUsername(), userDto.getPassword());
+        userService.setRoles(user, userDto);
 
         EntityModel<User> entityModel = userAssembler.toModel(userRepository.save(user));
         LOG.info("New user created with id: " + entityModel.getContent().getId());

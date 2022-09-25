@@ -7,6 +7,7 @@ import com.getyourway.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,7 +37,8 @@ public class WebSecurityConfig {
                 .and()
                 .csrf().disable() //TODO enable csrf
                 .authorizeRequests((requests) -> requests
-                        .antMatchers("/api/users").hasAuthority("ROLE_ADMIN")
+                        .antMatchers(HttpMethod.POST, "/api/users").permitAll() //anyone can create account
+                        .antMatchers("/api/users" ).hasAuthority("ROLE_ADMIN")
                         .antMatchers("/api/users/**").authenticated()
                         .anyRequest().permitAll()
                 )

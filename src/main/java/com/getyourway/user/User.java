@@ -1,13 +1,13 @@
 package com.getyourway.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.getyourway.Constants;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -15,22 +15,28 @@ public class User {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
+    @Column(nullable=false, unique=true)
     private @Id
     @GeneratedValue Long id;
+
+    @Column(nullable=false, unique=true)
+    @Size(min = 5, max = 20)
     private String username;
+
+    @Column(nullable=false)
+    @Size(min = 8)
     private @JsonIgnore String password;
+
+    @Column(nullable=false, columnDefinition = "VARCHAR(20) default 'ROLE_USER'")
     private String roles;
 
     public User() {}
 
-    public void setPassword(String password) {
-        this.password = PASSWORD_ENCODER.encode(password);
-    }
-
+    //INFO: ResponseBody does not call this constructor
     public User(String username, String password) {
         this.username = username;
         this.setPassword(password);
-        this.roles = "ROLE_USER";
+        this.roles = Constants.USER;
 
     }
 
@@ -55,11 +61,32 @@ public class User {
         return this.password;
     }
 
+    public void setPassword(String password) {
+        this.password = PASSWORD_ENCODER.encode(password);
+    }
+
     public String getRoles() {
         return roles;
     }
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o)
+            return true;
+        if (!(o instanceof User))
+            return false;
+        User user = (User) o;
+        return Objects.equals(this.id, user.id) && Objects.equals(this.username, user.username)
+                && Objects.equals(this.password, user.password) && Objects.equals(this.roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.username, this.password, this.roles);
     }
 
     @Override
