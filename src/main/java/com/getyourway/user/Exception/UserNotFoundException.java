@@ -1,4 +1,4 @@
-package com.getyourway.user;
+package com.getyourway.user.Exception;
 
 public class UserNotFoundException extends RuntimeException {
 
