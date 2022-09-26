@@ -3,8 +3,9 @@ package com.getyourway.weather;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import static com.getyourway.Constants.*;
 
 @Service
 public class WeatherService {
@@ -13,29 +14,16 @@ public class WeatherService {
     private final WebClient webClient;
 
     public WeatherService() {
-        webClient = WebClient.builder()
-                .baseUrl("https://api.openweathermap.org/data/3.0/onecall")
-                .build();
+        webClient = WebClient.builder().build();
     }
-
-//    public WeatherResponse getWeatherByLatLong(float lat, float lon) {
-//        return webClient
-//                .get()
-//                .uri(uriBuilder -> uriBuilder
-//                        .queryParam("lat", lat)
-//                        .queryParam("lon", lon)
-//                        .queryParam("appid", "APIKEY")
-//                        .build())
-//                .accept(MediaType.APPLICATION_JSON)
-//                .retrieve()
-//                .bodyToMono(WeatherResponse.class)
-//                .block();
-//    }
 
     public ForecastResponse getForecastByLatLon(float lat, float lon) {
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
+                        .scheme("https")
+                        .host(BASE_HOST)
+                        .path(BASE_PATH)
                         .queryParam("lat", lat)
                         .queryParam("lon", lon)
                         .queryParam("exclude", "current,minutely,hourly")
@@ -49,16 +37,22 @@ public class WeatherService {
                 .block();
     }
 
-    // TODO: Rewrite using history API
-    public Flux<String> getHistoricalWeather(Long[] days, float lat, float lon) {
-        return Flux.fromIterable(Arrays.asList(days))
-                .map(date -> getHistoricalWeather(date, lat, lon));
+    public HistoricalWeatherBaseResponse getHistoricalWeather(Long[] days, float lat, float lon) {
+        var baseHistory = Arrays.asList(days).stream().map(day -> getHistoricalWeather(day, lat, lon)).collect(Collectors.toList());
+        var data = baseHistory.stream().map(x -> x.getData()).collect(Collectors.toList());
+        var response = baseHistory.get(0);  // Use first entry as base
+        response.setData(data);
+        return response;
     }
 
-    private String getHistoricalWeather(Long epochSecond, float lat, float lon) {
+    private HistoricalWeatherBaseResponse getHistoricalWeather(long epochSecond, float lat, float lon) {
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
+                        .scheme("https")
+                        .host(BASE_HOST)
+                        .path(BASE_PATH)
+                        .path("/timemachine")
                         .queryParam("lat", lat)
                         .queryParam("lon", lon)
                         .queryParam("dt", epochSecond)
@@ -67,7 +61,7 @@ public class WeatherService {
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(HistoricalWeatherBaseResponse.class)
                 .block();
     }
 }
