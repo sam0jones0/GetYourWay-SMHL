@@ -1,62 +1,90 @@
 package com.getyourway.weather;
 
-import com.getyourway.Constants;
+import static com.getyourway.Constants.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Size;
 import java.time.*;
 
 @RestController
-@RequestMapping("/api/weather")
+@RequestMapping("api/weather")
 public class WeatherController {
 
     @Autowired
     private WeatherService weatherService;
 
-//    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<WeatherResponse> getWeatherLatLong(
-//            @RequestParam @DecimalMin(value=Constants.LAT_MIN, message="Latitude cannot be less than -90") @DecimalMax(value=Constants.LAT_MAX, message="Latitude cannot exceed 90") float lat,
-//            @RequestParam @DecimalMin(value=Constants.LON_MIN, message="Longitude cannot be less than -180") @DecimalMax(value=Constants.LON_MAX, message="Longitude cannot exceed than 180") float lon) {
-//        WeatherResponse response = weatherService.getWeatherByLatLong(lat, lon);
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(response);
-//    }
-
+    /**
+     * Returns a weather forecast for the given location
+     * @param lat the latitude of the location
+     * @param lon the longitude of the location
+     * @return ForecastResponse -> a model representing the weather forecast
+     */
     @GetMapping(value="forecast", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ForecastResponse> getForecastLatLon(
-            @RequestParam @DecimalMin(value=Constants.LAT_MIN, message="Latitude cannot be less than -90") @DecimalMax(value=Constants.LAT_MAX, message="Latitude cannot exceed 90") float lat,
-            @RequestParam @DecimalMin(value=Constants.LON_MIN, message="Longitude cannot be less than -180") @DecimalMax(value=Constants.LON_MAX, message="Longitude cannot exceed than 180") float lon) {
-        var response = weatherService.getForecastByLatLon(lat, lon);
-        return ResponseEntity
+        public ResponseEntity<ForecastResponse> getForecastLatLon(
+            @RequestParam @DecimalMin(value=LAT_MIN, message=ERR_MSG_LAT) @DecimalMax(value=LAT_MAX, message=ERR_MSG_LAT) float lat,
+            @RequestParam @DecimalMin(value=LON_MIN, message=ERR_MSG_LON) @DecimalMax(value=LON_MAX, message=ERR_MSG_LON) float lon) {
+                
+                var response = weatherService.getForecastByLatLon(lat, lon);
+                return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
     }
 
-    @GetMapping(value="historical", consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Flux<String>> getHistoricalForecast(
+    /**
+     * Returns historical weather data for a given location. The weather data
+     * spans over a specified number of days starting at a given date. If the given
+     * date is after the current date, return a bad request
+     * 
+     * @param date the date the weather data should begin
+     * @param numDays the number of days of data required
+     * @param lat the latitude of the location
+     * @param lon the longitude of the location
+     * 
+     * @return HistoricalWeatherBaseResponse -> a model represending the historical weather
+     */
+    @GetMapping(
+        value="historical", 
+        consumes=MediaType.APPLICATION_JSON_VALUE,
+        produces=MediaType.APPLICATION_JSON_VALUE
+        )
+        public ResponseEntity<HistoricalWeatherBaseResponse> getHistoricalForecast(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-            @RequestParam int numDays,
-            @RequestParam @DecimalMin(value=Constants.LAT_MIN, message="Latitude cannot be less than -90") @DecimalMax(value=Constants.LAT_MAX, message="Latitude cannot exceed 90") float lat,
-            @RequestParam @DecimalMin(value=Constants.LON_MIN, message="Longitude cannot be less than -180") @DecimalMax(value=Constants.LON_MAX, message="Longitude cannot exceed than 180") float lon) {
+            @RequestParam @Size(min=MIN_FORECAST_DAYS, max=MAX_FORECAST_DAYS, message=ERR_MSG_TIMESPAN) int numDays,
+            @RequestParam @DecimalMin(value=LAT_MIN, message=ERR_MSG_LAT) @DecimalMax(value=LAT_MAX, message=ERR_MSG_LAT) float lat,
+            @RequestParam @DecimalMin(value=LON_MIN, message=ERR_MSG_LON) @DecimalMax(value=LON_MAX, message=ERR_MSG_LON) float lon) {
 
-        // Calculate each day in epoch seconds, create array for requests
-        var epochSecond = date.toEpochDay() * Constants.SECONDS_IN_DAY;
-        var days = new Long[numDays];
-        for (int i = 0; i < days.length; i++) {
-            days[i] = epochSecond;
-            epochSecond += Constants.SECONDS_IN_DAY;
-        }
+                if (date.isAfter(LocalDate.now())) {
+                    return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+                }
+            
+                var days = createDaysArray(date, numDays);
+                var response = weatherService.getHistoricalWeather(days, lat, lon);
 
-        var response = weatherService.getHistoricalWeather(days, lat, lon);
-        return ResponseEntity
+                return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
+    }
+
+    /*
+     * Convert date to epoch-seconds for use in 
+     * weather API, create an array entry for each day
+     */
+    private Long[] createDaysArray(LocalDate date, int numDays) {
+        var epochSecond = date.toEpochDay() * SECONDS_IN_DAY;
+        var days = new Long[numDays];
+        for (int i = 0; i < numDays; i++) {
+            days[i] = epochSecond;
+            epochSecond += SECONDS_IN_DAY;
+        }
+
+        return days;
     }
 }
