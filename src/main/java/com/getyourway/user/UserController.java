@@ -82,7 +82,7 @@ public class UserController {
                 .body(entityModel);
     }
 
-    @PutMapping("/{id}")
+    /*@PutMapping("/{id}")
     public ResponseEntity<?> replaceUser(@RequestBody User newUser, @PathVariable Long id) {
 
         User updatedUser = userRepository.findById(id)
@@ -102,7 +102,7 @@ public class UserController {
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //location response header
                 .body(entityModel);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     @PreAuthorize("@userService.isCurrentUserOrAdmin(principal.getUsername(), #id)")//principal is of type UserDetailsImpl

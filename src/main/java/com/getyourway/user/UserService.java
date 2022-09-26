@@ -24,7 +24,7 @@ public class UserService {
         User currentUser = userRepository.findByUsername(username);
         boolean response = false;
 
-        if (currentUser.getId() == requestedUserId || currentUser.getRoles() == "ROLE_ADMIN") {
+        if (currentUser.getId() == requestedUserId || currentUser.getRoles() == Constants.ADMIN) {
             response = true;
         }
 
