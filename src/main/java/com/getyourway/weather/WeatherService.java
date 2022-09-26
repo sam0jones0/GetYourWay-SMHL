@@ -10,7 +10,7 @@ import static com.getyourway.Constants.*;
 @Service
 public class WeatherService {
 
-    private final String APIKEY = "faef6aec09058584a0c63e0c7507d64e";
+    private final String APIKEY = System.getenv("WEATHER_API_KEY");
     private final WebClient webClient;
 
     public WeatherService() {
