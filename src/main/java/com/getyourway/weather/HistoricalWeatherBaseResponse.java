@@ -8,14 +8,6 @@ public class HistoricalWeatherBaseResponse {
     public String timezone;
     public int timezone_offset;
     public List<Data> data;
-    
-    public Data getData() {
-        return data.get(0);
-    }
-
-    public void setData(List<Data> data) {
-        this.data = data;
-    }
 }
 
 class Data {

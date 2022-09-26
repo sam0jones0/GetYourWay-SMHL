@@ -53,7 +53,7 @@ public class WeatherController {
         consumes=MediaType.APPLICATION_JSON_VALUE,
         produces=MediaType.APPLICATION_JSON_VALUE
         )
-        public ResponseEntity<HistoricalWeatherBaseResponse> getHistoricalForecast(
+        public ResponseEntity<Test> getHistoricalForecast(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam @Size(min=MIN_FORECAST_DAYS, max=MAX_FORECAST_DAYS, message=ERR_MSG_TIMESPAN) int numDays,
             @RequestParam @DecimalMin(value=LAT_MIN, message=ERR_MSG_LAT) @DecimalMax(value=LAT_MAX, message=ERR_MSG_LAT) float lat,
