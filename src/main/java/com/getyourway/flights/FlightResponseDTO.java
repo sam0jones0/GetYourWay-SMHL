@@ -1,5 +1,5 @@
 package com.getyourway.flights;
 
-public class FlightResponse {
+public class FlightResponseDTO {
   // STUB
 }

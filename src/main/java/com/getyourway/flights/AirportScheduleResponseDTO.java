@@ -2,27 +2,27 @@ package com.getyourway.flights;
 
 import java.util.ArrayList;
 
-public class AirportScheduleResponse {
+public class AirportScheduleResponseDTO {
 
-  public ArrayList<Flight> departures;
+  public ArrayList<FlightDTO> departures;
 }
 
-class Flight {
+class FlightDTO {
 
-  public Departure departure;
-  public Arrival arrival;
+  public DepartureDTO departure;
+  public ArrivalDTO arrival;
   public String number; // Using reserved word, yet it still works.
 }
 
-class Departure {
+class DepartureDTO {
 
   public String scheduledTimeLocal;
   public String scheduledTimeUtc;
 }
 
-class Arrival {
+class ArrivalDTO {
 
-  public Airport airport;
+  public AirportDTO airport;
   public String scheduledTimeLocal;
   public String scheduledTimeUtc;
 }

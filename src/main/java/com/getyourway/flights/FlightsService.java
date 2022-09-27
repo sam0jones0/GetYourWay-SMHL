@@ -27,7 +27,7 @@ public class FlightsService {
             .build();
   }
 
-  public AirportScheduleResponse getAirportSchedule(String depIcao, LocalDate date) {
+  public AirportScheduleResponseDTO getAirportSchedule(String depIcao, LocalDate date) {
     // Call to external schedule API requires max 12-hours period.
     // As most flights are between 08-20hrs we only concern ourselves with these.
     String fromIsoDate;
@@ -66,11 +66,11 @@ public class FlightsService {
                     .build())
         .accept(MediaType.APPLICATION_JSON)
         .retrieve()
-        .bodyToMono(AirportScheduleResponse.class)
+        .bodyToMono(AirportScheduleResponseDTO.class)
         .block();
   }
 
-  public FlightResponse getFlightSchedule(String depIcao, String arrIcao, LocalDate date) {
+  public FlightResponseDTO getFlightSchedule(String depIcao, String arrIcao, LocalDate date) {
     // TODO: Using getAirportSchedule - return only flights to one specific destination.
     //  Make DB indexing all airports in world (10MB json file shouldnt be too big hopefully).
     //  Try DB access with match icao | iata | shortname
@@ -79,7 +79,7 @@ public class FlightsService {
     throw new NotYetImplementedException();
   }
 
-  public AirportNearbyResponse getAirportsNearby(float lat, float lon) {
+  public AirportResponseDTO getAirportsNearby(float lat, float lon) {
     return webClient
         .get()
         .uri(
@@ -96,11 +96,11 @@ public class FlightsService {
                     .build())
         .accept(MediaType.APPLICATION_JSON)
         .retrieve()
-        .bodyToMono(AirportNearbyResponse.class)
+        .bodyToMono(AirportResponseDTO.class)
         .block();
   }
 
-  public AirportNearbyResponse getAirportByText(String searchTerm) {
+  public AirportResponseDTO getAirportByText(String searchTerm) {
     return webClient
         .get()
         .uri(
@@ -113,7 +113,7 @@ public class FlightsService {
                     .build())
         .accept(MediaType.APPLICATION_JSON)
         .retrieve()
-        .bodyToMono(AirportNearbyResponse.class)
+        .bodyToMono(AirportResponseDTO.class)
         .block();
   }
 }

@@ -36,10 +36,10 @@ public class FlightsController {
    * @return Response entity with AirportScheduleResponse represented as JSON in the body.
    */
   @GetMapping(value = "airportSchedule", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<AirportScheduleResponse> getAirportSchedule(
+  public ResponseEntity<AirportScheduleResponseDTO> getAirportSchedule(
       @RequestParam String depIcao,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-    AirportScheduleResponse response = flightsService.getAirportSchedule(depIcao, date);
+    AirportScheduleResponseDTO response = flightsService.getAirportSchedule(depIcao, date);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
@@ -52,7 +52,7 @@ public class FlightsController {
    * @return
    */
   @GetMapping(value = "flightSchedule", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<FlightResponse> getFlightSchedule(
+  public ResponseEntity<FlightResponseDTO> getFlightSchedule(
       @RequestParam String depIata, @RequestParam String arrIata, @RequestParam int depTime) {
     // TODO: Using getAirportSchedule - return only flights to one specific destination.
     throw new NotYetImplementedException();
@@ -69,7 +69,7 @@ public class FlightsController {
    *     are sorted by closest -> furthest.
    */
   @GetMapping(value = "nearbyairports", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<AirportNearbyResponse> getNearbyAirports(
+  public ResponseEntity<AirportResponseDTO> getNearbyAirports(
       @RequestParam
           @DecimalMin(value = Constants.LAT_MIN, message = "Latitude cannot be less than -90")
           @DecimalMax(value = Constants.LAT_MAX, message = "Latitude cannot exceed 90")
@@ -78,7 +78,7 @@ public class FlightsController {
           @DecimalMin(value = Constants.LON_MIN, message = "Longitude cannot be less than -180")
           @DecimalMax(value = Constants.LON_MAX, message = "Longitude cannot exceed than 180")
           float lon) {
-    AirportNearbyResponse response = flightsService.getAirportsNearby(lat, lon);
+    AirportResponseDTO response = flightsService.getAirportsNearby(lat, lon);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
@@ -91,11 +91,11 @@ public class FlightsController {
    *     full lat/lon information) as JSON in the body.
    */
   @GetMapping(value = "airportsearch", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<AirportNearbyResponse> getAirportByText(
+  public ResponseEntity<AirportResponseDTO> getAirportByText(
       @RequestParam
           @Size(min = 3, max = 30, message = "Search term must be between 3 and 30 characters.")
           String searchTerm) {
-    AirportNearbyResponse response = flightsService.getAirportByText(searchTerm);
+    AirportResponseDTO response = flightsService.getAirportByText(searchTerm);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 }
