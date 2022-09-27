@@ -25,6 +25,7 @@ public class Constants {
     public static final ArrayList<String> ROLES = new ArrayList<>(Arrays.asList(USER, ADMIN));
 
     // Misc
+    public static final int DAYS_IN_WEEK = 7;
     public static final int SECONDS_IN_DAY = 60 * 60 * 24;
 
 }

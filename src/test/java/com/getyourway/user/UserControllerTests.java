@@ -126,6 +126,7 @@ public class UserControllerTests {
                 linkTo(methodOn(UserController.class).getThisUser(admin.getId())).withSelfRel(),
                 linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
 
+        given(userService.getUsers()).willReturn(users);
         given(userRepository.findAll()).willReturn(users);
         given(userService.getCurrentUser()).willReturn(admin);
         given(userModelAssembler.toModel(user1)).willReturn(entityModel1);
@@ -204,6 +205,7 @@ public class UserControllerTests {
                 linkTo(methodOn(UserController.class).getThisUser(user1.getId())).withSelfRel(),
                 linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
 
+        given(userService.save(any())).willReturn(user1);
         given(userRepository.save(any())).willReturn(user1);
         given(userModelAssembler.toModel(user1)).willReturn(entityModel);
 

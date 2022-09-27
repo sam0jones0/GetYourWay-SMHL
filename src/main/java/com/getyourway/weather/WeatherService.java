@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import static com.getyourway.Constants.*;
 
@@ -39,9 +40,10 @@ public class WeatherService {
 
     public HistoricalWeatherBaseResponse getHistoricalWeather(Long[] days, float lat, float lon) {
         var baseHistory = Arrays.asList(days).stream().map(day -> getHistoricalWeather(day, lat, lon)).collect(Collectors.toList());
-        var data = baseHistory.stream().map(x -> x.getData()).collect(Collectors.toList());
-        var response = baseHistory.get(0);  // Use first entry as base
-        response.setData(data);
+        var data = baseHistory.stream().map(x -> x.data).collect(Collectors.toList());
+        var dataFlattened = data.stream().flatMap(List<Data>::stream).collect(Collectors.toList());
+        var response = baseHistory.get(0);
+        response.data = dataFlattened;
         return response;
     }
 
