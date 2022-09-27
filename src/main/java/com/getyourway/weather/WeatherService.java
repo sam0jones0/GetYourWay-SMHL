@@ -18,7 +18,7 @@ public class WeatherService {
         webClient = WebClient.builder().build();
     }
 
-    public ForecastResponse getForecastByLatLon(float lat, float lon) {
+    public ForecastDto getForecastByLatLon(float lat, float lon) {
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -34,11 +34,11 @@ public class WeatherService {
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(ForecastResponse.class)
+                .bodyToMono(ForecastDto.class)
                 .block();
     }
 
-    public HistoricalWeatherBaseResponse getHistoricalWeather(Long[] days, float lat, float lon) {
+    public HistoricalWeatherDto getHistoricalWeather(Long[] days, float lat, float lon) {
         var baseHistory = Arrays.asList(days).stream().map(day -> getHistoricalWeather(day, lat, lon)).collect(Collectors.toList());
         var data = baseHistory.stream().map(x -> x.data).collect(Collectors.toList());
         var dataFlattened = data.stream().flatMap(List<Data>::stream).collect(Collectors.toList());
@@ -47,7 +47,7 @@ public class WeatherService {
         return response;
     }
 
-    private HistoricalWeatherBaseResponse getHistoricalWeather(long epochSecond, float lat, float lon) {
+    private HistoricalWeatherDto getHistoricalWeather(long epochSecond, float lat, float lon) {
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -63,7 +63,7 @@ public class WeatherService {
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(HistoricalWeatherBaseResponse.class)
+                .bodyToMono(HistoricalWeatherDto.class)
                 .block();
     }
 }

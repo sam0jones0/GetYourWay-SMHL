@@ -25,7 +25,7 @@ public class WeatherController {
      * @return ForecastResponse -> a model representing the weather forecast
      */
     @GetMapping(value="forecast", consumes = MediaType.APPLICATION_JSON_VALUE)
-        public ResponseEntity<ForecastResponse> getForecastLatLon(
+        public ResponseEntity<ForecastDto> getForecastLatLon(
             @RequestParam @DecimalMin(value=LAT_MIN, message=ERR_MSG_LAT) @DecimalMax(value=LAT_MAX, message=ERR_MSG_LAT) float lat,
             @RequestParam @DecimalMin(value=LON_MIN, message=ERR_MSG_LON) @DecimalMax(value=LON_MAX, message=ERR_MSG_LON) float lon) {
                 
@@ -51,7 +51,7 @@ public class WeatherController {
         consumes=MediaType.APPLICATION_JSON_VALUE,
         produces=MediaType.APPLICATION_JSON_VALUE
         )
-        public ResponseEntity<HistoricalWeatherBaseResponse> getHistoricalForecast(
+        public ResponseEntity<HistoricalWeatherDto> getHistoricalForecast(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam @DecimalMin(value=LAT_MIN, message=ERR_MSG_LAT) @DecimalMax(value=LAT_MAX, message=ERR_MSG_LAT) float lat,
             @RequestParam @DecimalMin(value=LON_MIN, message=ERR_MSG_LON) @DecimalMax(value=LON_MAX, message=ERR_MSG_LON) float lon) {

@@ -2,7 +2,7 @@ package com.getyourway.weather;
 
 import java.util.ArrayList;
 
-public class ForecastResponse {
+public class ForecastDto {
 
     public int lat;
     public int lon;

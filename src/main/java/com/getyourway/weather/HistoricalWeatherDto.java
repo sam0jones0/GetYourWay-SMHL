@@ -2,7 +2,7 @@ package com.getyourway.weather;
 
 import java.util.List;
 
-public class HistoricalWeatherBaseResponse {
+public class HistoricalWeatherDto {
     public int lat;
     public int lon;
     public String timezone;
