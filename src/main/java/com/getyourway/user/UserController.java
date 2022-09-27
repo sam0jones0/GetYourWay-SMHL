@@ -36,6 +36,8 @@ public class UserController {
         this.userAssembler = userAssembler;
     }
 
+    // GET
+
     @Secured(Constants.ADMIN)
     @GetMapping
     public ResponseEntity<CollectionModel<EntityModel<User>>> getUsers() {
@@ -61,6 +63,7 @@ public class UserController {
                 .body(entityModel);
     }
 
+    // POST
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDto) {
 
@@ -75,6 +78,7 @@ public class UserController {
                 .body(entityModel);
     }
 
+    // PUT
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@Valid @RequestBody UserDTO newDetailsDTO, @PathVariable long id) {
 
@@ -85,6 +89,7 @@ public class UserController {
                 .body(entityModel);
     }
 
+    // DELETE
     @DeleteMapping("/{id}")
     @PreAuthorize("@userService.isCurrentUserOrAdmin(principal.getUsername(), #id)")//principal is of type UserDetailsImpl
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {

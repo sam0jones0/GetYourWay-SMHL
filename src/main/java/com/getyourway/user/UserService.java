@@ -96,4 +96,8 @@ public class UserService {
 
         }
     }
+
+    public boolean exitsById(long id) {
+        return userRepository.existsById(id);
+    }
 }

@@ -33,7 +33,6 @@ public class User {
 
     public User() {}
 
-    //INFO: ResponseBody does not call this constructor
     public User(String username, String password) {
         this.username = username;
         this.setPassword(password);
