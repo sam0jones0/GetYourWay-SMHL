@@ -37,6 +37,7 @@ public class WebSecurityConfig {
                         .antMatchers(HttpMethod.POST, "/api/users").permitAll() //anyone can create account
                         .antMatchers("/api/users" ).hasAuthority("ROLE_ADMIN")
                         .antMatchers("/api/users/**").authenticated()
+                        .antMatchers("/api/trips/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .logout()
