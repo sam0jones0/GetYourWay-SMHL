@@ -1,5 +1,6 @@
 package com.getyourway.user;
 
+import com.getyourway.user.validator.UsernameConstraint;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.validation.constraints.NotEmpty;
@@ -10,6 +11,7 @@ public class UserDTO {
 
     @NotEmpty(message = "Username cannot be empty")
     @Size(min = 5, max = 20, message = "Username must be between 5 and 20")
+    @UsernameConstraint
     private String username;
 
     @NotEmpty(message = "Password cannot be empty")

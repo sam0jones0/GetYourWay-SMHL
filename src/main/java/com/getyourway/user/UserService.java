@@ -37,6 +37,24 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User updateUser(UserDTO newDetailsDTO, long id) {
+
+        User newDetails = new User(newDetailsDTO.getUsername(), newDetailsDTO.getPassword());
+        this.setRoles(newDetails, newDetailsDTO);
+
+        User userToUpdate = userRepository.findById(id)
+                .map(user -> {
+                    user.setUsername(newDetails.getUsername());
+                    user.setPassword(newDetails.getPassword());
+                    return userRepository.save(user);
+                })
+                //Else create a new user
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        return userToUpdate;
+
+    }
+
     public void deleteById(long id) {
 
         User user = userRepository.findById(id)
@@ -76,6 +94,6 @@ public class UserService {
 
             user.setRoles(userDto.getRoles());
 
-        } //TODO: throw error if current user is an admin but set role is undefined instead of just creating user.
+        }
     }
 }

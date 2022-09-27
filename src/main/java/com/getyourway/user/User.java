@@ -2,6 +2,7 @@ package com.getyourway.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.getyourway.Constants;
+import com.getyourway.user.validator.UsernameConstraint;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

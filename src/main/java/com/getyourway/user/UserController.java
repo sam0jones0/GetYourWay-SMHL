@@ -25,8 +25,6 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserRepository userRepository;
-
     private final UserModelAssembler userAssembler;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
@@ -34,8 +32,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    public UserController(UserRepository userRepository, UserModelAssembler userAssembler) {
-        this.userRepository = userRepository;
+    public UserController(UserModelAssembler userAssembler) {
         this.userAssembler = userAssembler;
     }
 
@@ -78,27 +75,15 @@ public class UserController {
                 .body(entityModel);
     }
 
-    /*@PutMapping("/{id}")
-    public ResponseEntity<?> replaceUser(@RequestBody User newUser, @PathVariable Long id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UserDTO newDetailsDTO, @PathVariable long id) {
 
-        User updatedUser = userRepository.findById(id)
-                .map(user -> {
-                    user.setUsername(newUser.getUsername());
-                    user.setPassword(newUser.getPassword()); //TODO: This fails
-                    return userRepository.save(user);
-                })
-                //Else create a new user
-                .orElseGet(() -> {
-                    newUser.setId(id);
-                    return userRepository.save(newUser);
-                });
-
-        EntityModel<User> entityModel = userAssembler.toModel(updatedUser);
+        EntityModel<User> entityModel = userAssembler.toModel(userService.updateUser(newDetailsDTO, id));
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //location response header
                 .body(entityModel);
-    }*/
+    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("@userService.isCurrentUserOrAdmin(principal.getUsername(), #id)")//principal is of type UserDetailsImpl
