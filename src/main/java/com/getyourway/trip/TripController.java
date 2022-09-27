@@ -1,8 +1,10 @@
 package com.getyourway.trip;
 
+import com.getyourway.Constants;
 import com.getyourway.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +50,7 @@ public class TripController {
     }
 
     @GetMapping("/trips/{id}")
-    @PreAuthorize("@userService.isCurrentUserOrAdmin(principal.getUsername(), #userId)")
+    @Secured(Constants.USER)
     public ResponseEntity<Trip> getTrip(@PathVariable long id) {
 
         Trip trip = tripService.getTrip(id);
