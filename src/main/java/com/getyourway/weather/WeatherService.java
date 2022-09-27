@@ -38,16 +38,12 @@ public class WeatherService {
                 .block();
     }
 
-    public Test getHistoricalWeather(Long[] days, float lat, float lon) {
+    public HistoricalWeatherBaseResponse getHistoricalWeather(Long[] days, float lat, float lon) {
         var baseHistory = Arrays.asList(days).stream().map(day -> getHistoricalWeather(day, lat, lon)).collect(Collectors.toList());
         var data = baseHistory.stream().map(x -> x.data).collect(Collectors.toList());
-        var x = data.stream().flatMap(List<Data>::stream).collect(Collectors.toList());
-        var response = new Test();
-        response.lat = baseHistory.get(0).lat;
-        response.lat = baseHistory.get(0).lon;
-        response.timezone = baseHistory.get(0).timezone;
-        response.timezone_offset= baseHistory.get(0).timezone_offset;
-        response.data = x;
+        var dataFlattened = data.stream().flatMap(List<Data>::stream).collect(Collectors.toList());
+        var response = baseHistory.get(0);
+        response.data = dataFlattened;
         return response;
     }
 
