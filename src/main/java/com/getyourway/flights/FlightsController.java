@@ -17,7 +17,11 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
-/** REST API Controller for all requests to the internal flightsService. */
+/**
+ * REST API Controller for all requests to the internal flightsService.
+ *
+ * <p>Provides methods to access information on airports, their location and flight departures.
+ */
 @RestController
 @RequestMapping("api/flights")
 public class FlightsController {
