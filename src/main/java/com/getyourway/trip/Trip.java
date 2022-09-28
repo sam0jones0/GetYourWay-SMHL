@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,11 +19,21 @@ public class Trip {
 
     private String tripName; //TODO: Decide and create real attributes
 
+    @Column
+    @NotNull
     private String departureAirport;
+    @Column
+    @NotNull
     private String destinationAirport;
+    @Column
+    @NotNull
     private LocalDateTime departureDateTime;
+    @Column
+    @NotNull
     private LocalDateTime arrivalDateTime;
     //private  (type TBD) weatherInstance;
+    //private (some sort of link to local travel api, eg, trains/transport to airport)
+
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false) // Do not return parent (User) in HttpResponses
     @JoinColumn(name = "user_id", nullable = false)
@@ -31,6 +42,7 @@ public class Trip {
     private User user;
 
     public Trip() {}
+
 
     public Trip(String tripName) {
         this.tripName = tripName;
