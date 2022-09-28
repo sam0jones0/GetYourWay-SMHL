@@ -1,5 +1,6 @@
 package com.getyourway.weather;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ForecastResponseDTO {
@@ -13,6 +14,7 @@ public class ForecastResponseDTO {
 
 class Daily {
     public int dt;
+    public LocalDate date;
     public int sunrise;
     public int sunset;
     public int moonrise;

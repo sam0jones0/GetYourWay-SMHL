@@ -24,12 +24,18 @@ public class WeatherController {
      * @param lon the longitude of the location
      * @return ForecastResponse -> a model representing the weather forecast
      */
-    @GetMapping(value="forecast", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value="forecast", 
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<ForecastResponseDTO> getForecastLatLon(
             @RequestParam @DecimalMin(value=LAT_MIN, message=ERR_MSG_LAT) @DecimalMax(value=LAT_MAX, message=ERR_MSG_LAT) float lat,
             @RequestParam @DecimalMin(value=LON_MIN, message=ERR_MSG_LON) @DecimalMax(value=LON_MAX, message=ERR_MSG_LON) float lon) {
                 
                 var response = weatherService.getForecastByLatLon(lat, lon);
+                for (Daily d : response.daily) { 
+                    d.date = LocalDate.ofEpochDay(d.dt / SECONDS_IN_DAY);
+                }
                 return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
@@ -64,6 +70,9 @@ public class WeatherController {
             
                 var days = createDaysArray(date);
                 var response = weatherService.getHistoricalWeather(days, lat, lon);
+                for (Data d : response.data) { 
+                    d.date = LocalDate.ofEpochDay(d.dt / SECONDS_IN_DAY);
+                }
 
                 return ResponseEntity
                 .status(HttpStatus.OK)

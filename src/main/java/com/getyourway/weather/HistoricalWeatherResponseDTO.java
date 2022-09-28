@@ -1,5 +1,6 @@
 package com.getyourway.weather;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class HistoricalWeatherResponseDTO {
@@ -12,6 +13,7 @@ public class HistoricalWeatherResponseDTO {
 
 class Data {
     public int dt;
+    public LocalDate date;
     public int sunrise;
     public int sunset;
     public double temp;
