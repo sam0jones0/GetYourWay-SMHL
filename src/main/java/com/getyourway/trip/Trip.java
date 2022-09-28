@@ -6,6 +6,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "trips")
@@ -15,7 +17,27 @@ public class Trip {
     private @Id
     @GeneratedValue Long id;
 
-    private String tripName; //TODO: Decide and create real attributes
+    private String tripName; //
+
+    @Column
+    @NotNull
+    private String departureAirport;
+
+    @Column
+    @NotNull
+    private String destinationAirport;
+
+    @Column
+    @NotNull
+    private LocalDateTime departureDateTime;
+
+    @Column
+    @NotNull
+    private LocalDateTime arrivalDateTime;
+    //private  (type TBD) weatherInstance;
+    //private (some sort of link to local travel api, eg, trains/transport to airport)
+
+
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false) // Do not return parent (User) in HttpResponses
     @JoinColumn(name = "user_id", nullable = false)
@@ -25,8 +47,17 @@ public class Trip {
 
     public Trip() {}
 
+
     public Trip(String tripName) {
         this.tripName = tripName;
+    }
+
+    public Trip(String tripName, String departureAirport, String destinationAirport, LocalDateTime departureDateTime, LocalDateTime arrivalDateTime) {
+        this.tripName = tripName;
+        this.departureAirport = departureAirport;
+        this.destinationAirport = destinationAirport;
+        this.departureDateTime = departureDateTime;
+        this.arrivalDateTime = arrivalDateTime;
     }
 
     // Getters and Setters
@@ -44,6 +75,38 @@ public class Trip {
 
     public void setTripName(String tripName) {
         this.tripName = tripName;
+    }
+
+    public String getDepartureAirport() {
+        return departureAirport;
+    }
+
+    public void setDepartureAirport(String departureAirport) {
+        this.departureAirport = departureAirport;
+    }
+
+    public String getDestinationAirport() {
+        return destinationAirport;
+    }
+
+    public void setDestinationAirport(String destinationAirport) {
+        this.destinationAirport = destinationAirport;
+    }
+
+    public LocalDateTime getDepartureDateTime() {
+        return departureDateTime;
+    }
+
+    public void setDepartureDateTime(LocalDateTime departureDateTime) {
+        this.departureDateTime = departureDateTime;
+    }
+
+    public LocalDateTime getArrivalDateTime() {
+        return arrivalDateTime;
+    }
+
+    public void setArrivalDateTime(LocalDateTime arrivalDateTime) {
+        this.arrivalDateTime = arrivalDateTime;
     }
 
     public User getUser() {
