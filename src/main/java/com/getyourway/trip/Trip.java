@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "trips")
@@ -17,6 +18,12 @@ public class Trip {
 
     private String tripName; //TODO: Decide and create real attributes
 
+    private String departureAirport;
+    private String destinationAirport;
+    private LocalDateTime departureDateTime;
+    private LocalDateTime arrivalDateTime;
+    //private  (type TBD) weatherInstance;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false) // Do not return parent (User) in HttpResponses
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -27,6 +34,14 @@ public class Trip {
 
     public Trip(String tripName) {
         this.tripName = tripName;
+    }
+
+    public Trip(String tripName, String departureAirport, String destinationAirport, LocalDateTime departureDateTime, LocalDateTime arrivalDateTime) {
+        this.tripName = tripName;
+        this.departureAirport = departureAirport;
+        this.destinationAirport = destinationAirport;
+        this.departureDateTime = departureDateTime;
+        this.arrivalDateTime = arrivalDateTime;
     }
 
     // Getters and Setters
@@ -44,6 +59,38 @@ public class Trip {
 
     public void setTripName(String tripName) {
         this.tripName = tripName;
+    }
+
+    public String getDepartureAirport() {
+        return departureAirport;
+    }
+
+    public void setDepartureAirport(String departureAirport) {
+        this.departureAirport = departureAirport;
+    }
+
+    public String getDestinationAirport() {
+        return destinationAirport;
+    }
+
+    public void setDestinationAirport(String destinationAirport) {
+        this.destinationAirport = destinationAirport;
+    }
+
+    public LocalDateTime getDepartureDateTime() {
+        return departureDateTime;
+    }
+
+    public void setDepartureDateTime(LocalDateTime departureDateTime) {
+        this.departureDateTime = departureDateTime;
+    }
+
+    public LocalDateTime getArrivalDateTime() {
+        return arrivalDateTime;
+    }
+
+    public void setArrivalDateTime(LocalDateTime arrivalDateTime) {
+        this.arrivalDateTime = arrivalDateTime;
     }
 
     public User getUser() {
