@@ -1,6 +1,8 @@
 package com.getyourway.flights;
 
+import com.getyourway.flights.localairportdb.InternalAirportRepo;
 import org.hibernate.cfg.NotYetImplementedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,6 +15,7 @@ public class FlightsService {
 
   private final String APIKEY = System.getenv("FLIGHTS_API_KEY");
   private final WebClient webClient;
+  @Autowired private InternalAirportRepo internalAirportRepo;
 
   public FlightsService() {
 
@@ -80,6 +83,7 @@ public class FlightsService {
   }
 
   public AirportResponseDTO getAirportsNearby(float lat, float lon) {
+
     return webClient
         .get()
         .uri(
