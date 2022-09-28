@@ -17,7 +17,7 @@ public class Trip {
     private @Id
     @GeneratedValue Long id;
 
-    private String tripName; //TODO: Decide and create real attributes
+    private String tripName; //
 
     @Column
     private String departureAirport;
