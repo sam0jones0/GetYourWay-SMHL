@@ -1,7 +1,6 @@
 package com.getyourway.flights;
 
 import com.getyourway.Constants;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -46,16 +45,20 @@ public class FlightsController {
   /**
    * TODO // Not Yet Implemented
    *
-   * @param depIata
-   * @param arrIata
-   * @param depTime
+   * @param depIcao
+   * @param arrIcao
+   * @param depDate
    * @return
    */
   @GetMapping(value = "flightSchedule", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<FlightResponseDTO> getFlightSchedule(
-      @RequestParam String depIata, @RequestParam String arrIata, @RequestParam int depTime) {
-    // TODO: Using getAirportSchedule - return only flights to one specific destination.
-    throw new NotYetImplementedException();
+      @RequestParam @Size(min = 4, max = 4, message = "ICAO code must be exactly 4 characters")
+          String depIcao,
+      @RequestParam @Size(min = 4, max = 4, message = "ICAO code must be exactly 4 characters")
+          String arrIcao,
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate depDate) {
+    FlightResponseDTO response = flightsService.getFlightSchedule(depIcao, arrIcao, depDate);
+    return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
   /**
