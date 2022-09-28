@@ -6,6 +6,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -19,6 +21,8 @@ public class Trip {
 
     private String tripName; //
 
+
+    //variables to be accepted from json produced by frontend snapshot
     @Column
     @NotNull
     private String departureAirport;
@@ -29,11 +33,14 @@ public class Trip {
 
     @Column
     @NotNull
+    @FutureOrPresent
     private LocalDateTime departureDateTime;
 
     @Column
     @NotNull
+    @FutureOrPresent
     private LocalDateTime arrivalDateTime;
+    //need to be decided if weather is going to be saved or potentially recalled when user accesses trip
     //private  (type TBD) weatherInstance;
     //private (some sort of link to local travel api, eg, trains/transport to airport)
 

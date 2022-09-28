@@ -39,8 +39,8 @@ public class DatabaseLoader implements CommandLineRunner {
         Trip trip1 = new Trip("Trip name",
                 "LGW",
                 "LHR",
-                LocalDateTime.of(2022, Month.JULY,15,10,00,00),
-                LocalDateTime.of(2022, Month.JULY,17, 10,00,00));
+                LocalDateTime.of(2023, Month.JULY,15,10,00,00),
+                LocalDateTime.of(2023, Month.JULY,17, 10,00,00));
 //        Trip trip2 = new Trip("Another trip name"); //can no longer have null value of new variables (see above example trip)
         trip1.setUser(user1);
 //        trip2.setUser(user1);
