@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+
 @Configuration
 public class DatabaseLoader implements CommandLineRunner {
 
@@ -33,12 +36,16 @@ public class DatabaseLoader implements CommandLineRunner {
         this.userRepository.save(admin);
 
         // Create Trips
-        Trip trip1 = new Trip("Trip name");
-        Trip trip2 = new Trip("Another trip name");
+        Trip trip1 = new Trip("Trip name",
+                "LGW",
+                "LHR",
+                LocalDateTime.of(2023, Month.JULY,15,10,00,00),
+                LocalDateTime.of(2023, Month.JULY,17, 10,00,00));
+//        Trip trip2 = new Trip("Another trip name"); //can no longer have null value of new variables (see above example trip)
         trip1.setUser(user1);
-        trip2.setUser(user1);
+//        trip2.setUser(user1);
         tripRepository.save(trip1);
-        tripRepository.save(trip2);
+//        tripRepository.save(trip2);
     }
 
 }

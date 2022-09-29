@@ -8,6 +8,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class TripController {
 
     @PostMapping("/users/{userId}/trips")
     @PreAuthorize("@userService.isCurrentUserOrAdmin(principal.getUsername(), #userId)")
-    public ResponseEntity<Trip> createTrip(@PathVariable(value = "userId") long userId, @RequestBody Trip trip) {
+    public ResponseEntity<Trip> createTrip(@PathVariable(value = "userId") long userId, @Valid @RequestBody Trip trip) {
 
         Trip response = tripService.save(userId, trip);
 
