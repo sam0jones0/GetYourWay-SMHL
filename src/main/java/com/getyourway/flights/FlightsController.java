@@ -1,6 +1,7 @@
 package com.getyourway.flights;
 
 import com.getyourway.Constants;
+import com.getyourway.flights.localairportdb.InternalAirport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * REST API Controller for all requests to the internal flightsService.
@@ -28,36 +30,22 @@ public class FlightsController {
   @Autowired private FlightsService flightsService;
 
   /**
-   * Queries flightsService for all flight departures from a specified airport on a specified date.
+   * Queries flightsService for all flight departures from a specified airport to another on a
+   * specified date.
    *
    * @param depIcao The ICAO airport code for the departure airport.
-   * @param date ISO 8601 date string. No time needed. E.g. 2022-09-27
-   * @return Response entity with AirportScheduleResponse represented as JSON in the body.
-   */
-  @GetMapping(value = "airportSchedule", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<AirportScheduleResponseDTO> getAirportSchedule(
-      @RequestParam String depIcao,
-      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-    AirportScheduleResponseDTO response = flightsService.getAirportSchedule(depIcao, date);
-    return ResponseEntity.status(HttpStatus.OK).body(response);
-  }
-
-  /**
-   * TODO // Not Yet Implemented
-   *
-   * @param depIcao
-   * @param arrIcao
-   * @param depDate
-   * @return
+   * @param arrIcao The ICAO airport code for the arrival airport.
+   * @param depDate ISO 8601 date string. No time needed. E.g. 2022-09-27
+   * @return Response entity with FlightDTOs represented as JSON in the body.
    */
   @GetMapping(value = "flightSchedule", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<FlightResponseDTO> getFlightSchedule(
+  public ResponseEntity<List<FlightDTO>> getFlightSchedule(
       @RequestParam @Size(min = 4, max = 4, message = "ICAO code must be exactly 4 characters")
           String depIcao,
       @RequestParam @Size(min = 4, max = 4, message = "ICAO code must be exactly 4 characters")
           String arrIcao,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate depDate) {
-    FlightResponseDTO response = flightsService.getFlightSchedule(depIcao, arrIcao, depDate);
+    List<FlightDTO> response = flightsService.getFlightSchedule(depIcao, arrIcao, depDate);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
@@ -94,11 +82,12 @@ public class FlightsController {
    *     full lat/lon information) as JSON in the body.
    */
   @GetMapping(value = "airportsearch", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<AirportResponseDTO> getAirportByText(
+  public ResponseEntity<List<InternalAirport>> getAirportByText(
       @RequestParam
           @Size(min = 3, max = 30, message = "Search term must be between 3 and 30 characters.")
           String searchTerm) {
-    AirportResponseDTO response = flightsService.getAirportByText(searchTerm);
+    // FIXME: Query in repo not working.
+    List<InternalAirport> response = flightsService.getAirportByText(searchTerm);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 }
