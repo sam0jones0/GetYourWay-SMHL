@@ -15,6 +15,12 @@ public class UserDetailsImpl implements UserDetails {
         this.user = user;
     }
 
+    /**
+     * Gets and returns all authorities of the current user.
+     * Users can have in theory have multiple roles
+     *
+     * @return An array of SimpleGrantedAuthority objects that represent user Authority
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRoles());
