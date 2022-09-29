@@ -40,6 +40,18 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Handles login using Spring Security's httpBasic. Attempts authentication against the User database
+     * Passwords are encrypted and decrypted with bcrypt. If successful creates a new SecurityContext that
+     * contains a JSESSIONID and Authentication Object. Returns the authenticated user if successful.
+     * If unsuccessful returns a BadCredentialsException
+     *
+     * @param username The string username to be authenticated
+     * @param password The string password to be authenticated (using bcrypt)
+     * @param request The HTTPServletRequest containing the authentication request from client
+     * @return EntityModel<User> in the body of a ResponseeEntity if succesfully authenticated
+     *          If authentication is unsuccessful, returns a 401 Unauthorized ResponeEntity
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam("username") final String username, @RequestParam("password") final String password, final HttpServletRequest request) {
 
