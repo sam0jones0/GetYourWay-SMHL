@@ -35,12 +35,12 @@ public class User {
 
     public User(String username, String password) {
         this.username = username;
-        this.setPassword(password);
+        this.setPassword(password); // Encode password
         this.roles = Constants.USER;
 
     }
 
-    //Getters and setters
+    // Getters and setters
     public Long getId() {
         return this.id;
     }

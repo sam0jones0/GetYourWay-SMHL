@@ -4,6 +4,7 @@ import com.getyourway.user.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
@@ -24,6 +25,16 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler im
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Instructs Spring Security on what to do upon succesul logout. Logs the user that successfully
+     * logged out and returns a Https No content stats
+     *
+     * @param request The HTTPServletRequest request to logout a user
+     * @param response The HTTPServletResponse with status NO_CONTENT 204
+     * @param authentication The Authentication object that is attempting to logout
+     * @throws IOException Signals that an I/O exception of some sort has occurred
+     * @throws ServletException Defines a general exception a servlet can throw when it encounters difficulty.
+     */
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 

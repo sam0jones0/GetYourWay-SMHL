@@ -19,6 +19,14 @@ public class UsernameValidator implements ConstraintValidator<UsernameConstraint
     public void initialize(UsernameConstraint usernameConstraint) {
     }
 
+    /**
+     * The validation implementation from the ConstraintValidator class
+     * Determines if an entity field is valid or invalid
+     *
+     * @param usernameField The string field that represents the username of a user
+     * @param cxt ConstraintValidatorcontext
+     * @return usernameIsValid -> boolean, true if username is valid
+     */
     @Override
     public boolean isValid(String usernameField, ConstraintValidatorContext cxt) {
 

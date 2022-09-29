@@ -23,6 +23,13 @@ public class DatabaseLoader implements CommandLineRunner {
         this.tripRepository = tripRepository;
     }
 
+    /**
+     * Callback used to run. Used for the purpose of pre-populating
+     * a database
+     *
+     * @param strings incoming main method arguments
+     * @throws Exception
+     */
     @Override
     public void run(String... strings) throws Exception {
 

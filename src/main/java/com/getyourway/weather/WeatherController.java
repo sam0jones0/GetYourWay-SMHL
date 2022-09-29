@@ -4,7 +4,6 @@ import static com.getyourway.Constants.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.DecimalMax;
@@ -24,10 +23,7 @@ public class WeatherController {
      * @param lon the longitude of the location
      * @return ForecastResponse -> a model representing the weather forecast
      */
-    @GetMapping(
-        value="forecast", 
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="forecast")
         public ResponseEntity<ForecastResponseDTO> getForecastLatLon(
             @RequestParam @DecimalMin(value=LAT_MIN, message=ERR_MSG_LAT) @DecimalMax(value=LAT_MAX, message=ERR_MSG_LAT) float lat,
             @RequestParam @DecimalMin(value=LON_MIN, message=ERR_MSG_LON) @DecimalMax(value=LON_MAX, message=ERR_MSG_LON) float lon) {
@@ -52,11 +48,7 @@ public class WeatherController {
      * 
      * @return HistoricalWeatherBaseResponse -> a model represending the historical weather
      */
-    @GetMapping(
-        value="historical", 
-        consumes=MediaType.APPLICATION_JSON_VALUE,
-        produces=MediaType.APPLICATION_JSON_VALUE
-        )
+    @GetMapping(value="historical")
         public ResponseEntity<HistoricalWeatherResponseDTO> getHistoricalForecast(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam @DecimalMin(value=LAT_MIN, message=ERR_MSG_LAT) @DecimalMax(value=LAT_MAX, message=ERR_MSG_LAT) float lat,
