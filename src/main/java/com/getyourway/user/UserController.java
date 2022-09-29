@@ -21,6 +21,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -38,6 +39,13 @@ public class UserController {
 
     // GET
 
+    /**
+     * The method to GET all users from the user repository.
+     * Only accessible to Admins
+     *
+     * @return ResponseEntity -> HTTP response containing list of user
+     *         Entity Models and HTTP status code (ok)
+     */
     @Secured(Constants.ADMIN)
     @GetMapping
     public ResponseEntity<CollectionModel<EntityModel<User>>> getUsers() {
@@ -51,6 +59,13 @@ public class UserController {
                 .body(CollectionModel.of(users, linkTo(methodOn(UserController.class).getUsers()).withSelfRel()));
     }
 
+    /**
+     * The method to GET a single user given an id
+     * Only accessible to Admins or the user themselves (not other users)
+     *
+     * @param id The long representing unique id of user
+     * @return ResponseEntity -> HTTP response containing EntityModel of requested user
+     */
     @GetMapping("/{id}")
     @PreAuthorize("@userService.isCurrentUserOrAdmin(principal.getUsername(), #id)")//principal is of type UserDetailsImpl
     public ResponseEntity<?> getThisUser(@PathVariable Long id) {
@@ -64,6 +79,14 @@ public class UserController {
     }
 
     // POST
+
+    /**
+     * The method to POST a user to the controller. Creates a new user and
+     * returns the created user to the client. Accesible to anyone.
+     *
+     * @param userDto A userDTO serialized from the request body. Represents a user
+     * @return ResponseEntity -> HTTP response containing EntityModel of created user
+     */
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDto) {
 
@@ -79,7 +102,17 @@ public class UserController {
     }
 
     // PUT
+
+    /**
+     * The method to UPDATE a user's details in the repository
+     * Only accessible to Admins or the user themselves (not other users)
+     *
+     * @param newDetailsDTO A userDTO serialized from the request body. Represents a user
+     * @param id The long id for the user to be updated
+     * @return ResponseEntity -> HTTP response containing EntityModel of updated user
+     */
     @PutMapping("/{id}")
+    @PreAuthorize("@userService.isCurrentUserOrAdmin(principal.getUsername(), #id)")//principal is of type UserDetailsImpl
     public ResponseEntity<?> updateUser(@Valid @RequestBody UserDTO newDetailsDTO, @PathVariable long id) {
 
         EntityModel<User> entityModel = userAssembler.toModel(userService.updateUser(newDetailsDTO, id));
@@ -90,6 +123,14 @@ public class UserController {
     }
 
     // DELETE
+
+    /**
+     * The method to DELETE a user
+     * Only accessible to Admins or the user themselves (not other users)
+     *
+     * @param id The long of the user to be deleted
+     * @return ResponseEntity -> HTTP response containing just the NO_CONTENT HTTP status code
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("@userService.isCurrentUserOrAdmin(principal.getUsername(), #id)")//principal is of type UserDetailsImpl
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
