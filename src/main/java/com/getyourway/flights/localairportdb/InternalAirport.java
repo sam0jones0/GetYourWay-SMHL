@@ -17,19 +17,22 @@ import java.util.Objects;
 @Table(
     name = "AIRPORTS",
     indexes = {
-      @Index(name = "icao", columnList = "icao", unique = true),
-      @Index(name = "iata", columnList = "iata"),
-      @Index(name = "city", columnList = "city")
+      @Index(name = "ICAO", columnList = "ICAO", unique = true),
+      @Index(name = "IATA", columnList = "ICAO"),
+      @Index(name = "CITY", columnList = "ICAO"),
+      @Index(name = "NAME", columnList = "NAME")
     })
 public class InternalAirport {
 
   @Id
-  @Column(nullable = false)
+  @Column(name = "ICAO", nullable = false)
   private String icao;
 
-  @Column private String iata;
+  @Column(name = "IATA")
+  private String iata;
 
-  @Column private String city;
+  @Column(name = "CITY")
+  private String city;
 
   @Column(name = "NAME")
   private String name;

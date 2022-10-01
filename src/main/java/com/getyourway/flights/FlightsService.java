@@ -3,6 +3,7 @@ package com.getyourway.flights;
 import com.getyourway.flights.Exception.AirportNotFoundException;
 import com.getyourway.flights.localairportdb.InternalAirport;
 import com.getyourway.flights.localairportdb.InternalAirportRepo;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -149,7 +150,8 @@ public class FlightsService {
 
   public List<InternalAirport> getAirportByText(String searchTerm) {
     // FIXME: Query in repo not working.
-    return this.internalAirportRepo.getByUserString(searchTerm).orElse(null);
+//    return this.internalAirportRepo.getByUserString(searchTerm).orElse(null);
+    throw new NotImplementedException();
 
     // NOTE: Probably going to avoid calling external api for text search. Info in local DB is good
     // enough
