@@ -62,12 +62,12 @@ public class FlightsController {
   @GetMapping(value = "nearbyairports", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<AirportResponseDTO> getNearbyAirports(
       @RequestParam
-          @DecimalMin(value = Constants.LAT_MIN, message = "Latitude cannot be less than -90")
-          @DecimalMax(value = Constants.LAT_MAX, message = "Latitude cannot exceed 90")
+          // @DecimalMin(value = Constants.LAT_MIN, message = "Latitude cannot be less than -90")
+          // @DecimalMax(value = Constants.LAT_MAX, message = "Latitude cannot exceed 90")
           float lat,
       @RequestParam
-          @DecimalMin(value = Constants.LON_MIN, message = "Longitude cannot be less than -180")
-          @DecimalMax(value = Constants.LON_MAX, message = "Longitude cannot exceed than 180")
+          // @DecimalMin(value = Constants.LON_MIN, message = "Longitude cannot be less than -180")
+          // @DecimalMax(value = Constants.LON_MAX, message = "Longitude cannot exceed than 180")
           float lon) {
     AirportResponseDTO response = flightsService.getAirportsNearby(lat, lon);
     return ResponseEntity.status(HttpStatus.OK).body(response);

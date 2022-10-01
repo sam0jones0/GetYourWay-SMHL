@@ -9,10 +9,10 @@ public class Constants {
     public static final String BASE_HOST = "api.openweathermap.org";
     public static final String BASE_PATH = "data/3.0/onecall";
 
-    public static final String LAT_MIN = "-90.0";
-    public static final String LAT_MAX = "90.0";
-    public static final String LON_MIN = "-180.0";
-    public static final String LON_MAX = "180.0";
+    public static final float LAT_MIN = -90.0f;
+    public static final float LAT_MAX = 90.0f;
+    public static final float LON_MIN = -180.0f;
+    public static final float LON_MAX = 180.0f;
     public static final String ERR_MSG_LAT = "Latitude must be between -90 and 90";
     public static final String ERR_MSG_LON = "Latitude must be between -180 and 180";
     public static final int MIN_FORECAST_DAYS = 1;
