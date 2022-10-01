@@ -22,22 +22,22 @@ public class UserTests {
 
     private User user;
 
-    @BeforeAll
-    public void setup() {
-        user = new User("username", "password");
-        user.setRoles(Constants.USER);
-    }
+//    @BeforeAll
+//    public void setup() {
+//        user = new User("username", "password");
+//        user.setRoles(Constants.USER);
+//    }
 
     // Create User Test
-    @Test
-    @DisplayName("givenInvalidUserDetails_whenSave_ThrowException")
-    public void createInvalidUser() throws Exception {
-        //Given...
-        //...when...
-        //...assert.
-
-        new User("s", "");
-    }
+//    @Test
+//    @DisplayName("givenInvalidUserDetails_whenSave_ThrowException")
+//    public void createInvalidUser() throws Exception {
+//        //Given...
+//        //...when...
+//        //...assert.
+//
+//        new User("s", "");
+//    }
 
     // Invalid User Test
 
