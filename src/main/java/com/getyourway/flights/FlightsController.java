@@ -1,6 +1,6 @@
 package com.getyourway.flights;
 
-import com.getyourway.Constants;
+import static com.getyourway.Constants.*;
 import com.getyourway.flights.localairportdb.InternalAirport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
@@ -61,14 +59,16 @@ public class FlightsController {
    */
   @GetMapping(value = "nearbyairports", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<AirportResponseDTO> getNearbyAirports(
-      @RequestParam
-          // @DecimalMin(value = Constants.LAT_MIN, message = "Latitude cannot be less than -90")
-          // @DecimalMax(value = Constants.LAT_MAX, message = "Latitude cannot exceed 90")
-          float lat,
-      @RequestParam
-          // @DecimalMin(value = Constants.LON_MIN, message = "Longitude cannot be less than -180")
-          // @DecimalMax(value = Constants.LON_MAX, message = "Longitude cannot exceed than 180")
-          float lon) {
+      @RequestParam float lat,
+      @RequestParam float lon) {
+
+        // Validate lat/lon input
+        if (lat < LAT_MIN || lat > LAT_MAX || lon < LON_MIN || lon > LON_MAX) {
+          return ResponseEntity
+          .status(HttpStatus.BAD_REQUEST)
+          .body(null);
+      }
+
     AirportResponseDTO response = flightsService.getAirportsNearby(lat, lon);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
