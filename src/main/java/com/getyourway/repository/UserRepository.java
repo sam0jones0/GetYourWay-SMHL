@@ -1,6 +1,6 @@
 package com.getyourway.repository;
 
-import com.getyourway.entity.User;
+import com.getyourway.user.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

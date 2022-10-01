@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/.run/GetyourwayApplication.run.xml
+src/main/java/com/getyourway/.DS_Store
+bitwiseserv.pem
