@@ -46,20 +46,20 @@ public class UserTests {
     // Test saving one to many relationship/ Assert size is what it should be
 
     //Getters
-    @Test
-    @DisplayName("givenGettersSetter_whenGetSet_CorrectResults")
-    public void getterSetterTests() {
-
-        assertEquals(user.getId(), 1);
-        assertEquals(user.getUsername(), "username");
-        //assertEquals(user.getPassword(), "password");
-        assertEquals(user.getRoles(), Constants.USER);
-
-        user.setUsername("newUsername");
-        user.setPassword("newUsername");
-        user.setRoles(Constants.ADMIN);
-
-    }
+//    @Test
+//    @DisplayName("givenGettersSetter_whenGetSet_CorrectResults")
+//    public void getterSetterTests() {
+//
+//        assertEquals(user.getId(), 1);
+//        assertEquals(user.getUsername(), "username");
+//        //assertEquals(user.getPassword(), "password");
+//        assertEquals(user.getRoles(), Constants.USER);
+//
+//        user.setUsername("newUsername");
+//        user.setPassword("newUsername");
+//        user.setRoles(Constants.ADMIN);
+//
+//    }
 
     //Setters
 
