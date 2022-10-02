@@ -76,90 +76,90 @@ public class UserControllerTests {
 
     private final String BASE_PATH = "http://localhost/api/users";
 
-    @BeforeAll
-    public void setUp() {
-        user1 = new User("user1", "password1");
-        user1.setId(Long.valueOf(1));
-        user2 = new User("user2", "password2");
-        user2.setId(Long.valueOf(2));
-        admin = new User("admin", "password");
-        admin.setRoles("ROLE_ADMIN");
-        admin.setId(Long.valueOf(3));
-    }
+//    @BeforeAll
+//    public void setUp() {
+//        user1 = new User("user1", "password1");
+//        user1.setId(Long.valueOf(1));
+//        user2 = new User("user2", "password2");
+//        user2.setId(Long.valueOf(2));
+//        admin = new User("admin", "password");
+//        admin.setRoles("ROLE_ADMIN");
+//        admin.setId(Long.valueOf(3));
+//    }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {Constants.ADMIN})
-    @DisplayName("givenAdmin_whenGetUsers_thenStatus200")
-    public void testGetUsers(CapturedOutput output) throws Exception {
+//    @Test
+//    @WithMockUser(username = "admin", authorities = {Constants.ADMIN})
+//    @DisplayName("givenAdmin_whenGetUsers_thenStatus200")
+//    public void testGetUsers(CapturedOutput output) throws Exception {
+//
+//        //Given...
+//        List<User> users = new ArrayList<User>();
+//        users.add(user1);
+//        users.add(user2);
+//        users.add(admin);
+//
+//        EntityModel<User> entityModel1 = EntityModel.of(user1,
+//                linkTo(methodOn(UserController.class).getThisUser(user1.getId())).withSelfRel(),
+//                linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
+//
+//        EntityModel<User> entityModel2 = EntityModel.of(user2,
+//                linkTo(methodOn(UserController.class).getThisUser(user2.getId())).withSelfRel(),
+//                linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
+//
+//        EntityModel<User> entityModelAdmin = EntityModel.of(admin,
+//                linkTo(methodOn(UserController.class).getThisUser(admin.getId())).withSelfRel(),
+//                linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
+//
+//        given(userService.getUsers()).willReturn(users);
+//        given(userRepository.findAll()).willReturn(users);
+//        given(userService.getCurrentUser()).willReturn(admin);
+//        given(userModelAssembler.toModel(user1)).willReturn(entityModel1);
+//        given(userModelAssembler.toModel(user2)).willReturn(entityModel2);
+//        given(userModelAssembler.toModel(admin)).willReturn(entityModelAdmin);
+//
+//        //...when...
+//        ResultActions response = mockMvc.perform(get("/api/users")
+//                .contentType(MediaType.APPLICATION_JSON_VALUE));
+//
+//        //...assert.
+//        response
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$._embedded.userList", hasSize(3)));
+//
+//        String header = "$._embedded.userList";
+//        for (int counter = 0; counter < 3; counter ++) {
+//
+//            System.out.println(users.get(counter).getId().intValue());
+//            response
+//                    .andExpect(jsonPath(header +"[" + counter + "]" + ".id", is(users.get(counter).getId().intValue())))
+//                    .andExpect(jsonPath(header +"[" + counter + "]" + ".username", is(users.get(counter).getUsername())))
+//                    .andExpect(jsonPath(header +"[" + counter + "]" + ".password").doesNotExist())
+//                    .andExpect(jsonPath(header +"[" + counter + "]" + ".roles", is(users.get(counter).getRoles())))
+//                    .andExpect(jsonPath(header +"[" + counter + "]" + "._links.self.href", is(BASE_PATH + "/" + users.get(counter).getId().intValue())))
+//                    .andExpect(jsonPath(header +"[" + counter + "]" + "._links.users.href", is(BASE_PATH)));
+//        }
+//
+//        assertTrue(output.getOut().contains("All users requested by: " + Constants.ADMIN));
+//
+//    }
 
-        //Given...
-        List<User> users = new ArrayList<User>();
-        users.add(user1);
-        users.add(user2);
-        users.add(admin);
-
-        EntityModel<User> entityModel1 = EntityModel.of(user1,
-                linkTo(methodOn(UserController.class).getThisUser(user1.getId())).withSelfRel(),
-                linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
-
-        EntityModel<User> entityModel2 = EntityModel.of(user2,
-                linkTo(methodOn(UserController.class).getThisUser(user2.getId())).withSelfRel(),
-                linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
-
-        EntityModel<User> entityModelAdmin = EntityModel.of(admin,
-                linkTo(methodOn(UserController.class).getThisUser(admin.getId())).withSelfRel(),
-                linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
-
-        given(userService.getUsers()).willReturn(users);
-        given(userRepository.findAll()).willReturn(users);
-        given(userService.getCurrentUser()).willReturn(admin);
-        given(userModelAssembler.toModel(user1)).willReturn(entityModel1);
-        given(userModelAssembler.toModel(user2)).willReturn(entityModel2);
-        given(userModelAssembler.toModel(admin)).willReturn(entityModelAdmin);
-
-        //...when...
-        ResultActions response = mockMvc.perform(get("/api/users")
-                .contentType(MediaType.APPLICATION_JSON_VALUE));
-
-        //...assert.
-        response
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.userList", hasSize(3)));
-
-        String header = "$._embedded.userList";
-        for (int counter = 0; counter < 3; counter ++) {
-
-            System.out.println(users.get(counter).getId().intValue());
-            response
-                    .andExpect(jsonPath(header +"[" + counter + "]" + ".id", is(users.get(counter).getId().intValue())))
-                    .andExpect(jsonPath(header +"[" + counter + "]" + ".username", is(users.get(counter).getUsername())))
-                    .andExpect(jsonPath(header +"[" + counter + "]" + ".password").doesNotExist())
-                    .andExpect(jsonPath(header +"[" + counter + "]" + ".roles", is(users.get(counter).getRoles())))
-                    .andExpect(jsonPath(header +"[" + counter + "]" + "._links.self.href", is(BASE_PATH + "/" + users.get(counter).getId().intValue())))
-                    .andExpect(jsonPath(header +"[" + counter + "]" + "._links.users.href", is(BASE_PATH)));
-        }
-
-        assertTrue(output.getOut().contains("All users requested by: " + Constants.ADMIN));
-
-    }
-
-    @Test
-    @WithMockUser(username = "user1", authorities = {Constants.USER})
-    @DisplayName("givenUser_whenGetUsers_thenStatus403Forbidden")
-    public void testGetUsersAsNonAdmin (CapturedOutput output) throws Exception {
-
-        //Given when...
-        ResultActions response = mockMvc.perform(get("/api/users")
-                .contentType(MediaType.APPLICATION_JSON_VALUE));
-
-        //...assert.
-        response
-                .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$._embedded.userList").doesNotExist());
-
-        assertFalse(output.getOut().contains("All users requested by: " + Constants.ADMIN));
-
-    }
+//    @Test
+//    @WithMockUser(username = "user1", authorities = {Constants.USER})
+//    @DisplayName("givenUser_whenGetUsers_thenStatus403Forbidden")
+//    public void testGetUsersAsNonAdmin (CapturedOutput output) throws Exception {
+//
+//        //Given when...
+//        ResultActions response = mockMvc.perform(get("/api/users")
+//                .contentType(MediaType.APPLICATION_JSON_VALUE));
+//
+//        //...assert.
+//        response
+//                .andExpect(status().isForbidden())
+//                .andExpect(jsonPath("$._embedded.userList").doesNotExist());
+//
+//        assertFalse(output.getOut().contains("All users requested by: " + Constants.ADMIN));
+//
+//    }
 
 //    @Test
 //    @WithMockUser("user1")
