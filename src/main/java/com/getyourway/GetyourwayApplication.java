@@ -10,22 +10,18 @@ import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFacto
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 @SpringBootApplication
-@EnableGlobalMethodSecurity(
-        prePostEnabled = true,
-        securedEnabled = true
-)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class GetyourwayApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(GetyourwayApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(GetyourwayApplication.class, args);
+  }
 
-    @Bean
-    public Jackson2RepositoryPopulatorFactoryBean getRespositoryPopulator() {
-        Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
-        factory.setResources(
-                new Resource[] {new ClassPathResource("allAirports.json")});
-        System.out.println(ClassPath.getClassPath());
-        return factory;
-    }
+  @Bean
+  public Jackson2RepositoryPopulatorFactoryBean getRespositoryPopulator() {
+    Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
+    factory.setResources(new Resource[] {new ClassPathResource("allAirports.json")});
+    System.out.println(ClassPath.getClassPath());
+    return factory;
+  }
 }

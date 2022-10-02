@@ -2,8 +2,7 @@ package com.getyourway.flights;
 
 import java.util.ArrayList;
 
-/**
- *  */
+/** */
 public class AirportResponseDTO {
 
   public ArrayList<AirportDTO> items;
@@ -18,6 +17,7 @@ class AirportDTO {
   public String municipalityName;
   public LocationDTO location;
   public String countryCode;
+  public String city;
 }
 
 class LocationDTO {

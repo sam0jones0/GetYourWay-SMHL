@@ -1,7 +1,8 @@
 package com.getyourway.flights;
 
+import com.getyourway.flights.Exception.AirportNotFoundException;
+import com.getyourway.flights.localairportdb.InternalAirport;
 import com.getyourway.flights.localairportdb.InternalAirportRepo;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -9,11 +10,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class FlightsService {
 
   private final String APIKEY = System.getenv("FLIGHTS_API_KEY");
+
   private final WebClient webClient;
   @Autowired private InternalAirportRepo internalAirportRepo;
 
@@ -21,6 +26,9 @@ public class FlightsService {
 
     this.webClient =
         WebClient.builder()
+            .codecs(
+                clientCodecConfigurer ->
+                    clientCodecConfigurer.defaultCodecs().maxInMemorySize(1000000))
             .baseUrl("https://aerodatabox.p.rapidapi.com")
             .defaultHeaders(
                 httpHeaders -> {
@@ -30,7 +38,51 @@ public class FlightsService {
             .build();
   }
 
-  public AirportScheduleResponseDTO getAirportSchedule(String depIcao, LocalDate date) {
+  public List<FlightDTO> getFlightSchedule(String depIcao, String arrIcao, LocalDate date) {
+    InternalAirport arrAirportInternal =
+        this.internalAirportRepo
+            .getAirportByIcao(arrIcao)
+            .orElseThrow(AirportNotFoundException::new)
+            .get(0);
+
+    AirportScheduleResponseDTO airportSchedule = this.getAirportSchedule(depIcao, date);
+    List<FlightDTO> parsedFlights = new ArrayList<>();
+
+    for (FlightDTO flight : airportSchedule.departures) {
+      if (Objects.equals(flight.arrival.airport.icao, arrAirportInternal.getIcao())
+          || Objects.equals(flight.arrival.airport.iata, arrAirportInternal.getIata())) {
+        // We already have the airport code. Set Names/Codes correctly.
+        flight.arrival.airport.name = arrAirportInternal.getName();
+        flight.arrival.airport.city = arrAirportInternal.getCity();
+        flight.arrival.airport.icao = arrAirportInternal.getIcao();
+        flight.arrival.airport.iata = arrAirportInternal.getIata();
+        parsedFlights.add(flight);
+      } else {
+        // Without airport code, we have to search our internal DB to identify airport.
+        String unidentifiedAirportName;
+        if (flight.arrival.airport.name != null) {
+          unidentifiedAirportName = flight.arrival.airport.name;
+        } else if (flight.arrival.airport.shortName != null) {
+          unidentifiedAirportName = flight.arrival.airport.shortName;
+        } else if (flight.arrival.airport.municipalityName != null) {
+          unidentifiedAirportName = flight.arrival.airport.municipalityName;
+        } else continue;
+
+        // unidentifiedAirportName is now not null.
+        if (arrAirportInternal.getCity().contains(unidentifiedAirportName)
+            || arrAirportInternal.getName().contains(unidentifiedAirportName)) {
+          flight.arrival.airport.name = arrAirportInternal.getName();
+          flight.arrival.airport.city = arrAirportInternal.getCity();
+          flight.arrival.airport.icao = arrAirportInternal.getIcao();
+          flight.arrival.airport.iata = arrAirportInternal.getIata();
+          parsedFlights.add(flight);
+        }
+      }
+    }
+    return parsedFlights;
+  }
+
+  private AirportScheduleResponseDTO getAirportSchedule(String depIcao, LocalDate date) {
     // Call to external schedule API requires max 12-hours period.
     // As most flights are between 08-20hrs we only concern ourselves with these.
     String fromIsoDate;
@@ -73,15 +125,6 @@ public class FlightsService {
         .block();
   }
 
-  public FlightResponseDTO getFlightSchedule(String depIcao, String arrIcao, LocalDate date) {
-    // TODO: Using getAirportSchedule - return only flights to one specific destination.
-    //  Make DB indexing all airports in world (10MB json file shouldnt be too big hopefully).
-    //  Try DB access with match icao | iata | shortname
-    //    else make call to getAirportByText API.
-    //      else return not found status code etc.
-    throw new NotYetImplementedException();
-  }
-
   public AirportResponseDTO getAirportsNearby(float lat, float lon) {
 
     return webClient
@@ -104,20 +147,27 @@ public class FlightsService {
         .block();
   }
 
-  public AirportResponseDTO getAirportByText(String searchTerm) {
-    return webClient
-        .get()
-        .uri(
-            uriBuilder ->
-                uriBuilder
-                    .path("/airports/search/term")
-                    .queryParam("q", searchTerm)
-                    .queryParam("limit", 10)
-                    .queryParam("withFlightInfoOnly", "true")
-                    .build())
-        .accept(MediaType.APPLICATION_JSON)
-        .retrieve()
-        .bodyToMono(AirportResponseDTO.class)
-        .block();
+  public List<InternalAirport> getAirportByText(String searchTerm) {
+    // FIXME: Query in repo not working.
+    return this.internalAirportRepo.getByUserString(searchTerm).orElse(null);
+
+    // NOTE: Probably going to avoid calling external api for text search. Info in local DB is good
+    // enough
+    //       and faster.
+    //
+    //    return webClient
+    //        .get()
+    //        .uri(
+    //            uriBuilder ->
+    //                uriBuilder
+    //                    .path("/airports/search/term")
+    //                    .queryParam("q", searchTerm)
+    //                    .queryParam("limit", 10)
+    //                    .queryParam("withFlightInfoOnly", "true")
+    //                    .build())
+    //        .accept(MediaType.APPLICATION_JSON)
+    //        .retrieve()
+    //        .bodyToMono(AirportResponseDTO.class)
+    //        .block();
   }
 }
