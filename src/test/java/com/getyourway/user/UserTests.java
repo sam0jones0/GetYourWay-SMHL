@@ -30,26 +30,22 @@ public class UserTests {
 
     private User user;
 
-//    @BeforeAll
-//    public void setup() {
-//        user = new User("username", "password");
-//        user.setRoles(Constants.USER);
-//    }
+    @BeforeAll
+    public void setup() {
+        user = new User("username", "password");
+        user.setRoles(Constants.USER);
+    }
 
-    // Create User Test
     @Test
     @DisplayName("givenInvalidUserDetails_whenSave_ThrowException")
     public void createInvalidUser() throws Exception {
 
-        // Username and Password cannot be null
-        assertThrows(IllegalArgumentException.class,() -> new User(null, null) );
-        // Username min 5, Password min 8
-        //assertThrows(IllegalArgumentException.class,() -> userRepository.save(new User("usn", "psw")) );
-
-
         User userTooSmall = new User("usn", "psw");
         User userTooBig = new User("username123456789123456789", "password");
         User userNotUnique = new User("username", "password");
+
+        // Username and Password cannot be null
+        assertThrows(IllegalArgumentException.class,() -> new User(null, null) );
 
         // Username and Password too small
         userRepository.save(userTooSmall);
@@ -74,7 +70,7 @@ public class UserTests {
     @Test
     @DisplayName("givenGettersSetter_whenGetSet_CorrectResults")
     public void getterSetterTests() {
-        user =  new User("username", "password");
+
         userRepository.save(user);
 
         // Getter Tests
