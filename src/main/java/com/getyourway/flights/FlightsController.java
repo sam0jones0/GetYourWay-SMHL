@@ -1,6 +1,6 @@
 package com.getyourway.flights;
 
-import static com.getyourway.Constants.*;
+import com.getyourway.flights.Exception.AirportNotFoundException;
 import com.getyourway.flights.localairportdb.InternalAirport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
+
+import static com.getyourway.Constants.*;
 
 /**
  * REST API Controller for all requests to the internal flightsService.
@@ -36,7 +38,7 @@ public class FlightsController {
    * @param depDate ISO 8601 date string. No time needed. E.g. 2022-09-27
    * @return Response entity with FlightDTOs represented as JSON in the body.
    */
-  @GetMapping(value = "flightSchedule", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "flightSchedule")
   public ResponseEntity<List<FlightDTO>> getFlightSchedule(
       @RequestParam @Size(min = 4, max = 4, message = "ICAO code must be exactly 4 characters")
           String depIcao,
@@ -57,17 +59,14 @@ public class FlightsController {
    * @return Response entity with AirportNearbyResponse represented as JSON in the body. Airports
    *     are sorted by closest -> furthest.
    */
-  @GetMapping(value = "nearbyairports", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "nearbyairports")
   public ResponseEntity<AirportResponseDTO> getNearbyAirports(
-      @RequestParam float lat,
-      @RequestParam float lon) {
+      @RequestParam float lat, @RequestParam float lon) {
 
-        // Validate lat/lon input
-        if (lat < LAT_MIN || lat > LAT_MAX || lon < LON_MIN || lon > LON_MAX) {
-          return ResponseEntity
-          .status(HttpStatus.BAD_REQUEST)
-          .body(null);
-      }
+    // Validate lat/lon input
+    if (lat < LAT_MIN || lat > LAT_MAX || lon < LON_MIN || lon > LON_MAX) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
 
     AirportResponseDTO response = flightsService.getAirportsNearby(lat, lon);
     return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -81,13 +80,16 @@ public class FlightsController {
    * @return Response entity with AirportNearbyResponse (encloses an airport object with addition
    *     full lat/lon information) as JSON in the body.
    */
-  @GetMapping(value = "airportsearch", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "airportsearch")
   public ResponseEntity<List<InternalAirport>> getAirportByText(
       @RequestParam
           @Size(min = 3, max = 30, message = "Search term must be between 3 and 30 characters.")
           String searchTerm) {
-    // FIXME: Query in repo not working.
-    List<InternalAirport> response = flightsService.getAirportByText(searchTerm);
-    return ResponseEntity.status(HttpStatus.OK).body(response);
+    try {
+      List<InternalAirport> response = flightsService.getAirportByText(searchTerm);
+      return ResponseEntity.status(HttpStatus.OK).body(response);
+    } catch (AirportNotFoundException exception) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
   }
 }

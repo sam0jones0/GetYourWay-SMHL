@@ -61,10 +61,10 @@ public class FlightsService {
         .block();
   }
 
-  public List<InternalAirport> getAirportByText(String searchTerm) {
-    // FIXME: Query in repo not working.
-    //    return this.internalAirportRepo.getByUserString(searchTerm).orElse(null);
-    throw new NotImplementedException();
+  public List<InternalAirport> getAirportByText(String searchTerm) throws AirportNotFoundException {
+    return this.internalAirportRepo
+        .getByUserString(searchTerm)
+        .orElseThrow(AirportNotFoundException::new);
   }
 
   private AirportScheduleResponseDTO getAirportSchedule(String depIcao, LocalDate date) {

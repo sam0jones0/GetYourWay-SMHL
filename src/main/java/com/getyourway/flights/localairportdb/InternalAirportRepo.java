@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface InternalAirportRepo extends JpaRepository<InternalAirport, String> {
 
+  @Query("select i from InternalAirport i where i.icao = ?1")
   public Optional<List<InternalAirport>> getAirportByIcao(String icao);
 
   public Optional<List<InternalAirport>> getAirportByIata(String iata);
@@ -18,9 +19,8 @@ public interface InternalAirportRepo extends JpaRepository<InternalAirport, Stri
   public Optional<List<InternalAirport>> getAirportByCityContainsIgnoreCase(String city);
 
   // FIXME: Query does not work.
-//  @Query(
-//      value =
-//          "SELECT * FROM airports where city like '%:input%' or country like '%:input%' or icao like '%:input%' or iata like '%:input%'",
-//      nativeQuery = true)
-//  public Optional<List<InternalAirport>> getByUserString(@Param("input") String searchQuery);
+  @Query(
+      value =
+          "SELECT i FROM InternalAirport i where i.name like ?1 or i.city like ?1 or i.country like ?1 or i.icao like ?1 or i.iata like ?1")
+  public Optional<List<InternalAirport>> getByUserString(@Param("input") String searchQuery);
 }
