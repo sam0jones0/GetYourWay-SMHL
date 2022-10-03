@@ -12,15 +12,15 @@ import java.util.Optional;
 public interface InternalAirportRepo extends JpaRepository<InternalAirport, String> {
 
   @Query("select i from InternalAirport i where i.icao = ?1")
-  public Optional<List<InternalAirport>> getAirportByIcao(String icao);
+  Optional<List<InternalAirport>> getAirportByIcao(String icao);
 
-  public Optional<List<InternalAirport>> getAirportByIata(String iata);
+  Optional<List<InternalAirport>> getAirportByIata(String iata);
 
-  public Optional<List<InternalAirport>> getAirportByCityContainsIgnoreCase(String city);
+  Optional<List<InternalAirport>> getAirportByCityContainsIgnoreCase(String city);
 
   // FIXME: Query does not work.
   @Query(
       value =
           "SELECT i FROM InternalAirport i where i.name like ?1 or i.city like ?1 or i.country like ?1 or i.icao like ?1 or i.iata like ?1")
-  public Optional<List<InternalAirport>> getByUserString(@Param("input") String searchQuery);
+  Optional<List<InternalAirport>> getByUserString(@Param("input") String searchQuery);
 }

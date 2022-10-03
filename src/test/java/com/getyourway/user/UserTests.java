@@ -74,7 +74,7 @@ public class UserTests {
     @Test
     @DisplayName("givenGettersSetter_whenGetSet_CorrectResults")
     public void getterSetterTests() {
-
+        user =  new User("username", "password");
         userRepository.save(user);
 
         // Getter Tests
