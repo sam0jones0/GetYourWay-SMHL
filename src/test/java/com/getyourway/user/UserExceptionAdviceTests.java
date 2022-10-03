@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,6 +30,7 @@ public class UserExceptionAdviceTests {
     UserExceptionAdvice userExceptionAdvice;
 
     @Test
+    @DisplayName("givenUserNotFound_WhenExceptionHandler_ReturnResponseObject")
     public void UserNotFoundHandlerTest() throws Exception {
 
         UserNotFoundException userNotFoundException = new UserNotFoundException(1L);
@@ -42,14 +44,23 @@ public class UserExceptionAdviceTests {
     }
 
     @Test
-    public void handleMethodArgumentNotValidTest() throws Exception {
+    @DisplayName("givenErrorDetails_WhenResponseBuilder_ReturnJSONObject")
+    public void responseBuilderTest() throws Exception {
 
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        int status = HttpStatus.BAD_REQUEST.value();
+        String error = "BAD_REQUEST";
+        String message = "Some error message";
+        String path = "/";
+
+        JSONObject response = userExceptionAdvice.responseBuilder(timestamp, status, error, message, path);
+
+        assertEquals(response.get("timestamp"), timestamp);
+        assertEquals(response.get("status"), status);
+        assertEquals(response.get("error"), error);
+        assertEquals(response.get("message"), message);
+        assertEquals(response.get("path"), path);
 
     }
 
-    @Test
-    @DisplayName("Test1")
-    public void responseBuilder() throws Exception {
-
-    }
 }
