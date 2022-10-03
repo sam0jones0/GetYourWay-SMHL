@@ -28,11 +28,11 @@ public class UserTests {
 
     private User user;
 
-    @BeforeAll
-    public void setup() {
-        user = new User("username", "password");
-        user.setRoles(Constants.USER);
-    }
+//    @BeforeAll
+//    public void setup() {
+//        user = new User("username", "password");
+//        user.setRoles(Constants.USER);
+//    }
 
     // Create User Test
     @Test
@@ -136,6 +136,5 @@ public class UserTests {
         assertEquals(returned.getRoles(), user.getRoles());
 
     }
-
 
 }

@@ -46,6 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /*@SpringBootTest(classes = UserController.class)
 //@WebMvcTest(controllers = UserController.class)
 //@WebMvcTest(UserController.class)
+@SpringBootTest(classes = UserController.class)
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith({OutputCaptureExtension.class, MockitoExtension.class, SpringExtension.class})
@@ -350,6 +351,7 @@ public class UserControllerTests {
         response.andExpect(status().isNoContent());
 
     }
+
 
     //TODO: This should return 404 status but returns 204 and fails
     /*@Test
