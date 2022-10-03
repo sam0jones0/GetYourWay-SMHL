@@ -80,8 +80,10 @@ public class User {
         if (!(o instanceof User))
             return false;
         User user = (User) o;
+
+        //Two bcrypt passwords will never be equals
         return Objects.equals(this.id, user.id) && Objects.equals(this.username, user.username)
-                && Objects.equals(this.password, user.password) && Objects.equals(this.roles, user.roles);
+                && Objects.equals(this.roles, user.roles);
     }
 
     @Override
