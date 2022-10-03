@@ -18,7 +18,6 @@ public interface InternalAirportRepo extends JpaRepository<InternalAirport, Stri
 
   Optional<List<InternalAirport>> getAirportByCityContainsIgnoreCase(String city);
 
-  // FIXME: Query does not work.
   @Query(
       value =
           "SELECT i FROM InternalAirport i where i.name like ?1 or i.city like ?1 or i.country like ?1 or i.icao like ?1 or i.iata like ?1")
