@@ -88,6 +88,9 @@ public class FlightsController {
       @RequestParam
           @Size(min = 3, max = 30, message = "Search term must be between 3 and 30 characters.")
           String searchTerm) {
+    if (searchTerm.length() < 3 || searchTerm.length() > 30) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
     try {
       List<InternalAirport> response = flightsService.getAirportByText(searchTerm);
       return ResponseEntity.status(HttpStatus.OK).body(response);
