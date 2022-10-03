@@ -132,6 +132,7 @@ public class UserController {
      * @return ResponseEntity -> HTTP response containing just the NO_CONTENT HTTP status code
      */
     @DeleteMapping("/{id}")
+    @Secured(Constants.ADMIN)
     @PreAuthorize("@userService.isCurrentUserOrAdmin(principal.getUsername(), #id)")//principal is of type UserDetailsImpl
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 
