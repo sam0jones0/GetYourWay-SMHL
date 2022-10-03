@@ -1,6 +1,7 @@
 package com.getyourway.authentication;
 
 import com.getyourway.repository.UserRepository;
+import com.getyourway.user.Exception.UserNotFoundException;
 import com.getyourway.user.User;
 import com.getyourway.user.UserModelAssembler;
 import org.slf4j.Logger;
@@ -54,6 +55,11 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam("username") final String username, @RequestParam("password") final String password, final HttpServletRequest request) {
+
+        //Check user exists by username
+        if (userRepository.findByUsername(username) == null) {
+            throw new UserNotFoundException(username);
+        }
 
         //Create new authToken and new authentication object
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, password);
