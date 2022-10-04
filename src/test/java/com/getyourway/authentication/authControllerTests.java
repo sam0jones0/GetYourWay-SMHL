@@ -149,7 +149,6 @@ public class authControllerTests {
                 .andExpect(status().isUnauthorized());
 
         assertTrue(output.getOut().contains("Incorrect login attempt for account id: " + user.getId()));
-        //TODO: Assert Response Body is Correct
     }
 
     @Test

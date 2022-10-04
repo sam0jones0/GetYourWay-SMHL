@@ -93,11 +93,18 @@ public class AuthController {
 
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body("TODO: Decide what to place in this response body"); //TODO decide what to return as response
+                    .body("Password is incorrect");
         }
 
     }
 
+    /**
+     * Checks if a user is authenticated or not. Used for server-side session
+     * checking as JSESSIONID cookies are HTTP Only
+     *
+     * @return EntityModel<User> if the user is authenticated. Or 401 status
+     *          if user is not authorized
+     */
     @GetMapping("/isUserAuthenticated")
     public ResponseEntity<?> getAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
