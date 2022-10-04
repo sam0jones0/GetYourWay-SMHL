@@ -26,6 +26,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ActiveProfiles;
@@ -35,6 +36,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -187,6 +190,46 @@ public class authControllerTests {
         //...assert
         assertTrue(output.getOut().contains("User logged out with id: "));
         assertNull(SecurityContextHolder.getContext().getAuthentication());
+
+    }
+
+    @Test
+    @DisplayName("givenAnonymousUser_WhenCheckAuthentication_ReturnUnauthorized")
+    @WithAnonymousUser
+    public void getAuthenticationAnonymousTest() throws Exception {
+
+        //Given when...
+        ResultActions response = mockMvc.perform(get("/api/auth/isUserAuthenticated"));
+
+        //...assert
+        response
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$", is("User is not logged in")));
+    }
+
+    @Test
+    @DisplayName("givenAuthenticatedUser_WhenCheckAuthentication_ReturnOK")
+    @WithMockUser
+    public void getAuthenticationUserTest() throws Exception {
+
+        //Given...
+        EntityModel<User> entityModel = EntityModel.of(user,
+                linkTo(methodOn(UserController.class).getThisUser(user.getId())).withSelfRel(),
+                linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
+
+        given(userRepository.findByUsername(any())).willReturn(user);
+        given(userModelAssembler.toModel(any())).willReturn(entityModel);
+
+        // ...when...
+        ResultActions response = mockMvc.perform(get("/api/auth/isUserAuthenticated"));
+
+        //...assert
+        response
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(user.getId().intValue())))
+                .andExpect(jsonPath("$.username", is(user.getUsername())))
+                .andExpect(jsonPath("$.password").doesNotExist())
+                .andExpect(jsonPath("$.roles", is(user.getRoles())));
 
     }
 
