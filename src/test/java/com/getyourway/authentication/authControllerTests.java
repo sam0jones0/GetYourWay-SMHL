@@ -18,12 +18,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -34,6 +37,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -41,6 +45,7 @@ import static org.mockito.Mockito.mock;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -162,6 +167,26 @@ public class authControllerTests {
         response
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message", is("Could not find user " + username)));
+
+    }
+
+    @Test
+    @DisplayName("givenAuthenticatedUser_WhenLogout_LogoutUser")
+    @WithMockUser
+    public void logoutSuccess(CapturedOutput output) throws Exception {
+
+        //Given...
+        Authentication authentication = mock(Authentication.class);
+        authentication.setAuthenticated(true);
+
+        given(userRepository.findByUsername(any())).willReturn(user);
+
+        //...when...
+        ResultActions response = mockMvc.perform(get("/api/auth/logout"));
+
+        //...assert
+        assertTrue(output.getOut().contains("User logged out with id: "));
+        assertNull(SecurityContextHolder.getContext().getAuthentication());
 
     }
 
