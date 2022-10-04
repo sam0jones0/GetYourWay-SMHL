@@ -12,4 +12,14 @@ public class UserNotFoundException extends RuntimeException {
         super("Could not find user " + id);
     }
 
+    /**
+     * Exception for when a user does not exist in the
+     * user repository
+     *
+     * @param username The String username of the user that was requested (but not found)
+     */
+    public UserNotFoundException(String username) {
+        super("Could not find user " + username);
+    }
+
 }
