@@ -5,12 +5,8 @@ import com.getyourway.flights.localairportdb.InternalAirport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -23,6 +19,7 @@ import static com.getyourway.Constants.*;
  *
  * <p>Provides methods to access information on airports, their location and flight departures.
  */
+@CrossOrigin
 @RestController
 @RequestMapping("api/flights")
 public class FlightsController {
@@ -45,8 +42,12 @@ public class FlightsController {
       @RequestParam @Size(min = 4, max = 4, message = "ICAO code must be exactly 4 characters")
           String arrIcao,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate depDate) {
-    List<FlightDTO> response = flightsService.getFlightSchedule(depIcao, arrIcao, depDate);
-    return ResponseEntity.status(HttpStatus.OK).body(response);
+    try {
+      List<FlightDTO> response = flightsService.getFlightSchedule(depIcao, arrIcao, depDate);
+      return ResponseEntity.status(HttpStatus.OK).body(response);
+    } catch (AirportNotFoundException exception) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
   }
 
   /**
@@ -77,14 +78,17 @@ public class FlightsController {
    *
    * @param searchTerm Airport name or iata/icao code text string to search for. E.g. "Heathrow" or
    *     "LHR".
-   * @return Response entity with AirportNearbyResponse (encloses an airport object with addition
-   *     full lat/lon information) as JSON in the body.
+   * @return Response entity with AirportNearbyResponse (encloses a list of Airport objects) as JSON
+   *     in the body.
    */
   @GetMapping(value = "airportsearch")
   public ResponseEntity<List<InternalAirport>> getAirportByText(
       @RequestParam
           @Size(min = 3, max = 30, message = "Search term must be between 3 and 30 characters.")
           String searchTerm) {
+    if (searchTerm.length() < 3 || searchTerm.length() > 30) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
     try {
       List<InternalAirport> response = flightsService.getAirportByText(searchTerm);
       return ResponseEntity.status(HttpStatus.OK).body(response);
