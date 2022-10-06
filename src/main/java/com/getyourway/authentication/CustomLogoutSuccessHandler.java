@@ -26,7 +26,7 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler im
     }
 
     /**
-     * Instructs Spring Security on what to do upon succesul logout. Logs the user that successfully
+     * Instructs Spring Security on what to do upon successful logout. Logs the user that successfully
      * logged out and returns a Https No content stats
      *
      * @param request The HTTPServletRequest request to logout a user

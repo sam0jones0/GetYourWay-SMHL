@@ -1,6 +1,5 @@
 package com.getyourway;
 
-import org.aspectj.apache.bcel.util.ClassPath;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +17,12 @@ public class GetyourwayApplication {
     SpringApplication.run(GetyourwayApplication.class, args);
   }
 
+  /**
+   * Populates the production database `airports` table with data from the allAirports.json
+   * resource.
+   *
+   * @return A JSON to repository factory bean.
+   */
   @Profile({"prod"})
   @Bean
   public Jackson2RepositoryPopulatorFactoryBean getRespositoryPopulator() {

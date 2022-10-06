@@ -10,7 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-//@Import(InternalAirport.class)
+@Import(InternalAirport.class)
 @Sql(value = "classpath:airports-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @ActiveProfiles("flighttest")
 public class InternalAirportTests {
