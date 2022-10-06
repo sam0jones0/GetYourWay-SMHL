@@ -36,10 +36,10 @@ function LoginLogoutButton() {
     // Conditional login/logout links
     let authLink;
     if (authenticated) {
-        authLink = <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+        authLink = <button className="btn btn-dark" onClick={handleLogout}>Logout</button>
     } else {
         authLink =  <Link to="/login">
-                        <button className="btn btn-primary">
+                        <button className="btn btn-dark">
                             Login
                         </button>
                     </Link>
@@ -71,17 +71,6 @@ function LoginLogoutButton() {
     return (
         authLink
     )
-
-    // Make a get call
-
-    // Make get call once per render
-    // Set state to true of false
-
-    // If user is authed, change to a logout button (and render profile)
-    // If user is not authed, change to login button
-
-    // Login button -> onclick navigate to login
-    // Logout button -> onClick, process logout
 }
 
 export default LoginLogoutButton;
