@@ -1,11 +1,14 @@
 import React from 'react';
 import logo from '../Sky.png'
+import LoginLogoutButton from './LoginLogoutButton/LoginLogoutButton';
+import { Link } from "react-router-dom";
 
 const Header = () => {
+
   return (
     <nav class="navbar bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
           <img
             src={logo}
             alt="Logo"
@@ -15,7 +18,12 @@ const Header = () => {
           />
           GetYourWay.com
         </a>
-        <button class="btn btn-dark d-flex">Login</button>
+        <div className="m-1 row">
+          <a class="nav-link col-md-6" style={{}}>{<Link to="/signup">Sign Up</Link>}</a>
+          <div className='col-md-6'>
+            <LoginLogoutButton />
+          </div>
+        </div>
       </div>
     </nav>
   );
