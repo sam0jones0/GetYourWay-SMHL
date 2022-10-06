@@ -9,13 +9,12 @@ function SelectDate(props) {
   };
   return (
     <div>
-      <h3>This is where the calendar goes</h3>
-      <Calendar
+      {/* <Calendar
         onChange={onDateChange}
         locale={"en-GB"}
         showNeighboringMonth={false}
         value={props.tripDate}
-      />
+      /> */}
     </div>
   );
 }

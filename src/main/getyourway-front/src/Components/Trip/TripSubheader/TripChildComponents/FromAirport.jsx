@@ -46,16 +46,47 @@ function FromAirport(props) {
       // data = data.json();
       // console.log(data);
       props.setNearbyAirports(data);
-      console.log(JSON.stringify(data));
+
+      if (data.length > 0) {
+        props.setDepartureAirport(data[0]);
+      }
+
+      // console.log(JSON.stringify(data));
     });
   }, []);
 
   // console.log(props.getNearbyAirports);
 
   return (
-    <h3>
-      User location is {props.userLocation[0]},{props.userLocation[1]}{" "}
-    </h3>
+    <>
+      {/* <h3>
+        User location is {props.userLocation[0]},{props.userLocation[1]}{" "}
+      </h3> */}
+      <div class="form-outline">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-circle-fill"
+              viewBox="0 0 16 16"
+            >
+              <circle cx="8" cy="8" r="8" />
+            </svg>
+          </span>
+          <input
+            type="text"
+            id="formControlLg"
+            class="form-control form-control-lg"
+            placeholder="From Airport"
+            aria-label="Departure Airport"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+      </div>
+    </>
   );
 }
 
