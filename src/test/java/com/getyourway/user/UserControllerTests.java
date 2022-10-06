@@ -1,7 +1,12 @@
 package com.getyourway.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.getyourway.Constants;
+import com.getyourway.WebSecurityConfig;
 import com.getyourway.repository.UserRepository;
+import com.getyourway.user.Exception.UserExceptionAdvice;
+import com.getyourway.user.Exception.UserNotFoundException;
+import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +28,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -32,28 +39,22 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/*@SpringBootTest(classes = UserController.class)
-//@WebMvcTest(controllers = UserController.class)
-//@WebMvcTest(UserController.class)
 @SpringBootTest(classes = UserController.class)
-@AutoConfigureMockMvc
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ExtendWith({OutputCaptureExtension.class, MockitoExtension.class, SpringExtension.class})
-@EnableWebMvc*/
-//@RunWith(SpringRunner.class)
-@SpringBootTest(classes = UserController.class)
+@Import({WebSecurityConfig.class, UserExceptionAdvice.class})
 @AutoConfigureMockMvc
 @EnableWebMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -166,8 +167,7 @@ public class UserControllerTests {
 
     }
 
-    //TODO: 200 but expected 403
-    /*@Test
+    @Test
     @WithMockUser(authorities = Constants.USER)
     @DisplayName("givenUser_whenGetUsers_thenStatus403Forbidden")
     public void testGetUsersAsNonAdmin (CapturedOutput output) throws Exception {
@@ -187,7 +187,7 @@ public class UserControllerTests {
 
         assertFalse(output.getOut().contains("All users requested by: " + Constants.ADMIN));
 
-    }*/
+    }
 
     @Test
     @WithMockUser("user1")
@@ -218,11 +218,14 @@ public class UserControllerTests {
                 .andExpect(jsonPath("$.links[1].href", is(BASE_PATH)));
     }
 
-    //TODO: Preauth not working
+    // TODO: Pre-auth not working
     /*@Test
     @WithMockUser("user2")
     @DisplayName("givenUser_whenGetUserWithId_thenForbiddenStatus403")
     public void testGetDifferentUser() throws Exception {
+
+        //Given...
+        given(userService.isCurrentUserOrAdmin("user2", user1.getId())).willReturn(false);
 
         //...when...
         ResultActions response = mockMvc.perform(get("/api/users/{id}", user1.getId())
@@ -237,14 +240,14 @@ public class UserControllerTests {
                 .andExpect(jsonPath("$.roles").doesNotExist());
     }*/
 
-    /*@Test
+    @Test
     @WithMockUser("admin")
     @DisplayName("givenNonUser_whenGetUserWithId_thenNotFound404")
     public void testGetNonExistentUser() throws Exception {
 
         //Given
         long nonUser = 10L;
-        given(userRepository.findById(nonUser)).willThrow(UserNotFoundException.class);
+        given(userService.findById(nonUser)).willThrow(UserNotFoundException.class);
 
         //...when...
         ResultActions response = mockMvc.perform(get("/api/users/{id}", 10) //id 10 does not exist
@@ -252,15 +255,13 @@ public class UserControllerTests {
 
         //...assert.
         response
-                .andExpect(status().isForbidden())
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.id").doesNotExist())
                 .andExpect(jsonPath("$.username").doesNotExist())
                 .andExpect(jsonPath("$.password").doesNotExist())
                 .andExpect(jsonPath("$.roles").doesNotExist());
-    }*/
+    }
 
-    //TODO: Expected 201, Actual 403
-    /*
     @Test
     @DisplayName("givenAnyUser_whenCreateUser_CreateUser")
     public void testCreateUser(CapturedOutput output) throws Exception {
@@ -269,7 +270,7 @@ public class UserControllerTests {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username", user1.getUsername());
         jsonObject.put("password", user1.getPassword());
-        jsonObject.put("roles", Constants.ADMIN); // This should succesfully default to ROLE_USER as incorrect privaleges
+        jsonObject.put("roles", Constants.ADMIN);
         jsonObject.toJSONString();
 
         EntityModel<User> entityModel = EntityModel.of(user1,
@@ -293,26 +294,24 @@ public class UserControllerTests {
                 .andExpect(jsonPath("$.id", is(user1.getId().intValue())))
                 .andExpect(jsonPath("$.username", is(user1.getUsername())))
                 .andExpect(jsonPath("$.password").doesNotExist())
-                .andExpect(jsonPath("$.roles", is(Constants.USER))) // New user should not be able to assign themselves as ADMIN
-                .andExpect(jsonPath("$._links.self.href", is(BASE_PATH + "/" + user1.getId().intValue())))
-                .andExpect(jsonPath("$._links.users.href", is(BASE_PATH)));
+                .andExpect(jsonPath("$.roles", is(Constants.USER)));
 
         assertTrue(output.getOut().contains("New user created with id: " + user1.getId()));
-    }*/
+    }
 
-    //TODO: Expected 400, Actual 403
-    /*@Test
+    @Test
     @DisplayName("givenAnyUser_whenCreateUserInvalid_BadRequest400")
     public void testInvalidUser(CapturedOutput output) throws Exception {
 
         //Given...
         JSONObject invalidUser = new JSONObject();
-        invalidUser.put("username", user1.getUsername());
+        invalidUser.put("username", "user");
         invalidUser.put("password", "pas");
         invalidUser.put("roles", Constants.ADMIN);
         invalidUser.toJSONString();
 
         given(userRepository.findByUsername(user1.getUsername())).willReturn(user1);
+        //given
 
         //...when...
         ObjectMapper objectMapper = new ObjectMapper();
@@ -325,28 +324,20 @@ public class UserControllerTests {
         //...assert.
         response
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.username", is("Username is already taken")))
+                .andExpect(jsonPath("$.username", is("Username must be between 5 and 20")))
                 .andExpect(jsonPath("$.password", is("Password must be at least 8 characters")));
 
         assertFalse(output.getOut().contains("New user created with id: " + user1.getId()));
-    }*/
+
+    }
 
     @Test
     @WithMockUser(authorities = {Constants.ADMIN})
     @DisplayName("givenAdminOrCurrentUser_whenDeleteUser_DeleteUser")
     public void testDeleteUser(CapturedOutput output) throws Exception {
 
-        //Given...
-        //doNothing().when(userRepository).deleteById(any());
-        //given(userRepository.findByUsername(user1.getUsername())).willReturn(user1);
-        //given(userService.isCurrentUserOrAdmin(any(), anyLong())).willReturn(true);
-
-        //given(userRepository.findById(1L)).willReturn(Optional.of(user1));
-        //given(userService.isCurrentUserOrAdmin(user1.getUsername(), user1.getId())).willReturn(true);
-
         //...when...
         ResultActions response = mockMvc.perform(delete("/api/users/{id}", 1l).with(csrf()));
-        //ResultActions response = mockMvc.perform(delete("/api/users/{id}", 1l));
 
         //...assert
         assertTrue(output.getOut().contains("User deleted with id: " + user1.getId()));
@@ -354,17 +345,15 @@ public class UserControllerTests {
 
     }
 
-
-    //TODO: This should return 404 status but returns 204 and fails
-    /*@Test
+    @Test
     @WithMockUser(authorities = Constants.ADMIN)
     @DisplayName("givenAdminOrCurrentUser_whenDeleteNonUser_DeleteUser")
     public void testDeleteUserNotFound(CapturedOutput output) throws Exception {
 
         //Given...
         long invalidUser = 10L;
-        given(userService.isCurrentUserOrAdmin(any(), anyLong())).willReturn(true);
-        given(userRepository.findById(invalidUser)).willThrow(UserNotFoundException.class);
+
+        willThrow(UserNotFoundException.class).given(userService).deleteById(invalidUser);
 
         //...when...
         ResultActions response = mockMvc.perform(delete("/api/users/{id}", invalidUser));
@@ -373,7 +362,10 @@ public class UserControllerTests {
         response
                 .andExpect(status().isNotFound());
         assertFalse(output.getOut().contains("User deleted with id: " + user1.getId()));
-    }*/
+    }
+
+    // Test Helper
+    // response.andDo(MockMvcResultHandlers.print());
 
 
 }

@@ -3,7 +3,6 @@ package com.getyourway.flights;
 import com.getyourway.flights.Exception.AirportNotFoundException;
 import com.getyourway.flights.localairportdb.InternalAirport;
 import com.getyourway.flights.localairportdb.InternalAirportRepo;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/** Internal service for accessing airport/flight information from external APIs and internal database resources
+ * */
 @Service
 public class FlightsService {
 

@@ -12,6 +12,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 @CrossOrigin
 @RestController
@@ -57,9 +59,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam("username") final String username, @RequestParam("password") final String password, final HttpServletRequest request) {
 
-        if(userRepository.findByUsername(username) == null) {
+        //Check user exists by username
+        if (userRepository.findByUsername(username) == null) {
             throw new UserNotFoundException(username);
         }
+
         //Create new authToken and new authentication object
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, password);
         Authentication auth;
@@ -94,8 +98,35 @@ public class AuthController {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(response);
+
         }
 
     }
+
+    /**
+     * Checks if a user is authenticated or not. Used for server-side session
+     * checking as JSESSIONID cookies are HTTP Only
+     *
+     * @return EntityModel<User> if the user is authenticated. Or 401 status
+     *          if user is not authorized
+     */
+    @GetMapping("/isUserAuthenticated")
+    public ResponseEntity<?> getAuthentication() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not logged in");
+        } else {
+            User user = userRepository.findByUsername(authentication.getName());
+            EntityModel<User> entityModel = userAssembler.toModel(user);
+
+            return ResponseEntity
+                    .ok()
+                    .header("Location", String.valueOf(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()))
+                    .body(entityModel);
+        }
+
+    }
+
 
 }
