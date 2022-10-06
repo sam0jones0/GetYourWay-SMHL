@@ -1,0 +1,11 @@
+.form-side {
+    border-color: grey;
+    border-width: 0.5px;
+    border-style: none none none solid;
+    height: 100%;
+}
+
+.signup-card {
+    width: 60%;
+    margin: auto;
+}

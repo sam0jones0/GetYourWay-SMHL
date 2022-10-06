@@ -46,14 +46,13 @@ function Form() {
                 navigate('/');
         } else if(response.status == 404)  { //User not found
             setUsernameError(responseJson.message);
-        }  else if(response.status == 401)  { //Incorrect Password
+        }  else if(response.status == 401)  { //Incorrect password
             setPasswordError(responseJson.message);
         }
         
             
     }
     
-    console.log(passwordError);
     // Return
     return (
         <form className="p-2" onSubmit={handleSubmit}>
