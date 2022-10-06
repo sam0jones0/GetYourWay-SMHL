@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 function ToAirport(props) {
   // destinationAirportProp={props.destinationAirport}
   // setDestinationAirport={props.setDestinationAirport}
@@ -9,9 +11,12 @@ function ToAirport(props) {
         <input
           type="text"
           value={props.destinationAirport}
-          onChange={(i) => props.setDestinationAirport(i.target.value)}
+          onSubmit={(i) =>
+            console.log(props.setDestinationAirport(i.target.value))
+          }
         />
       </label>
+      {console.log(props.destinationAirport)}
     </form>
   );
 }

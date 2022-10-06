@@ -10,17 +10,21 @@ export default function Trip() {
   const [tripDate, setTripDate] = useState(new Date());
 
   return (
-    <TripSubheader
-      userLocation={userLocation}
-      setUserLocation={setUserLocation}
-      nearbyAirports={nearbyAirports}
-      setNearbyAirports={setNearbyAirports}
-      departureAirportProp={departureAirport}
-      setDepartureAirport={setDepartureAirport}
-      destinationAirportProp={destinationAirport}
-      setDestinationAirport={setDestinationAirport}
-      tripDateProp={tripDate}
-      setTripDate={setTripDate}
-    />
+    <div>
+      <TripSubheader
+        userLocation={userLocation}
+        setUserLocation={setUserLocation}
+        nearbyAirports={nearbyAirports}
+        setNearbyAirports={setNearbyAirports}
+        departureAirportProp={departureAirport}
+        setDepartureAirport={setDepartureAirport}
+        destinationAirportProp={destinationAirport}
+        setDestinationAirport={setDestinationAirport}
+        tripDateProp={tripDate}
+        setTripDate={setTripDate}
+      />
+      {console.log(destinationAirport)}
+      {console.log(tripDate)}
+    </div>
   );
 }
