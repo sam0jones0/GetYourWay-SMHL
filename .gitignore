@@ -29,28 +29,12 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-./src/main/getyourway-front/### VS Code ###
-./src/main/getyourway-front/.vscode/
-./src/main/getyourway-front/.run/GetyourwayApplication.run.xml
-./src/main/getyourway-front/src/main/java/com/getyourway/.DS_Store
-./src/main/getyourway-front/bitwiseserv.pem
-./src/main/getyourway-front/# dependencies
-./src/main/getyourway-front//node_modules
-./src/main/getyourway-front/.pnp
-./src/main/getyourway-front/.pnp.js
-
-./src/main/getyourway-front/coverage
-
-./src/main/getyourway-front/build
-
-./src/main/getyourway-front/.DS_Store
-./src/main/getyourway-front/.env.local
-./src/main/getyourway-front/.env.development.local
-./src/main/getyourway-front/.env.test.local
-./src/main/getyourway-front/.env.production.local
-./src/main/getyourway-front/npm-debug.log*
-./src/main/getyourway-front/yarn-debug.log*
-./src/main/getyourway-front/yarn-error.log*
-./src/main/getyourway-front/package.json
-
+### VS Code ###
+.vscode/
+/.run/GetyourwayApplication.run.xml
+src/main/java/com/getyourway/.DS_Store
+bitwiseserv.pem
+/src/main/getyourway-front/build/
 /src/main/getyourway-front/node_modules/
+.DS_Store
+.DS_Store

@@ -1,6 +1,6 @@
 import ToAirport from "./TripChildComponents/ToAirport";
 import FromAirport from "./TripChildComponents/FromAirport";
-import Calendar from "./TripChildComponents/Calendar";
+import SelectDate from "./TripChildComponents/SelectDate";
 
 function TripSubheader(props) {
   return (
@@ -17,7 +17,10 @@ function TripSubheader(props) {
         destinationAirportProp={props.destinationAirport}
         setDestinationAirport={props.setDestinationAirport}
       />
-      <Calendar tripDateProp={props.tripDate} setTripDate={props.setTripDate} />
+      <SelectDate
+        tripDateProp={props.tripDate}
+        setTripDate={props.setTripDate}
+      />
     </div>
   );
 }
