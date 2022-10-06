@@ -1,8 +1,10 @@
 package com.getyourway.authentication;
 
 import com.getyourway.repository.UserRepository;
+import com.getyourway.user.Exception.UserNotFoundException;
 import com.getyourway.user.User;
 import com.getyourway.user.UserModelAssembler;
+import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam("username") final String username, @RequestParam("password") final String password, final HttpServletRequest request) {
 
+        if(userRepository.findByUsername(username) == null) {
+            throw new UserNotFoundException(username);
+        }
         //Create new authToken and new authentication object
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, password);
         Authentication auth;
@@ -83,9 +88,12 @@ public class AuthController {
         } catch (BadCredentialsException error) {
             LOG.error("Incorrect login attempt for account id: " + userRepository.findByUsername(username).getId());
 
+            JSONObject response = new JSONObject();
+            response.appendField("message", "Incorrect password");
+
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body("TODO: Decide what to place in this response body"); //TODO decide what to return as response
+                    .body(response);
         }
 
     }
