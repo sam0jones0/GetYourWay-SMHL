@@ -54,5 +54,9 @@ build/
 ./src/main/getyourway-front/package.json
 
 /src/main/getyourway-front/node_modules/
+<<<<<<< HEAD
 .DS_Store
 .DS_Store
+=======
+.run/GetyourwayApplication.run.xml
+>>>>>>> 7130e88 (add to gitignore)
