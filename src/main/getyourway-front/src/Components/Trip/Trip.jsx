@@ -7,7 +7,7 @@ export default function Trip() {
   const [nearbyAirports, setNearbyAirports] = useState({});
   const [departureAirport, setDepartureAirport] = useState({});
   const [destinationAirport, setDestinationAirport] = useState({});
-  const [tripDate, setTripDate] = useState({});
+  const [tripDate, setTripDate] = useState(new Date());
 
   return (
     <TripSubheader

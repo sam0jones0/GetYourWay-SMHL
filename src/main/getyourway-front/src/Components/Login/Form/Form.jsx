@@ -7,14 +7,17 @@ function Form() {
     // States
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [usernameError, setUsernameError] = useState(null);
+    const [passwordError, setPasswordError] = useState(null);
     let navigate = useNavigate();
 
     // On Submit button
     function handleSubmit(event){
         event.preventDefault();
+        setPasswordError(null);
+        setUsernameError(null);
         try {
             authenticateUser();
-            navigate('/');
         } catch (error) {
             console.log(error); 
         }
@@ -34,53 +37,62 @@ function Form() {
 
         // To Json
         let responseJson = await response.json();
+        console.log(response);
 
         // Process response
-        if (response.status === 200) { // OK response
+        if (response.status == 200) { // OK response
                 setUsername(""); 
                 setPassword("");
-        }; //Handle error messages from login here
-        //One for username not found 
-        //And one for password incorrect
+                navigate('/');
+        } else if(response.status == 404)  { //User not found
+            setUsernameError(responseJson.message);
+        }  else if(response.status == 401)  { //Incorrect Password
+            setPasswordError(responseJson.message);
+        }
         
             
     }
     
-    
-
+    console.log(passwordError);
     // Return
     return (
-        <form class="p-2" onSubmit={handleSubmit}>
+        <form className="p-2" onSubmit={handleSubmit}>
             {/* Username */}
-            <div class="form-outline mb-4">
-                <input type="text" class="form-control" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}/>
+            <div className="form-outline mb-4">
+                <input type="text" className="form-control" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required/>
+                {usernameError != null &&
+                    <p className="formError">{usernameError}</p>
+                }
             </div>
 
             {/* Password */}
-            <div class="form-outline mb-4">
-                <input type="password" class="form-control" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+            <div className="form-outline mb-4">
+                <input type="password" className="form-control" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                {passwordError != null &&
+                    <p className="formError">{passwordError}</p>
+                }
             </div>
 
-            <div class="row mb-4">
-                <div class="col-md-6 d-flex justify-content-center">
-                {/* Remember Checkbox */}
-                <div class="form-check mb-3 mb-md-0">
-                    <input class="form-check-input" type="checkbox" value="" checked />
-                    <label class="form-check-label" for="loginCheck"> Remember me </label>
-                </div>
+            <div className="row mb-4">
+                <div className="col-md-6 d-flex justify-content-center">
+                    {/* Remember Checkbox */}
+                    <div className="form-check mb-3 mb-md-0">
+                        <input className="form-check-input" type="checkbox" value="" checked />
+                        <label className="form-check-label"> Remember me </label>
+                    </div>
                 </div>
 
-                <div class="col-md-6 d-flex justify-content-center">
+                <div className="col-md-6 d-flex justify-content-center">
                 {/* Forgot Link */}
                 <a href="#!">Forgot password?</a>
                 </div>
             </div>
 
             {/* Submit button */}
-            <button type="submit" class="btn btn-primary mb-4 text-center">Login</button>
+            <button type="submit" className="btn btn-primary mb-4 text-center">Login</button>
             
             {/*} Register buttons */}
-            <div class="text-center">
+            <div className="text-center">
                 <p>Not a member? <a href="#!">Sign Up!</a></p>
             </div>
 

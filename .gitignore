@@ -36,4 +36,5 @@ src/main/java/com/getyourway/.DS_Store
 bitwiseserv.pem
 /src/main/getyourway-front/build/
 /src/main/getyourway-front/node_modules/
-
+.DS_Store
+.DS_Store

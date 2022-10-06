@@ -4,6 +4,7 @@ import com.getyourway.repository.UserRepository;
 import com.getyourway.user.Exception.UserNotFoundException;
 import com.getyourway.user.User;
 import com.getyourway.user.UserModelAssembler;
+import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,9 +92,13 @@ public class AuthController {
         } catch (BadCredentialsException error) {
             LOG.error("Incorrect login attempt for account id: " + userRepository.findByUsername(username).getId());
 
+            JSONObject response = new JSONObject();
+            response.appendField("message", "Incorrect password");
+
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body("Password is incorrect");
+                    .body(response);
+
         }
 
     }
