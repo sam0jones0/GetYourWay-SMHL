@@ -3,7 +3,7 @@ import "./Trip.css";
 import TripSubheader from "./TripSubheader/TripSubheader";
 
 export default function Trip() {
-  const [userLocation, setUserLocation] = useState({});
+  const [userLocation, setUserLocation] = useState([]);
   const [nearbyAirports, setNearbyAirports] = useState({});
   const [departureAirport, setDepartureAirport] = useState({});
   const [destinationAirport, setDestinationAirport] = useState({});
