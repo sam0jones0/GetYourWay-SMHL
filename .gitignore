@@ -54,3 +54,4 @@ build/
 ./src/main/getyourway-front/package.json
 
 /src/main/getyourway-front/node_modules/
+.DS_Store
