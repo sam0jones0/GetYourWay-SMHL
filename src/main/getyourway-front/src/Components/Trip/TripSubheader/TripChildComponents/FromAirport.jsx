@@ -1,40 +1,13 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 
-// Calls browser API for location.
-
-// Sets the nearby airports state of parent Trip.
-
-// Autofills its value to the nearest airport.
-
-// When clicked, does support free type which would call the internal API findAirportByText
-
-// nearbyAirports={props.nearbyAirports}
-// setNearbyAirports={props.setNearbyAirports}
-// userLocation={props.userLocation}
-// setUserLocation={props.setUserLocation}
-// departureAirportProp={props.departureAirport}
-// setDepartureAirport={props.setDepartureAirport}
-
+/**
+ * Calls browser API for location. Sets the nearby airports state of parent Trip.
+ * Autofills its value to the nearest airport.
+ * When clicked, does support free type which would call the internal API
+ *  findAirportByText
+ */
 function FromAirport(props) {
-  // const myPromise = new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     resolve("foo");
-  //   }, 300);
-  // });
-
-  // function browserGetUserLocation() {
-  //   return new Promise((resolve, reject) => {
-  //   if ("geolocation" in navigator) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       props.setUserLocation([
-  //         position.coords.latitude,
-  //         position.coords.longitude,
-  //         resolve()
-  //       ]);
-  //     });
-  //   }
-  // }, 0)}
-
   useEffect(() => {
     const getCoords = async () => {
       const pos = await new Promise((resolve, reject) => {
@@ -42,8 +15,8 @@ function FromAirport(props) {
       });
 
       return {
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude,
+        lat: Number(pos.coords.latitude).toFixed(5),
+        lon: Number(pos.coords.longitude).toFixed(5),
       };
     };
 
@@ -57,19 +30,23 @@ function FromAirport(props) {
           lat: coords.lat,
           lon: coords.lon,
         });
-      let response = await fetch(url, {
-        method: "GET",
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        mode: "no-cors",
+      let response = await axios.get(url, {
         headers: {
-          "Content-Type": "application/json",
+          method: "GET",
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          mode: "no-cors",
+          headers: {
+            Accept: "application/json",
+          },
         },
       });
-      return await response.json();
+      return response.data;
     };
     findNearbyAirports().then((data) => {
+      // data = data.json();
       // console.log(data);
       props.setNearbyAirports(data);
+      console.log(JSON.stringify(data));
     });
   }, []);
 

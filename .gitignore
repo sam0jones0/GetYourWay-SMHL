@@ -38,3 +38,4 @@ bitwiseserv.pem
 /src/main/getyourway-front/node_modules/
 .DS_Store
 .DS_Store
+.run/GetyourwayApplication.run.xml
