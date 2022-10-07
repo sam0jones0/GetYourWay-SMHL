@@ -13,6 +13,13 @@
   }
 }
 
+.navbar-brand h3 {
+  color: blue;
+  font-weight: bold;
+  margin-top: 2px;
+  margin-left: 5px;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

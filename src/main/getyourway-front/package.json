@@ -2,7 +2,7 @@
   "name": "getyourway-front",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8081",
+  "proxy": "http://localhost:443",
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.14.3",
     "@googlemaps/react-wrapper": "^1.1.35",
@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.0.0",
     "bootstrap": "^5.2.2",
+    "popper.js": "^1.16.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-calendar": "^3.9.0",

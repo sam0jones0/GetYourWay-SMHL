@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "./Trip.css";
 import TripSubheader from "./TripSubheader/TripSubheader";
+import Dropdowns from "./Dropdowns/Dropdowns";
 import Map from "./Map/Map";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+
 
 export default function Trip() {
   const [userLocation, setUserLocation] = useState([51.5366, 0.0758]);
@@ -25,6 +27,7 @@ export default function Trip() {
         tripDateProp={tripDate}
         setTripDate={setTripDate}
       />
+
       <Wrapper apiKey={process.env.MAP_API_KEY}>
         <Map 
           location={userLocation}

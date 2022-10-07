@@ -1,14 +1,15 @@
 import ToAirport from "./TripChildComponents/ToAirport";
 import FromAirport from "./TripChildComponents/FromAirport";
 import SelectDate from "./TripChildComponents/SelectDate";
+import Dropdowns from "../Dropdowns/Dropdowns";
 
 function TripSubheader(props) {
   return (
-    <div class="container-fluid border-top border-bottom bg-light">
-      <div class="row">
-        <div className="subheaderItems col-md-6">
-          <div class="d-flex flex-row align-items-md-center">
-            <div class="p-2">
+    <div class="container-fluid border-top p-0 overflow-hidden">
+      <div class="container-fluid p-0">
+        <div class="row row-cols-2 d-flex">
+          <div class="col-md-6 bg-light border-bottom subheaderItems d-flex align-items-md-center">
+            <div class="px-4">
               <FromAirport
                 nearbyAirports={props.nearbyAirports}
                 setNearbyAirports={props.setNearbyAirports}
@@ -37,7 +38,6 @@ function TripSubheader(props) {
                 setDestinationAirport={props.setDestinationAirport}
               />
             </div>
-
             <div class="p-2 ps-2">
               <SelectDate
                 tripDateProp={props.tripDate}
@@ -45,10 +45,28 @@ function TripSubheader(props) {
               />
             </div>
           </div>
+          <div class="col-md-6 p-2 bg-light border-bottom">
+            <p>EMPTY SPACE FOR RIGHT SIDE OF TRIP SUBHEADER</p>
+          </div>
+          <div class="col-md-6 subheaderItems align-items-md-center">
+            <div class="px-2 d-flex justify-content-around">
+              <Dropdowns />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <p>EMPTY SPACE FOR RIGHT SIDE OF DROPDOWN SUBHEADER</p>
+          </div>
         </div>
-        <div class="col-md-6 p-2">
-          <p>EMPTY SPACE FOR RIGHT SIDE OF TRIP SUBHEADER</p>
+      </div>
+
+      <div class="row bg-light">
+        <div className="subheaderItems col-md-6">
+          <div class="d-flex flex-row align-items-md-center"></div>
         </div>
+      </div>
+      <div class="row">
+        <div className="col-md-6"></div>
       </div>
     </div>
   );

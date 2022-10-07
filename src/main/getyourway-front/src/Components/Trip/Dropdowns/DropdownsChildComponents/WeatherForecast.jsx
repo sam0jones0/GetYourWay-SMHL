@@ -1,20 +1,9 @@
-import logo from "./logo.svg";
-import "./App.css";
-import { GoogleMap } from "@react-google-maps/api";
+import React, { useEffect } from "react";
 
-import Header from "./Components/Header";
-
-import Trip from "./Components/Trip/Trip.jsx";
-
-function App() {
+function WeatherForecast() {
   return (
     <>
-      <div className="App">
-        <Header />
-        <Trip />
-      </div>
-
-      {/* <div class="collapse" id="flightTimesCollapse">
+      <div class="collapse" id="weatherCollapse">
         <div class="card card-body">
           Some placeholder content for the collapse component. This panel is
           hidden by default but revealed when the user activates the relevant
@@ -36,15 +25,15 @@ function App() {
           class="btn btn-primary"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#flightTimesCollapse"
+          data-bs-target="#weatherCollapse"
           aria-expanded="false"
-          aria-controls="flightTimesCollapse"
+          aria-controls="weatherCollapse"
         >
-          Available Flights
+          Destination Weather
         </button>
-      </p> */}
+      </p>
     </>
   );
 }
 
-export default App;
+export default WeatherForecast;
