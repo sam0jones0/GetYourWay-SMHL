@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import FlightTimes from "../../Dropdowns/DropdownsChildComponents/FlightTimes";
 
 /**
  * Calls browser API for location. Sets the nearby airports state of parent Trip.
@@ -86,6 +87,7 @@ function FromAirport(props) {
           />
         </div>
       </div>
+      <FlightTimes />
     </>
   );
 }

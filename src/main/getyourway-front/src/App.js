@@ -14,6 +14,26 @@ function App() {
         <Trip />
       </div>
 
+      <div className="d-flex">
+        <p>
+          {" "}
+          Some placeholder content for the collapse component. This panel is
+          hidden by default but revealed when the user activates the relevant
+          trigger. Some placeholder content for the collapse component. This
+          panel is hidden by default but revealed when the user activates the
+          relevant trigger. Some placeholder content for the collapse component.
+          This panel is hidden by default but revealed when the user activates
+          the relevant trigger.
+        </p>
+        <p>
+          Some placeholder content for the collapse component. This panel is
+          hidden by default but revealed when the user activates the relevant
+          trigger. Some placeholder content for the collapse component. This
+          panel is hidden by default but revealed when the user activates the
+          relevant trigger.
+        </p>
+      </div>
+
       {/* <div class="collapse" id="flightTimesCollapse">
         <div class="card card-body">
           Some placeholder content for the collapse component. This panel is
