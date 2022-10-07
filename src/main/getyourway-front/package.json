@@ -2,7 +2,7 @@
   "name": "getyourway-front",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8081",
+  "proxy": "http://localhost:443",
   "dependencies": {
     "@react-google-maps/api": "^2.13.1",
     "@testing-library/jest-dom": "^5.16.5",
