@@ -31,9 +31,18 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.dropdownsTop {
+  z-index: 800;
+  position: absolute; 
+  /* z-index: 1000;  */
+
+  left:0px;
 }
+
+#flightTimesCollapse div, #weatherCollapse div {
+  background-color: white;
+}
+
 
 @keyframes App-logo-spin {
   from {
