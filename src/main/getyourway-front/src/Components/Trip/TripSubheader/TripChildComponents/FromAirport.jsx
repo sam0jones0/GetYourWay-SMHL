@@ -1,40 +1,13 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 
-// Calls browser API for location.
-
-// Sets the nearby airports state of parent Trip.
-
-// Autofills its value to the nearest airport.
-
-// When clicked, does support free type which would call the internal API findAirportByText
-
-// nearbyAirports={props.nearbyAirports}
-// setNearbyAirports={props.setNearbyAirports}
-// userLocation={props.userLocation}
-// setUserLocation={props.setUserLocation}
-// departureAirportProp={props.departureAirport}
-// setDepartureAirport={props.setDepartureAirport}
-
+/**
+ * Calls browser API for location. Sets the nearby airports state of parent Trip.
+ * Autofills its value to the nearest airport.
+ * When clicked, does support free type which would call the internal API
+ *  findAirportByText
+ */
 function FromAirport(props) {
-  // const myPromise = new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     resolve("foo");
-  //   }, 300);
-  // });
-
-  // function browserGetUserLocation() {
-  //   return new Promise((resolve, reject) => {
-  //   if ("geolocation" in navigator) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       props.setUserLocation([
-  //         position.coords.latitude,
-  //         position.coords.longitude,
-  //         resolve()
-  //       ]);
-  //     });
-  //   }
-  // }, 0)}
-
   useEffect(() => {
     const getCoords = async () => {
       const pos = await new Promise((resolve, reject) => {
@@ -42,8 +15,8 @@ function FromAirport(props) {
       });
 
       return {
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude,
+        lat: Number(pos.coords.latitude).toFixed(5),
+        lon: Number(pos.coords.longitude).toFixed(5),
       };
     };
 
@@ -57,28 +30,63 @@ function FromAirport(props) {
           lat: coords.lat,
           lon: coords.lon,
         });
-      let response = await fetch(url, {
-        method: "GET",
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        mode: "no-cors",
+      let response = await axios.get(url, {
         headers: {
-          "Content-Type": "application/json",
+          method: "GET",
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          mode: "no-cors",
+          headers: {
+            Accept: "application/json",
+          },
         },
       });
-      return await response.json();
+      return response.data;
     };
     findNearbyAirports().then((data) => {
+      // data = data.json();
       // console.log(data);
       props.setNearbyAirports(data);
+
+      if (data.length > 0) {
+        props.setDepartureAirport(data[0]);
+      }
+
+      // console.log(JSON.stringify(data));
     });
   }, []);
 
   // console.log(props.getNearbyAirports);
+  //   {/* <h3>
+  //   User location is {props.userLocation[0]},{props.userLocation[1]}{" "}
+  // </h3> */}
 
   return (
-    <h3>
-      User location is {props.userLocation[0]},{props.userLocation[1]}{" "}
-    </h3>
+    <>
+      <div class="form-outline">
+        <div class="input-group">
+          <span class="input-group-text" id="basic-addon1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-circle-fill"
+              viewBox="0 0 16 16"
+            >
+              <circle cx="8" cy="8" r="8" />
+            </svg>
+          </span>
+          <input
+            type="text"
+            id="formControlLg"
+            class="form-control form-control-lg"
+            placeholder="From Airport"
+            aria-label="Departure Airport"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+      </div>
+    </>
   );
 }
 

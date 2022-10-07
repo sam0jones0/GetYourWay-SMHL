@@ -5,6 +5,7 @@ import com.getyourway.flights.localairportdb.InternalAirport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +61,8 @@ public class FlightsController {
    * @return Response entity with AirportNearbyResponse represented as JSON in the body. Airports
    *     are sorted by closest -> furthest.
    */
-  @GetMapping(value = "nearbyairports")
+  @ResponseBody
+  @GetMapping(value = "nearbyairports", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<AirportResponseDTO> getNearbyAirports(
       @RequestParam float lat, @RequestParam float lon) {
 
