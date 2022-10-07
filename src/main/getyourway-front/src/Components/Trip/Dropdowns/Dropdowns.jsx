@@ -6,8 +6,12 @@ import WeatherForecast from "./DropdownsChildComponents/WeatherForecast";
 function Dropdowns() {
   return (
     <>
-      <FlightTimes />
-      <WeatherForecast />
+      <div class="w-25">
+        <FlightTimes />
+      </div>
+      <div class="w-25">
+        <WeatherForecast />
+      </div>
     </>
   );
 }

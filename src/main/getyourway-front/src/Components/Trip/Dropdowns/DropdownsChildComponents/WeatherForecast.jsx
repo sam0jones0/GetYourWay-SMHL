@@ -22,7 +22,7 @@ function WeatherForecast() {
       </div>
       <p class="m-0">
         <button
-          class="btn btn-primary"
+          class="btn btn-primary w-100"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#weatherCollapse"
