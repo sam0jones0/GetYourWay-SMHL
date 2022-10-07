@@ -10,6 +10,7 @@ function App() {
   return (
     <>
       <div className="App">
+      <div class="topbar"></div>
         <Header />
         <Trip />
       </div>
