@@ -4,15 +4,7 @@ function FlightTimes() {
   return (
     <>
       <div class="dropdown overlay-dropdowns">
-        <button
-          class="btn btn-secondary dropdown-toggle"
-          type="button"
-          id="dropdownMenuButton1"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          Dropdown button
-        </button>
+
         <ul
           class="dropdown-menu overlay-dropdowns"
           aria-labelledby="dropdownMenuButton1"
