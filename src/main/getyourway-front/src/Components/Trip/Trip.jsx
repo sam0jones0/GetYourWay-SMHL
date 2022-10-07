@@ -25,7 +25,7 @@ export default function Trip() {
         tripDateProp={tripDate}
         setTripDate={setTripDate}
       />
-      <Wrapper apiKey={"YOUR-API-KEY-HERE"}>
+      <Wrapper apiKey={process.env.MAP_API_KEY}>
         <Map 
           location={userLocation}
           departure={{lat: 51.8860, lng: 0.2389}} // London Stanstead Airport
