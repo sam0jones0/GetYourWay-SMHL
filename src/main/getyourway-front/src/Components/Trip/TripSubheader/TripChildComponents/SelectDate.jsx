@@ -30,7 +30,7 @@ function SelectDate(props) {
     <div class="s-5">
       <div class="dropdown">
         <button
-          class="btn btn-secondary dropdown-toggle"
+          class="btn btn-light dropdown-toggle"
           type="button"
           id="dropdownMenuClickableOutside"
           data-bs-toggle="dropdown"
