@@ -5,11 +5,11 @@ import Dropdowns from "../Dropdowns/Dropdowns";
 
 function TripSubheader(props) {
   return (
-    <div class="container-fluid border-top p-0 overflow-hidden">
+    <div class="container-fluid border-top dropdownstop">
       <div class="container-fluid p-0">
         <div class="row row-cols-2 d-flex">
           <div class="col-md-6 bg-light border-bottom subheaderItems d-flex align-items-md-center">
-            <div class="px-4">
+            <div class="px-2">
               <FromAirport
                 nearbyAirports={props.nearbyAirports}
                 setNearbyAirports={props.setNearbyAirports}
