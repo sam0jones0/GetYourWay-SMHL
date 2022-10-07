@@ -56,14 +56,14 @@ function FromAirport(props) {
   }, []);
 
   // console.log(props.getNearbyAirports);
+  //   {/* <h3>
+  //   User location is {props.userLocation[0]},{props.userLocation[1]}{" "}
+  // </h3> */}
 
   return (
     <>
-      {/* <h3>
-        User location is {props.userLocation[0]},{props.userLocation[1]}{" "}
-      </h3> */}
       <div class="form-outline">
-        <div class="input-group mb-3">
+        <div class="input-group">
           <span class="input-group-text" id="basic-addon1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
