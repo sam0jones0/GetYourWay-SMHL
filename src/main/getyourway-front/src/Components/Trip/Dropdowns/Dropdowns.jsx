@@ -11,3 +11,5 @@ function Dropdowns() {
     </>
   );
 }
+
+export default Dropdowns;
