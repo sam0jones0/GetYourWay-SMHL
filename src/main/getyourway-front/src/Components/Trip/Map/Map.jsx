@@ -12,28 +12,54 @@ function Map(props) {
 
     // --------------- Map Rendering ---------------
     const containerStyle = {
-        width: '600px',
+        width: '100%',
         height: '600px'
     };
     
     const center = {
         lat: props.location[0], // lattitude
-        lng: props.location[1] //longitude
+        lng: props.location[1] // longitude
     };
 
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        //googleMapsApiKey: ""
-    })
-
     const onLoad = useCallback(function callback(map) {
-        map.setZoom(5)
+        map.setZoom(6)
         setMap(map)
     }, [])
 
     const onUnmount = useCallback(function callback(map) {
         setMap(null)
-     }, [])
+    }, [])
+
+     const mapStyles = [
+        {
+            "featureType": "landscape",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#f0f0f0"
+              },
+              {
+                "lightness": "0"
+              }
+            ]
+        },
+        {
+            "featureType": "water",
+            "stylers": [
+              {
+                "color": "#cae0fa"
+              }
+            ]
+        },
+        {
+            "featureType": "road",
+            "stylers": [
+              {
+                "color": "#ffffff"
+              }
+            ]
+        }
+    ];
 
     // Polyline
     const onLoadPolyline = polyline => {
@@ -87,16 +113,19 @@ function Map(props) {
           origin,
           destination
         ]
-      };
-
-  
-     return isLoaded ? (
-        <div className="container customMap">
+    };
+    
+    // Return
+    return (
+        <div className=".container-fluid customMap">
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
                 onLoad={onLoad}
                 onUnmount={onUnmount}
+                options={{
+                    styles: mapStyles
+                }}
             >
             { (origin != null && destination != null && response == null) && (
                 <DirectionsService
@@ -141,7 +170,7 @@ function Map(props) {
             <></>
             </GoogleMap>
         </div>
-    ) : <></>
+    ) 
 }
 
 export default Map;
