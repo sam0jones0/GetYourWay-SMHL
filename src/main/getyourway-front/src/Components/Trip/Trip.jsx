@@ -8,7 +8,7 @@ export default function Trip() {
   const [userLocation, setUserLocation] = useState([51.5366, 0.0758]);
   const [nearbyAirports, setNearbyAirports] = useState({});
   const [departureAirport, setDepartureAirport] = useState({});
-  const [destinationAirport, setDestinationAirport] = useState({});
+  const [destinationAirport, setDestinationAirport] = useState("Dubrovnik");
   const [tripDate, setTripDate] = useState(new Date());
   
   return (
