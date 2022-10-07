@@ -49,7 +49,7 @@ function TripSubheader(props) {
             <p>EMPTY SPACE FOR RIGHT SIDE OF TRIP SUBHEADER</p>
           </div>
           <div class="col-md-6 subheaderItems align-items-md-center">
-            <div class="px-2 d-flex justify-content-around">
+            <div class="px-2 d-flex">
               <Dropdowns />
             </div>
           </div>
