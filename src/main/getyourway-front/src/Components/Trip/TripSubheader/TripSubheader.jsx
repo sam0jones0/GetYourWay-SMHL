@@ -5,8 +5,8 @@ import Dropdowns from "../Dropdowns/Dropdowns";
 
 function TripSubheader(props) {
   return (
-    <div class="border-top p-0 tripsubheaderTop">
-      <div class="p-0">
+    <div class="container-fluid border-top p-0 tripsubheaderTop">
+      <div class="container-fluid p-0">
         <div class="row row-cols-2 d-flex">
           <div class="col-md-6 bg-light border-bottom d-flex align-items-md-center">
             <div class="px-4">
