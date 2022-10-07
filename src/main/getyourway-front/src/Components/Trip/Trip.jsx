@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./Trip.css";
 import TripSubheader from "./TripSubheader/TripSubheader";
-import Dropdowns from "./Dropdowns/Dropdowns";
+import Dropdowns from "./TripSubheader/Dropdowns/Dropdowns";
 import Map from "./Map/Map";
-
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 export default function Trip() {
   const [userLocation, setUserLocation] = useState([51.5366, 0.0758]);
@@ -11,7 +11,7 @@ export default function Trip() {
   const [departureAirport, setDepartureAirport] = useState({});
   const [destinationAirport, setDestinationAirport] = useState("Dubrovnik");
   const [tripDate, setTripDate] = useState(new Date());
-  
+
   return (
     <>
       <TripSubheader
@@ -26,13 +26,13 @@ export default function Trip() {
         tripDateProp={tripDate}
         setTripDate={setTripDate}
       />
-
-      <Map 
-        location={userLocation}
-        departure={{lat: 51.8860, lng: 0.2389}} // London Stanstead Airport
-        destination={{lat: 49.0081, lng: 2.5509}} // Paris Charles de Gaulle Airport
-      />
-      
+      <Wrapper>
+        <Map
+          location={userLocation}
+          departure={{ lat: 51.886, lng: 0.2389 }} // London Stanstead Airport
+          destination={{ lat: 49.0081, lng: 2.5509 }} // Paris Charles de Gaulle Airport
+        />
+      </Wrapper>
     </>
   );
 }
