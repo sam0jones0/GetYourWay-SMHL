@@ -1,20 +1,25 @@
 import React, { useEffect } from "react";
 
-function FlightTimes() {
+import DailyWeather from "./DailyWeather/DailyWeather";
+
+function WeatherForecast() {
   return (
     <>
-      <div class="collapse" id="flightTimesCollapse">
-        <div class="card card-body">
+      <div class="collapse" id="weatherCollapse">
+        {/* This should be mapped to list of daily weather forecast objects. */}
+        {/* <DailyWeather /> */}
+
+        <div class="border-bottom">
           Some placeholder content for the collapse component. This panel is
           hidden by default but revealed when the user activates the relevant
           trigger.
         </div>
-        <div class="card card-body">
+        <div class="border-bottom">
           Some placeholder content for the collapse component. This panel is
           hidden by default but revealed when the user activates the relevant
           trigger.
         </div>
-        <div class="card card-body">
+        <div class="border-bottom">
           Some placeholder content for the collapse component. This panel is
           hidden by default but revealed when the user activates the relevant
           trigger.
@@ -25,15 +30,15 @@ function FlightTimes() {
           class="btn btn-primary w-100"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#flightTimesCollapse"
+          data-bs-target="#weatherCollapse"
           aria-expanded="false"
-          aria-controls="flightTimesCollapse"
+          aria-controls="weatherCollapse"
         >
-          Available Flights
+          Destination Weather
         </button>
       </p>
     </>
   );
 }
 
-export default FlightTimes;
+export default WeatherForecast;

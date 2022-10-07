@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 
-import FlightTimes from "./DropdownsChildComponents/FlightTimes";
-import WeatherForecast from "./DropdownsChildComponents/WeatherForecast";
+import FlightTimes from "./FlightTimes/FlightTimes";
+import WeatherForecast from "./WeatherForecast/WeatherForecast";
 
 function Dropdowns() {
   return (
     <>
-      <div class="vw-25 px-2">
+      <div class="mx-4 w-25">
         <FlightTimes />
       </div>
-      <div class="vw-25 px-2">
+      <div class="mx-5 w-25">
         <WeatherForecast />
       </div>
     </>
