@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 function SelectDate(props) {
+  // useEffect((props) => {
+  //   props.setTripDate(
+  //     JSON.stringify(window.localStorage.getItem("props.tripDate"))
+  //   );
+  // }, []);
+
+  // useEffect(
+  //   (props) => {
+  //     window.localStorage.setItem("props.tripDate", props.tripDate);
+  //   },
+  //   [props.tripDate]
+  // );
+
   const onDateChange = (newDate) => {
     props.setTripDate(newDate);
     console.log(newDate);
   };
+
   return (
     <div class="s-5">
       <svg
