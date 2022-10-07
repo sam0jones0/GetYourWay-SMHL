@@ -5,10 +5,10 @@ import Dropdowns from "../Dropdowns/Dropdowns";
 
 function TripSubheader(props) {
   return (
-    <div class="container-fluid border-top p-0 overflow-hidden tripsubheaderTop">
-      <div class="container-fluid p-0">
+    <div class="border-top p-0 tripsubheaderTop">
+      <div class="p-0">
         <div class="row row-cols-2 d-flex">
-          <div class="col-md-6 bg-light border-bottom subheaderItems d-flex align-items-md-center">
+          <div class="col-md-6 bg-light border-bottom d-flex align-items-md-center">
             <div class="px-4">
               <FromAirport
                 nearbyAirports={props.nearbyAirports}
@@ -48,7 +48,7 @@ function TripSubheader(props) {
           <div class="col-md-6 p-2 bg-light border-bottom">
             <p>EMPTY SPACE FOR RIGHT SIDE OF TRIP SUBHEADER</p>
           </div>
-          <div class="col-md-6 subheaderItems align-items-md-center">
+          <div class="col-md-6 align-items-md-center">
             <div class="px-2 d-flex">
               <Dropdowns />
             </div>
