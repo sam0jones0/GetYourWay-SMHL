@@ -9,7 +9,7 @@ function TripSubheader(props) {
       <div class="container-fluid p-0">
         <div class="row row-cols-2 d-flex">
           <div class="col-md-6 bg-light border-bottom subheaderItems d-flex align-items-md-center">
-            <div class="p-2">
+            <div class="px-4">
               <FromAirport
                 nearbyAirports={props.nearbyAirports}
                 setNearbyAirports={props.setNearbyAirports}
@@ -48,19 +48,19 @@ function TripSubheader(props) {
           <div class="col-md-6 p-2 bg-light border-bottom">
             <p>EMPTY SPACE FOR RIGHT SIDE OF TRIP SUBHEADER</p>
           </div>
-          <div class="col-md-6 subheaderItems d-flex align-items-md-center">
-            <div class="p-2 d-flex align-items-md-center">
+          <div class="col-md-6 subheaderItems align-items-md-center">
+            <div class="px-2 d-flex justify-content-around">
               <Dropdowns />
             </div>
           </div>
 
-          <div class="col-md-6 p-2">
+          <div class="col-md-6">
             <p>EMPTY SPACE FOR RIGHT SIDE OF DROPDOWN SUBHEADER</p>
           </div>
         </div>
       </div>
 
-      <div class="row bg-light border-bottom">
+      <div class="row bg-light">
         <div className="subheaderItems col-md-6">
           <div class="d-flex flex-row align-items-md-center"></div>
         </div>
