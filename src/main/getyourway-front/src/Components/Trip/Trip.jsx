@@ -3,7 +3,6 @@ import "./Trip.css";
 import TripSubheader from "./TripSubheader/TripSubheader";
 import Dropdowns from "./Dropdowns/Dropdowns";
 import Map from "./Map/Map";
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 
 export default function Trip() {
@@ -28,13 +27,12 @@ export default function Trip() {
         setTripDate={setTripDate}
       />
 
-      <Wrapper>
-        <Map 
-          location={userLocation}
-          departure={{lat: 51.8860, lng: 0.2389}} // London Stanstead Airport
-          destination={{lat: 49.0081, lng: 2.5509}} // Paris Charles de Gaulle Airport
-        />
-      </Wrapper>
+      <Map 
+        location={userLocation}
+        departure={{lat: 51.8860, lng: 0.2389}} // London Stanstead Airport
+        destination={{lat: 49.0081, lng: 2.5509}} // Paris Charles de Gaulle Airport
+      />
+      
     </>
   );
 }
