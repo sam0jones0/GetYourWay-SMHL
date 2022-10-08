@@ -15,7 +15,7 @@ function TripSubheader(props) {
                 setNearbyAirports={props.setNearbyAirports}
                 userLocation={props.userLocation}
                 setUserLocation={props.setUserLocation}
-                departureAirportProp={props.departureAirport}
+                departureAirport={props.departureAirport}
                 setDepartureAirport={props.setDepartureAirport}
               />
             </div>

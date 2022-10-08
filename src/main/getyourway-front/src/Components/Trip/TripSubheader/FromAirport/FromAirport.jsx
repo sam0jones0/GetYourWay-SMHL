@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import props from "prop-types";
 
 /**
  * Calls browser API for location. Sets the nearby airports state of parent Trip.
@@ -47,8 +48,10 @@ function FromAirport(props) {
       // console.log(data);
       props.setNearbyAirports(data);
 
-      if (data.length > 0) {
-        props.setDepartureAirport(data[0]);
+      if (data.items.length > 0) {
+        let depArr = data.items[0];
+        props.setDepartureAirport(depArr);
+        document.querySelector(".fromAirport").placeholder = depArr.name;
       }
 
       // console.log(JSON.stringify(data));
@@ -77,9 +80,10 @@ function FromAirport(props) {
             </svg>
           </span>
           <input
+            disabled
             type="text"
             id="formControlLg"
-            class="form-control form-control-lg"
+            class="form-control form-control-lg fromAirport"
             placeholder="From Airport"
             aria-label="Departure Airport"
             aria-describedby="basic-addon1"
