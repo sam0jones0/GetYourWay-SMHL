@@ -5,7 +5,7 @@ import Dropdowns from "./Dropdowns/Dropdowns";
 
 function TripSubheader(props) {
   return (
-    <div class="container-fluid border-top dropdownstop">
+    <div class="container-fluid border-top dropdownstop shadow">
       <div class="container-fluid p-0">
         <div class="row row-cols-2 d-flex">
           <div class="col-md-6 bg-light border-bottom subheaderItems d-flex align-items-md-center">
@@ -45,9 +45,7 @@ function TripSubheader(props) {
               />
             </div>
           </div>
-          <div class="col-md-6 p-2 bg-light border-bottom">
-            <p>EMPTY SPACE FOR RIGHT SIDE OF TRIP SUBHEADER</p>
-          </div>
+          <div class="col-md-6 p-2 bg-light border-bottom"></div>
         </div>
         <div class="dropdownsTop d-flex w-75">
           <Dropdowns />
