@@ -20,6 +20,6 @@ public interface InternalAirportRepo extends JpaRepository<InternalAirport, Stri
 
   @Query(
       value =
-          "SELECT i FROM InternalAirport i where i.name like ?1 or i.city like ?1 or i.country like ?1 or i.icao like ?1 or i.iata like ?1")
+          "SELECT i FROM InternalAirport i where UPPER(i.name) like upper(concat('%', ?1, '%')) or upper(i.city) like upper(concat('%', ?1, '%')) or upper(i.country) like upper(concat('%', ?1, '%')) or upper(i.icao) like upper(concat('%', ?1, '%')) or upper(i.iata) like upper(concat('%', ?1, '%'))")
   Optional<List<InternalAirport>> getByUserString(@Param("input") String searchQuery);
 }

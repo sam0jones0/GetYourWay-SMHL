@@ -6,11 +6,16 @@ import Header from "./Components/Header";
 
 import Trip from "./Components/Trip/Trip.jsx";
 
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+
 function App() {
   return (
     <>
       <div className="App">
-      <div class="topbar"></div>
+        <div class="topbar"></div>
         <Header />
         <Trip />
       </div>
