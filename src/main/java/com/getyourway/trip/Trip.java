@@ -36,10 +36,10 @@ public class Trip {
     @FutureOrPresent
     private LocalDateTime departureDateTime;
 
-    @Column
-    @NotNull
-    @FutureOrPresent
-    private LocalDateTime arrivalDateTime;
+//    @Column
+//    @NotNull
+//    @FutureOrPresent
+//    private LocalDateTime arrivalDateTime;
     //need to be decided if weather is going to be saved or potentially recalled when user accesses trip
     //private  (type TBD) weatherInstance;
     //private (some sort of link to local travel api, eg, trains/transport to airport)
@@ -59,12 +59,12 @@ public class Trip {
         this.tripName = tripName;
     }
 
-    public Trip(String tripName, String departureAirport, String destinationAirport, LocalDateTime departureDateTime, LocalDateTime arrivalDateTime) {
+    public Trip(String tripName, String departureAirport, String destinationAirport, LocalDateTime departureDateTime) {
         this.tripName = tripName;
         this.departureAirport = departureAirport;
         this.destinationAirport = destinationAirport;
         this.departureDateTime = departureDateTime;
-        this.arrivalDateTime = arrivalDateTime;
+//        this.arrivalDateTime = arrivalDateTime;
     }
 
     // Getters and Setters
@@ -108,13 +108,13 @@ public class Trip {
         this.departureDateTime = departureDateTime;
     }
 
-    public LocalDateTime getArrivalDateTime() {
-        return arrivalDateTime;
-    }
-
-    public void setArrivalDateTime(LocalDateTime arrivalDateTime) {
-        this.arrivalDateTime = arrivalDateTime;
-    }
+//    public LocalDateTime getArrivalDateTime() {
+//        return arrivalDateTime;
+//    }
+//
+//    public void setArrivalDateTime(LocalDateTime arrivalDateTime) {
+//        this.arrivalDateTime = arrivalDateTime;
+//    }
 
     public User getUser() {
         return user;

@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import Login from "./Components/Login/Index/Login";
 import Signup from "./Components/Signup/Index/Signup";
+import SavedTrips from "./Components/SavedTrips/Index/SavedTrips";
 import reportWebVitals from "./reportWebVitals";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -19,6 +20,7 @@ root.render(
       <Route path="/" element={<App />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/saved" element={<SavedTrips />} />
     </Routes>
   </BrowserRouter>
 );
