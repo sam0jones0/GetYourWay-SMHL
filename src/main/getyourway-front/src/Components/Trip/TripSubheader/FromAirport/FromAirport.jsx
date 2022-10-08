@@ -26,7 +26,7 @@ function FromAirport(props) {
       props.setUserLocation([coords.lat, coords.lon]);
       // browserGetUserLocation().then(
       let url =
-        "http://localhost:8081/api/flights/nearbyairports?" +
+        "https://localhost:8081/api/flights/nearbyairports?" +
         new URLSearchParams({
           lat: coords.lat,
           lon: coords.lon,

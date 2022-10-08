@@ -21,7 +21,7 @@ function ToAirport(props) {
     previousController.current = controller;
     axios
       .get(
-        "http://localhost:8081/api/flights/airportsearch?searchTerm=" +
+        "https://localhost:8081/api/flights/airportsearch?searchTerm=" +
           searchTerm,
         {
           headers: {
