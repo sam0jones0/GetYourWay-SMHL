@@ -2,7 +2,6 @@ import * as React from "react";
 import { useState, useRef } from "react";
 
 import TextField from "@mui/material/TextField";
-
 import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
 
@@ -11,7 +10,6 @@ function ToAirport(props) {
   const previousController = useRef();
 
   const getData = (searchTerm) => {
-    let selectedAirport = null;
     if (previousController.current) {
       previousController.current.abort();
     }
