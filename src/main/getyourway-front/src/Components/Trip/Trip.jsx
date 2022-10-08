@@ -11,7 +11,7 @@ export default function Trip() {
   const [departureAirport, setDepartureAirport] = useState({
     name: "From Airport",
   });
-  const [destinationAirport, setDestinationAirport] = useState("Dubrovnik");
+  const [destinationAirport, setDestinationAirport] = useState({});
   const [tripDate, setTripDate] = useState(new Date());
 
   return (

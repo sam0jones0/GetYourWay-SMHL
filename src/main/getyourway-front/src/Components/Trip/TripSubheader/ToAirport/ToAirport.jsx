@@ -6,14 +6,16 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
 
-function ToAirport() {
+function ToAirport(props) {
   const [options, setOptions] = useState([]);
   const previousController = useRef();
 
   const getData = (searchTerm) => {
+    let selectedAirport = null;
     if (previousController.current) {
       previousController.current.abort();
-    } else if (searchTerm.length < 3) {
+    }
+    if (searchTerm.length < 3) {
       return;
     }
     const controller = new AbortController();
@@ -38,11 +40,7 @@ function ToAirport() {
         return response.data;
       })
       .then(function (myJson) {
-        console.log("search term: " + searchTerm + ", results: ", myJson);
-        const updatedOptions = myJson.map((p) => {
-          return { name: p.name };
-        });
-        setOptions(updatedOptions);
+        setOptions(myJson);
       });
   };
 
@@ -71,26 +69,27 @@ function ToAirport() {
             </svg>
           </span>
           <Autocomplete
-            id="combo-box-demo"
+            onChange={(event, value) => props.setDestinationAirport(value)}
+            ListboxProps={{ style: { maxHeight: 400, overflow: "auto" } }}
+            disablePortal
+            disableClearable
+            id="destinationAirportSearch"
+            style={{ width: "300px" }}
             options={options}
             onInputChange={onInputChange}
             getOptionLabel={(option) => option.name}
-            style={{ width: 300 }}
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Combo box"
-                variant="outlined"
                 type="text"
                 id="formControlLg"
-                class="form-control form-control-lg"
+                class=""
                 placeholder="Destination Airport"
                 aria-label="Destination Airport"
                 aria-describedby="basic-addon1"
               />
             )}
           />
-          <input />
         </div>
       </div>
     </>
