@@ -4,8 +4,8 @@ import "react-calendar/dist/Calendar.css";
 
 function SelectDate(props) {
   const onDateChange = (newDate) => {
-    props.setTripDate(newDate);
-    console.log(newDate);
+    props.setTripDate(newDate.toISOString().slice(0, 10));
+    // console.log(newDate);
   };
   return (
     <div class="s-5">
@@ -41,7 +41,7 @@ function SelectDate(props) {
                 locale={"en-GB"}
                 showNeighboringMonth={false}
                 value={props.tripDate}
-              />{" "}
+              />
             </a>
           </li>
         </ul>

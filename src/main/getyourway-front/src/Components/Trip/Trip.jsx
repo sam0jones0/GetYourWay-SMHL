@@ -6,7 +6,7 @@ import Map from "./Map/Map";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 export default function Trip() {
-  const [userLocation, setUserLocation] = useState([51.5366, 0.0758]);
+  const [userLocation, setUserLocation] = useState([0, 0]);
   const [nearbyAirports, setNearbyAirports] = useState({});
   const [departureAirport, setDepartureAirport] = useState({
     name: "From Airport",

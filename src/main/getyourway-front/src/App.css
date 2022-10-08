@@ -60,6 +60,11 @@
   background-color: white;
 }
 
+#flightTimesCollapse {
+  max-height: 400px;
+  overflow: auto;
+}
+
 
 @keyframes App-logo-spin {
   from {
