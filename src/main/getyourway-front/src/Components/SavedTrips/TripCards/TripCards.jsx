@@ -1,11 +1,11 @@
-import "./Login.css";
-import Form from "../Form/Form";
-import Header from "../../Header";
-
-function SavedTrips() {
+function TripCards() {
   return (
     <div>
-      <Header />
+      <div class="card text-left">
+        <div class="card-body">
+          <h5 class="card-title">Special title treatment</h5>
+        </div>
+      </div>
       <div class="card-group">
         <div class="card">
           <div class="card-body">
@@ -50,4 +50,4 @@ function SavedTrips() {
   );
 }
 
-export default SavedTrips;
+export default TripCards;
