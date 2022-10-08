@@ -59,7 +59,7 @@ public class Trip {
         this.tripName = tripName;
     }
 
-    public Trip(String tripName, String departureAirport, String destinationAirport, LocalDateTime departureDateTime, LocalDateTime arrivalDateTime) {
+    public Trip(String tripName, String departureAirport, String destinationAirport, LocalDateTime departureDateTime) {
         this.tripName = tripName;
         this.departureAirport = departureAirport;
         this.destinationAirport = destinationAirport;

@@ -10,13 +10,7 @@ function SavedTrips() {
           <h3 class="card-title">Special title treatment</h3>
         </div>
       </div>
-      <div class="card text-left">
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-        </div>
-      </div>
       <TripCards />
-
       <TripCards />
     </div>
   );
