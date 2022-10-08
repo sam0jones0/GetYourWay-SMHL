@@ -44,8 +44,6 @@ function FromAirport(props) {
       return response.data;
     };
     findNearbyAirports().then((data) => {
-      // data = data.json();
-      // console.log(data);
       props.setNearbyAirports(data);
 
       if (data.items.length > 0) {
@@ -53,8 +51,6 @@ function FromAirport(props) {
         props.setDepartureAirport(depArr);
         document.querySelector(".fromAirport").placeholder = depArr.name;
       }
-
-      // console.log(JSON.stringify(data));
     });
   }, []);
 
