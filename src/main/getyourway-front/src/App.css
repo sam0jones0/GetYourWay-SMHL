@@ -106,7 +106,7 @@
   .fg-fromairport { grid-area: 2 / 1 / 3 / 4; padding-top: 9px;}
   .fg-toairport { grid-area: 3 / 1 / 4 / 4; padding-top: 2px;}
   .fg-departuretime { grid-area: 4 / 1 / 5 / 3; padding-top: 9px;}
-  .flight-duration { grid-area: 4 / 3 / 5 / 4; }
+  .flight-duration { grid-area: 4 / 3 / 5 / 4; padding-top: 9px;}
   
   div.fg-container .fg-flightnumber button {
     background-color: rgb(254, 104, 62);
