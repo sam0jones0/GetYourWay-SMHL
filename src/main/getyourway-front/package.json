@@ -2,7 +2,7 @@
   "name": "getyourway-front",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://localhost:8081",
+  "proxy": "https://getyourway.uk:8081",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
