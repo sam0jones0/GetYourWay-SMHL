@@ -6,9 +6,6 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [{ title: "The Shawshank Redemption", year: 1994 }];
-
 function ToAirport() {
   const [options, setOptions] = useState([]);
   const previousController = useRef();
@@ -16,6 +13,8 @@ function ToAirport() {
   const getData = (searchTerm) => {
     if (previousController.current) {
       previousController.current.abort();
+    } else if (searchTerm.length < 3) {
+      return;
     }
     const controller = new AbortController();
     const signal = controller.signal;
