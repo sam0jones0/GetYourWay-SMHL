@@ -1,4 +1,34 @@
+import axios from "axios";
+import React, { useEffect } from "react";
+
 function TripCards() {
+  //
+  //
+  // const findNearbyAirports = async () => {
+  //   const coords = await getCoords();
+  //   props.setUserLocation([coords.lat, coords.lon]);
+  //   // browserGetUserLocation().then(
+  //   let url =
+  //     "http://localhost:8081/api/flights/nearbyairports?" +
+  //     new URLSearchParams({
+  //       lat: coords.lat,
+  //       lon: coords.lon,
+  //     });
+  //   let response = await axios.get(url, {
+  //     headers: {
+  //       method: "GET",
+  //       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+  //       mode: "no-cors",
+  //       headers: {
+  //         Accept: "application/json",
+  //       },
+  //     },
+  //   });
+  //   return response.data;
+  // };
+  //
+  const getSavedTrips = async () => {};
+  //
   return (
     <div>
       <div class="card text-left">
