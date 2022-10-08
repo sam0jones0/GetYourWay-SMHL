@@ -48,7 +48,7 @@ function FromAirport(props) {
 
       if (data.items.length > 0) {
         let depArr = data.items[0];
-        props.setDepartureAirport(depArr);
+        props.setDepartureAirport({ ...depArr });
         document.querySelector(".fromAirport").placeholder = depArr.name;
       }
     });

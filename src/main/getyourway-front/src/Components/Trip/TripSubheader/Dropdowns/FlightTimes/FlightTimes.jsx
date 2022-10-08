@@ -12,6 +12,8 @@ function FlightTimes(props) {
   useEffect(() => {
     if (
       props.destinationAirport != undefined &&
+      props.departureAirport != undefined &&
+      props.tripDate != undefined &&
       Object.keys(props.destinationAirport) != 0
     ) {
       let url =
@@ -34,6 +36,7 @@ function FlightTimes(props) {
         })
         .then((response) => {
           availableFlights = response.data;
+          console.log("XHXUSHUHGDSGHDISHIDUDIUHSIUHDSIUHDSIUHDSIUHIUHS");
           console.log(availableFlights);
         });
     }
