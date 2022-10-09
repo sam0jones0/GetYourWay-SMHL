@@ -24,7 +24,7 @@ function Map(props) {
     // --------------- Map Rendering ---------------
     const containerStyle = {
         width: '100%',
-        height: '600px'
+        height: '1000px'
     };
 
     const onLoad = useCallback(function callback(map) {
