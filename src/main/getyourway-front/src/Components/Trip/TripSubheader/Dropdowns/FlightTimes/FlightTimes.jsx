@@ -2,26 +2,30 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import Flight from "./Flight/Flight";
 
-function FlightTimes(props) {
-  // departureAirportProp={props.departureAirport}
-  // tripDateProp={props.tripDate}
-  // destinationAirportProp={props.destinationAirport}
+// departureAirportProp={props.departureAirport}
+// tripDateProp={props.tripDate}
+// destinationAirportProp={props.destinationAirport}
 
+const FlightTimes = ({
+  departureAirportProp = {
+    name: "From Airport",
+  },
+  tripDateProp = new Date().toISOString().slice(0, 10),
+  destinationAirportProp = {},
+}) => {
   let availableFlights = {};
 
   useEffect(() => {
     if (
-      props.destinationAirport != undefined &&
-      props.departureAirport != undefined &&
-      props.tripDate != undefined &&
-      Object.keys(props.destinationAirport) != 0
+      departureAirportProp != "From Airport" &&
+      Object.keys(destinationAirportProp).length !== 0
     ) {
       let url =
         "http://localhost:8081/api/flights/flightSchedule?" +
         new URLSearchParams({
-          depIcao: props.departureAirport.icao,
-          arrIcao: props.destinationAirport.icao,
-          depDate: props.tripDate,
+          depIcao: departureAirportProp.icao,
+          arrIcao: destinationAirportProp.icao,
+          depDate: tripDateProp,
         });
       let response = axios
         .get(url, {
@@ -40,7 +44,7 @@ function FlightTimes(props) {
           console.log(availableFlights);
         });
     }
-  }, [props.departureAirport, props.tripDate, props.destinationAirport]);
+  }, [departureAirportProp, tripDateProp, destinationAirportProp]);
 
   return (
     <>
@@ -67,6 +71,6 @@ function FlightTimes(props) {
       </p>
     </>
   );
-}
+};
 
 export default FlightTimes;

@@ -12,7 +12,9 @@ export default function Trip() {
     name: "From Airport",
   });
   const [destinationAirport, setDestinationAirport] = useState({});
-  const [tripDate, setTripDate] = useState(new Date());
+  const [tripDate, setTripDate] = useState(
+    new Date().toISOString().slice(0, 10)
+  );
 
   return (
     <>
