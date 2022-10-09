@@ -4,7 +4,9 @@ import "react-calendar/dist/Calendar.css";
 
 function SelectDate(props) {
   const onDateChange = (newDate) => {
-    props.setTripDate(newDate.toISOString().slice(0, 10));
+    props.setTripDate(
+      new Date(newDate.getTime() + 600 * 60000).toISOString().slice(0, 10)
+    );
     // console.log(newDate);
   };
   return (
