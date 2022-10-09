@@ -43,16 +43,26 @@ public class DatabaseLoader implements CommandLineRunner {
         this.userRepository.save(admin);
 
         // Create Trips
-        Trip trip1 = new Trip("Trip name",
+        Trip trip1 = new Trip("Trip one",
                 "LGW",
                 "LHR",
                 LocalDateTime.of(2023, Month.JULY,15,10,00,00)
              );
-//        Trip trip2 = new Trip("Another trip name"); //can no longer have null value of new variables (see above example trip)
         trip1.setUser(user1);
-//        trip2.setUser(user1);
+//
         tripRepository.save(trip1);
-//        tripRepository.save(trip2);
+
+
+        // Create Trips
+        Trip trip2 = new Trip("Trip two",
+                "London Heathrow",
+                "Dubrovnik",
+                LocalDateTime.of(2023, Month.JULY,15,10,00,00)
+        );
+        trip2.setUser(user1);
+//
+        tripRepository.save(trip2);
+
     }
 
 }
