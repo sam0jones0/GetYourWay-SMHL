@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-function LoginLogoutButton() {
+function LoginLogoutButton(props) {
   // States
-  const [authenticated, setAuthenticated] = useState(false);
+  // const [authenticated, setAuthenticated] = useState(false);
   let navigate = useNavigate();
 
   // Refresh page after login redirect (hacky)
@@ -23,17 +23,17 @@ function LoginLogoutButton() {
       });
       // Process response
       if (response.status == 401) {
-        setAuthenticated(false);
+        props.setAuthenticated(false);
       } else if (response.status == 200) {
-        setAuthenticated(true);
+        props.setAuthenticated(true);
       }
     };
     checkAuthentication();
-  }, [authenticated]);
+  }, [props.authenticated]);
 
   // Conditional login/logout links
   let authLink;
-  if (authenticated) {
+  if (props.authenticated) {
     authLink = (
       <button className="btn btn-outline-secondary" onClick={handleLogout}>
         Logout
@@ -52,7 +52,7 @@ function LoginLogoutButton() {
     event.preventDefault();
     try {
       logoutUser();
-      setAuthenticated(false);
+      props.setAuthenticated(false);
       navigate("/");
     } catch (error) {
       console.log(error);

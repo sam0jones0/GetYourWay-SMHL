@@ -2,8 +2,12 @@ import React from "react";
 import logo from "../Sky.png";
 import LoginLogoutButton from "./LoginLogoutButton/LoginLogoutButton";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import ButtonChange from "./ButtonChange";
 
 const Header = () => {
+  const [authenticated, setAuthenticated] = useState(false);
+
   return (
     <nav class="navbar p-3">
       <div class="container-fluid d-flex align-items-md-center ">
@@ -19,16 +23,22 @@ const Header = () => {
             GetYourWay.com
           </h3>
         </a>
+
         <div className="row align-items-md-center me-1">
-          <a class="nav-link col-md-6 " style={{}}>
+          {/* <a class="nav-link col-md-6 " style={{}}>
             {
               <Link to="/signup">
                 <button className="btn btn-primary">Sign Up</button>
               </Link>
             }
-          </a>
+          </a> */}
+          {/* <ButtonChange authenticated={authenticated} /> */}
+          <ButtonChange authenticated={authenticated} />
           <div className="col-md-6">
-            <LoginLogoutButton />
+            <LoginLogoutButton
+              authenticated={authenticated}
+              setAuthenticated={setAuthenticated}
+            />
           </div>
         </div>
       </div>
