@@ -40,6 +40,13 @@ function FlightTimes() {
     }
   }, [departureAirport, destinationAirport, tripDate]);
 
+  useEffect(() => {
+    if (availableFlights.length > 0) {
+      let flightsDropdown = document.querySelector(".flightsButton");
+      flightsDropdown.style.display = "";
+    }
+  }, [availableFlights]);
+
   function msToTimeStr(s) {
     var ms = s % 1000;
     s = (s - ms) / 1000;
@@ -75,8 +82,9 @@ function FlightTimes() {
       </div>
       <p class="m-0">
         <button
-          class="btn btn-primary w-100"
+          class="btn btn-primary w-100 flightsButton"
           type="button"
+          style={{ display: "none" }}
           data-bs-toggle="collapse"
           data-bs-target="#flightTimesCollapse"
           aria-expanded="false"
