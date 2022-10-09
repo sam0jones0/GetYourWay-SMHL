@@ -17,7 +17,7 @@ function FlightTimes() {
       Object.keys(destinationAirport).length !== 0
     ) {
       let url =
-        "http://localhost:8081/api/flights/flightSchedule?" +
+        "https://getyourway.uk:8081/api/flights/flightSchedule?" +
         new URLSearchParams({
           depIcao: departureAirport.icao,
           arrIcao: destinationAirport.icao,
