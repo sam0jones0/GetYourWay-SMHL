@@ -41,9 +41,12 @@ function FlightTimes() {
   }, [departureAirport, destinationAirport, tripDate]);
 
   useEffect(() => {
+    let flightsDropdown = document.querySelector(".flightsButton");
     if (availableFlights.length > 0) {
-      let flightsDropdown = document.querySelector(".flightsButton");
+      flightsDropdown.value = "Available Flights";
       flightsDropdown.style.display = "";
+    } else {
+      flightsDropdown.value = "No Flights Available";
     }
   }, [availableFlights]);
 

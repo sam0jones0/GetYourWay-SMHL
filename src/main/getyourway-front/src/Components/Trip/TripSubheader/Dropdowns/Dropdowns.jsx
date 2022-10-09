@@ -6,7 +6,7 @@ import WeatherForecast from "./WeatherForecast/WeatherForecast";
 function Dropdowns(props) {
   return (
     <>
-      <div class="mx-3 w-25">
+      <div class="mx-3 flightContainer">
         <FlightTimes
           departureAirportProp={props.departureAirport}
           tripDateProp={props.tripDate}

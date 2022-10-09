@@ -74,7 +74,7 @@ function ToAirport(props) {
             disablePortal
             disableClearable
             id="destinationAirportSearch"
-            style={{ width: "300px" }}
+            style={{ width: "20vw" }}
             options={options}
             onInputChange={onInputChange}
             getOptionLabel={(option) => option.name}

@@ -79,6 +79,7 @@ function FromAirport(props) {
             disabled
             type="text"
             id="formControlLg"
+            style={{ width: "20vw", height: "6vh" }}
             class="form-control form-control-lg fromAirport"
             placeholder="From Airport"
             aria-label="Departure Airport"

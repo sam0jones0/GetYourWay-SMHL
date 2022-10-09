@@ -52,19 +52,25 @@
   z-index: 800;
   position: absolute; 
   /* z-index: 1000;  */
-
+  /* height: 1vh; */
   left:0px;
 }
 
 #flightTimesCollapse div, #weatherCollapse div {
   background-color: white;
+  width: 20vw;
+  
 }
 
 #flightTimesCollapse {
   max-height: 60vh;
+  width: 20vw;
   overflow: auto;
 }
 
+.flightContainer {
+  width: 20vw;
+}
 
 @keyframes App-logo-spin {
   from {
@@ -119,5 +125,6 @@
     border: 0;
     padding: 3px 30px;
     border-radius: 20px;
+    
     
   }
