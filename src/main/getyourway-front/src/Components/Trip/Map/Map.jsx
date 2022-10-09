@@ -1,36 +1,43 @@
 import './Map.css';
-import { GoogleMap, useJsApiLoader, DirectionsService, DirectionsRenderer, Polyline, Marker} from '@react-google-maps/api';
+import { GoogleMap, LoadScript, useJsApiLoader, DirectionsService, DirectionsRenderer, Polyline, Marker, useGoogleMap, useLoadScript, InfoWindow} from '@react-google-maps/api';
 import { useState, useCallback, useRef, useEffect } from 'react';
+import { json } from 'react-router-dom';
 
 
 function Map(props) {
 
     const [map, setMap] = useState(null)
     const [response, setResponse] = useState(null);
-    const [origin, setOrigin] = useState(new window.google.maps.LatLng(props.departure));
+    const [origin, setOrigin] = useState({});
     const [destination, setDestination] = useState(new window.google.maps.LatLng(props.destination));
+
+    // Update departure airpot (origin) when use location is obtained
+    useEffect(() => {
+        console.log("This effect fired");
+        const location = props.departureLocation;
+        if (location != null) {
+            setOrigin({lat: location.lat, lng: location.lon});
+        }
+        
+    },[props.departureLocation])
 
     // --------------- Map Rendering ---------------
     const containerStyle = {
         width: '100%',
         height: '600px'
     };
-    
-    const center = {
-        lat: props.location[0], // lattitude
-        lng: props.location[1] // longitude
-    };
 
     const onLoad = useCallback(function callback(map) {
-        map.setZoom(6)
-        setMap(map)
+        map.setZoom(5);
+        map.setCenter(props.center);
+        setMap(map);
     }, [])
 
     const onUnmount = useCallback(function callback(map) {
         setMap(null)
     }, [])
 
-     const mapStyles = [
+    const mapStyles = [
         {
             "featureType": "landscape",
             "elementType": "geometry",
@@ -71,15 +78,14 @@ function Map(props) {
         console.log('marker: ', marker)
     }
 
-    // Destination Infro Box
-    const onLoadInfoBox = infoBox => {
-        console.log('infoBox: ', infoBox)
-    };
+    // Destination Info Window
+    const onLoadInfo = infoWindow => {
+        console.log('infoWindow: ', infoWindow)
+    }
 
     // -------------- End Map rendering ---------------
 
     // Directions Callback. Calls the Destination Service
-
     function directionsCallback(response) {
         console.log(response);
 
@@ -94,7 +100,7 @@ function Map(props) {
 
     // Airport Polyline
     const path = [
-        props.departure,
+        origin,
         props.destination
     ]
 
@@ -111,27 +117,35 @@ function Map(props) {
         visible: true,
         paths: [
           origin,
-          destination
+          props.destination
         ]
     };
+
+    // InfoWindow Styling
+    const divStyle = {
+        background: `white`,
+        border: `1px solid #ccc`,
+        padding: 5,
+        width: '100px',
+        height: '30px'
+    }
     
     // Return
     return (
         <div className=".container-fluid customMap">
             <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={center}
                 onLoad={onLoad}
                 onUnmount={onUnmount}
+                mapContainerStyle={containerStyle}
                 options={{
                     styles: mapStyles
                 }}
             >
-            { (origin != null && destination != null && response == null) && (
+            { ( (origin.lat != null) && (origin.lng !=null) && destination != null && response == null) && (
                 <DirectionsService
                     options={{
-                        destination: origin, // origin airport
-                        origin: new window.google.maps.LatLng(center), // user location
+                        origin: new window.google.maps.LatLng(props.center), // user location
+                        destination: new window.google.maps.LatLng(origin), // origin airport
                         travelMode: "TRANSIT",
                     }}
                     callback={directionsCallback}
@@ -162,11 +176,23 @@ function Map(props) {
                 
                 <Marker
                     onLoad={onLoadMarker}
-                    position={destination}
-                    label="C"
-                />
-                )
-            }
+                    position={props.destination}
+                    label={{text: "C", color: "white", borderColor: "white"}}
+                    title="Some title"
+                >
+                    <InfoWindow
+                        onLoad={onLoadInfo}
+                    >
+                        <div style={divStyle}>
+                            <p>{props.destinationName}</p>
+                        </div>
+                    </InfoWindow>
+
+                </Marker>
+                
+            )}
+
+
             <></>
             </GoogleMap>
         </div>
