@@ -39,8 +39,10 @@ export default function Trip() {
       <Wrapper apiKey={process.env.REACT_APP_MAP_API_KEY}>
         <Map
           location={userLocation}
-          departure={{ lat: 51.886, lng: 0.2389 }} // London Stanstead Airport
-          destination={{ lat: 49.0081, lng: 2.5509 }} // Paris Charles de Gaulle Airport
+          departureLocation={departureAirport.location} 
+          destination={{ lat: destinationAirport.lat, lng: destinationAirport.lon }} 
+          destinationName={destinationAirport.name}
+          center={{lat: 51.5072, lng: 0.1276}} // London
         />
       </Wrapper>
     </tripContext.Provider>
