@@ -58,13 +58,13 @@
 
 #flightTimesCollapse div, #weatherCollapse div {
   background-color: white;
-  width: 20vw;
+  /* width: 20vw; */
   
 }
 
 #flightTimesCollapse {
   max-height: 60vh;
-  width: 20vw;
+  /* width: 20vw; */
   overflow: auto;
 }
 
