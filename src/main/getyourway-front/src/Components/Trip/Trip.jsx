@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 import "./Trip.css";
 import TripSubheader from "./TripSubheader/TripSubheader";
 import Dropdowns from "./TripSubheader/Dropdowns/Dropdowns";
 import Map from "./Map/Map";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import tripContextProvider from "./TripContext";
+
+const tripContext = tripContextProvider;
 
 export default function Trip() {
   const [userLocation, setUserLocation] = useState([0, 0]);
@@ -17,7 +20,9 @@ export default function Trip() {
   );
 
   return (
-    <>
+    <tripContext.Provider
+      value={{ departureAirport, destinationAirport, tripDate }}
+    >
       <TripSubheader
         userLocation={userLocation}
         setUserLocation={setUserLocation}
@@ -38,6 +43,6 @@ export default function Trip() {
           destination={{ lat: 49.0081, lng: 2.5509 }} // Paris Charles de Gaulle Airport
         />
       </Wrapper>
-    </>
+    </tripContext.Provider>
   );
 }
