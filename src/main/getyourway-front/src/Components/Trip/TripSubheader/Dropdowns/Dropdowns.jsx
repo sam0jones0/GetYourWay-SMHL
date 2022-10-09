@@ -13,9 +13,7 @@ function Dropdowns(props) {
           destinationAirportProp={props.destinationAirport}
         />
       </div>
-      <div class="mx-3 w-25">
-        <WeatherForecast />
-      </div>
+      <div class="mx-3 w-25">{/* <WeatherForecast /> */}</div>
     </>
   );
 }
