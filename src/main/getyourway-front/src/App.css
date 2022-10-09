@@ -52,14 +52,25 @@
   z-index: 800;
   position: absolute; 
   /* z-index: 1000;  */
-
+  /* height: 1vh; */
   left:0px;
 }
 
 #flightTimesCollapse div, #weatherCollapse div {
   background-color: white;
+  width: 20vw;
+  
 }
 
+#flightTimesCollapse {
+  max-height: 60vh;
+  width: 20vw;
+  overflow: auto;
+}
+
+.flightContainer {
+  width: 20vw;
+}
 
 @keyframes App-logo-spin {
   from {
@@ -103,10 +114,10 @@
   }
   
   .fg-flightnumber { grid-area: 1 / 1 / 2 / 4; color: grey;}
-  .fg-fromairport { grid-area: 2 / 1 / 3 / 4; padding-top: 9px;}
-  .fg-toairport { grid-area: 3 / 1 / 4 / 4; padding-top: 2px;}
-  .fg-departuretime { grid-area: 4 / 1 / 5 / 3; padding-top: 9px;}
-  .flight-duration { grid-area: 4 / 3 / 5 / 4; padding-top: 9px;}
+  .fg-fromairport { grid-area: 2 / 1 / 3 / 4; padding-top: 15px;}
+  .fg-toairport { grid-area: 3 / 1 / 4 / 4; padding-top: 7px;}
+  .fg-departuretime { grid-area: 4 / 1 / 5 / 3; padding-top: 12px;}
+  .flight-duration { grid-area: 4 / 3 / 5 / 4; padding-top: 12px;}
   
   div.fg-container .fg-flightnumber button {
     background-color: rgb(254, 104, 62);
@@ -114,5 +125,6 @@
     border: 0;
     padding: 3px 30px;
     border-radius: 20px;
+    
     
   }

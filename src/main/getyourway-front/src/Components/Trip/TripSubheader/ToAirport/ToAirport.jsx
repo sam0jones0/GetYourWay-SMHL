@@ -67,12 +67,14 @@ function ToAirport(props) {
             </svg>
           </span>
           <Autocomplete
-            onChange={(event, value) => props.setDestinationAirport(value)}
+            onChange={(event, value) =>
+              props.setDestinationAirport({ ...value })
+            }
             ListboxProps={{ style: { maxHeight: 400, overflow: "auto" } }}
             disablePortal
             disableClearable
             id="destinationAirportSearch"
-            style={{ width: "300px" }}
+            style={{ width: "20vw" }}
             options={options}
             onInputChange={onInputChange}
             getOptionLabel={(option) => option.name}

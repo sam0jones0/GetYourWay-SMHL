@@ -3,15 +3,17 @@ import React, { useEffect } from "react";
 import FlightTimes from "./FlightTimes/FlightTimes";
 import WeatherForecast from "./WeatherForecast/WeatherForecast";
 
-function Dropdowns() {
+function Dropdowns(props) {
   return (
     <>
-      <div class="mx-3 w-25">
-        <FlightTimes />
+      <div class="mx-3 flightContainer">
+        <FlightTimes
+          departureAirportProp={props.departureAirport}
+          tripDateProp={props.tripDate}
+          destinationAirportProp={props.destinationAirport}
+        />
       </div>
-      <div class="mx-3 w-25">
-        <WeatherForecast />
-      </div>
+      <div class="mx-3 w-25">{/* <WeatherForecast /> */}</div>
     </>
   );
 }

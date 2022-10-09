@@ -48,7 +48,7 @@ function FromAirport(props) {
 
       if (data.items.length > 0) {
         let depArr = data.items[0];
-        props.setDepartureAirport(depArr);
+        props.setDepartureAirport({ ...depArr });
         document.querySelector(".fromAirport").placeholder = depArr.name;
       }
     });
@@ -79,6 +79,7 @@ function FromAirport(props) {
             disabled
             type="text"
             id="formControlLg"
+            style={{ width: "20vw", height: "6vh" }}
             class="form-control form-control-lg fromAirport"
             placeholder="From Airport"
             aria-label="Departure Airport"
