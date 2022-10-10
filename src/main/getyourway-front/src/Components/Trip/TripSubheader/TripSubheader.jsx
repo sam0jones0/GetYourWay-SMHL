@@ -2,6 +2,7 @@ import ToAirport from "./ToAirport/ToAirport";
 import FromAirport from "./FromAirport/FromAirport";
 import SelectDate from "./SelectDate/SelectDate";
 import Dropdowns from "./Dropdowns/Dropdowns";
+import Weather from "./Weather/Weather";
 
 function TripSubheader(props) {
   return (
@@ -44,6 +45,12 @@ function TripSubheader(props) {
               setTripDate={props.setTripDate}
             />
           </div>
+          {/*Weather*/}
+          <Weather 
+            destination={props.destinationAirportProp}
+          />
+          
+
           {/* </div> */}
           {/* <div class="col-md-6 p-2 bg-light border-bottom">
             <p>EMPTY SPACE FOR RIGHT SIDE OF TRIP SUBHEADER</p>

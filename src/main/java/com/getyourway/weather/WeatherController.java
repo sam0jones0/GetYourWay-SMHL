@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/weather")
 public class WeatherController {
