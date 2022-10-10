@@ -23,7 +23,7 @@ function SingleTripCard(props) {
             <h5 class="card-title">Departure Airport</h5>
             <p></p>
             <p class="card-text pb-2">
-              Your trip will be departing from {props.departureAirport} at{" "}
+              Your trip will be departing from {props.departureAirport} on{" "}
               {departureDateString(props.departureDate)}
             </p>
           </div>

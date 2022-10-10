@@ -43,10 +43,10 @@ public class DatabaseLoader implements CommandLineRunner {
         this.userRepository.save(admin);
 
         // Create Trips
-        Trip trip1 = new Trip("Trip one",
-                "LGW",
-                "LHR",
-                LocalDateTime.of(2023, Month.JULY,15,10,00,00)
+        Trip trip1 = new Trip("Flying home",
+                "London Gatwick",
+                "London Heathrow",
+                LocalDateTime.of(2023, Month.JULY,15,10,02,00)
              );
         trip1.setUser(user1);
 //
@@ -54,15 +54,24 @@ public class DatabaseLoader implements CommandLineRunner {
 
 
         // Create Trips
-        Trip trip2 = new Trip("Trip two",
+        Trip trip2 = new Trip("Summer Holidays",
                 "London Heathrow",
-                "Dubrovnik",
-                LocalDateTime.of(2023, Month.JULY,15,10,00,00)
+                "Dubrovnik airport",
+                LocalDateTime.of(2023, Month.JULY,17,18,32,00)
         );
         trip2.setUser(user1);
 //
         tripRepository.save(trip2);
 
+
+        Trip trip3 = new Trip("Back to work",
+                "Dubrovnik airport",
+                "Edinburgh airport",
+                LocalDateTime.of(2023, Month.JULY,31,06,21,00)
+        );
+        trip3.setUser(user1);
+//
+        tripRepository.save(trip3);
     }
 
 }
