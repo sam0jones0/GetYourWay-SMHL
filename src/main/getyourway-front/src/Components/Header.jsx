@@ -20,7 +20,7 @@ const Header = () => {
             class="d-inline-block align-text-top"
           />
           <h3 class="ps-2" color="blue">
-            GetYourWay.com
+            GetYourWay.uk
           </h3>
         </a>
 
